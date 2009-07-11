@@ -10,6 +10,7 @@
 #include "Obj.h"
 
 #include <stdio.h>
+#include <string>
 
 class ModelLoader
 {
@@ -24,7 +25,7 @@ private:
 public:
 	ModelLoader();
 	virtual ~ModelLoader();
-	void load_obj(char* f_name, Obj *o);
+	void load_obj(string f_name, Obj *o);
 };
 
 #endif /*MODELLOADER_H_*/

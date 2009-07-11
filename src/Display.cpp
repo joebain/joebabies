@@ -14,7 +14,7 @@ Display::Display(int argc, char** argv)
 	win_width = 600;
 	win_height = 400;
 	glutInitWindowSize (win_width, win_height);
-	glutCreateWindow ("Rattlesnake");
+	glutCreateWindow ("Joebabies");
 	
 	    
     glutDisplayFunc (call_update);
@@ -33,21 +33,17 @@ void Display::update()
     glLoadIdentity();
     
     
-    //cout << "rotate: (" << rot_degs_x << "," << rot_degs_y << ") zoom: " << z_trans << endl;
-
-/*
-    glTranslatef(x_trans,y_trans,z_trans);
-    glRotatef(rot_degs_x, 1.0, 0.0, 0.0);
-	glRotatef(rot_degs_y, 0.0, 1.0, 0.0);
-  */  
-	
     if (pick_flag) {
     	//cout << "tracing\n";
-    	w->trace();
+    	
     }
     else {
     	//cout << "drawing\n";
-    	w->draw();
+		vector<Block>::iterator iter;
+		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
+			iter->get_obj()->display();
+		}
+    	
     }
 	
 	glFlush();
@@ -80,7 +76,7 @@ void Display::pick()
 	
 	gluPickMatrix(mouse_x, win_height-mouse_y, 1.0, 1.0, view);	
 	
-	gluPerspective(45,ratio,near,far);
+	gluPerspective(45,win_ratio,near,far);
 		
 	
 	glMatrixMode(GL_MODELVIEW);
@@ -100,14 +96,8 @@ void Display::pick()
 	glMatrixMode(GL_MODELVIEW);
 	
 	if (hits > 0) {
-		GLuint close_name = getClosestHit(selectBuf, hits);
-		w->picked_block = &(w->good_blocks[close_name]);
-		w->pick_state = w->FIRST;
-		cout <<"hits: " << hits << " name: " << close_name << " at ";
-		w->picked_block->pos.print();
-		cout << endl;
-	} else w->picked_block = w->null_block;
-	w->projectMouse();
+		GLuint close_name = getClosestHit(selectBuf, hits);	
+	}
 }
 
 GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
@@ -129,11 +119,9 @@ GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
 	return close_name;
 }
 
-void Display::init(World *w)
+void Display::init()
 {
-	this->w = w;
-
-    //set bg colour
+	//set bg colour
     glClearColor (1.0, 1.0, 1.0, 0.0);
     
     //ensure depth is drawn properly
@@ -143,15 +131,15 @@ void Display::init(World *w)
     //glShadeModel(GL_FLAT);
     
     //set the view
-    ratio = ((float)win_height)/((float)win_width);
+    win_ratio = ((float)win_height)/((float)win_width);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
     near = 1;
 	far = 100;
-	gluPerspective(45,ratio,near,far);
+	gluPerspective(45,win_ratio,near,far);
 	
-	cout << "set ratio to " << ratio << endl;
+	cout << "set ratio to " << win_ratio << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -195,38 +183,31 @@ void Display::keys(unsigned char key, int x, int y)
 {
 	switch(key) {
 		case 'q':
-		y_trans ++;
-		w->tran.y++;
+		
 		break;
 		case 'w':
-		y_trans --;
-		w->tran.y--;
+		
 		break;
 		case 'a':
-		x_trans ++;
-		w->tran.x++;
+		
 		break;
 		case 's':
-		x_trans--;
-		w->tran.x--;
+		
 		break;
 		case '1':
-		w->y_lvl += 0.5;
+		
 		break;
 		case '2':
-		w->y_lvl -= 0.5;
+		
 		break;
 		case '[':
-		w->snake_dest.y+=0.1;
+		
 		break;
 		case ']':
-		w->snake_dest.y-=0.1;
+		
 		break;
 		case 'i':
-		if (w->up == 2) w->up = 3;
-		else if (w->up == 3) w->up = 2;
-		cout << "up is " << w->up << endl;
-		w->sort_all_blocks();
+		
 		break;
 	}
 	
@@ -236,41 +217,36 @@ void Display::keys(unsigned char key, int x, int y)
 void Display::s_keys(int key, int x, int y)
 {
 	
-switch (key) {
-	case GLUT_KEY_UP:
+	switch (key) {
+		case GLUT_KEY_UP:
+		key_up = true;
+		break;
+		case GLUT_KEY_DOWN:
+		key_down = true;
+		break;
+		case GLUT_KEY_RIGHT:
+		key_right = true;
+		break;
+		case GLUT_KEY_LEFT:
+		key_left = true;
+		break;
+		case GLUT_KEY_PAGE_UP:
+		
+		break;
+		case GLUT_KEY_PAGE_DOWN:
+		
+		break;
+	}
 
-	w->aim_rot.x += 90;
-	w->up_known = false;
-	break;
-	case GLUT_KEY_DOWN:
-
-	w->aim_rot.x -= 90;
-	w->up_known = false;
-	break;
-	case GLUT_KEY_RIGHT:
-
-	w->aim_rot.y -= 90;
-	w->up_known = false;
-	break;
-	case GLUT_KEY_LEFT:
-
-	w->aim_rot.y += 90;
-	w->up_known = false;
-	break;
-	case GLUT_KEY_PAGE_UP:
-	z_trans -= 1;
-	w->tran.z --;
-	break;
-	case GLUT_KEY_PAGE_DOWN:
-	z_trans += 1;
-	w->tran.z++;
-	break;
+	glutPostRedisplay();
 }
 
-rot_degs_x %= 360;
-rot_degs_y %= 360;
-
-glutPostRedisplay();
+void Display::reset_keys()
+{
+	key_up = false;
+	key_down = false;
+	key_left = false;
+	key_right = false;
 }
 
 void Display::mouse(int button, int state, int x, int y)
@@ -281,38 +257,16 @@ void Display::mouse(int button, int state, int x, int y)
 			mouse_x = x;
 			mouse_y = y;
 			if (!mouse_down) {
-				w->mouse_down_at.x = x;
-				w->mouse_down_at.y = y;
+	
 			}
-			w->mouse_pos.x = x;
-			w->mouse_pos.y = y;
-			//w->projectMouse();
-			pick();
-			/*
-			if (w->picked_block->null) {
-				w->draw_rot = true;
-				w->rotating = true;
-				w->old_rot = w->rot;
-				w->set_to_rotate();
-			}
-			*/
+			//pick();			
 		}
 		else if (state == GLUT_UP) {
-			if (w->pick_state == w->PICKED) {
-				w->pick_state = w->LAST;
-				cout << "released lmb" << endl;
-				mouse_down = false;
-			}
-			//w->draw_rot = false;
-			//w->rotating = false;
-			//w->old_rot += w->rot_plus;
+			mouse_down = false;
 		}
 	} else if (button == GLUT_RIGHT_BUTTON) {
 		if (state == GLUT_DOWN) {
-			w->mouse_pos.x = x;
-			w->mouse_pos.y = y;
-			w->projectMouse();
-			w->setSnakeDest();
+			
 		}
 	}
 	
@@ -320,17 +274,7 @@ void Display::mouse(int button, int state, int x, int y)
 
 void Display::activeMouse(int x, int y)
 {
-	//cout << "mouse at " << x << "," << y << endl;
-	w->mouse_pos.x = x;
-	w->mouse_pos.y = y;
-	if (!(w->picked_block->null)) {
-		w->projectMouse();
-		
-	}
-	else {
-		w->rotate_w_mouse();
-		
-	}
+	
 }
 
 void Display::resizeWindow(int w, int h)
@@ -338,20 +282,16 @@ void Display::resizeWindow(int w, int h)
 	win_width = w;
 	win_height = h;
 	
-	this->w->win_width = w;
-	this->w->win_height = h;
-	
 	glViewport(0, 0, w, h);
 	
-	ratio = ((float)w)/((float)h);
-	this->w->ratio = ratio;
+	win_ratio = ((float)w)/((float)h);
 	
 	//set the view
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	gluPerspective(45,ratio,near,far);
+	gluPerspective(45,win_ratio,near,far);
 	
-	cout << "set ratio to " << ratio << endl;
+	cout << "set ratio to " << win_ratio << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

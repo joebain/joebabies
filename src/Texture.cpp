@@ -3,35 +3,48 @@
 #include <stdlib.h>
 #include <iostream>
 #include <GL/gl.h>
+#include <string>
 
 using namespace std;
 
 Texture::Texture()
 {
-	texture = new GLuint[1];
+	//texture = new GLuint[1];
+	data = NULL;
+	tex_num = 0;
 }
 
 Texture::~Texture()
 {
-	delete data;
-	delete texture;
+	if (data != NULL) {
+		delete data;
+	}
+}
+
+bool Texture::operator==(const Texture& tex)
+{
+	return name == tex.name;
 }
 
 GLuint Texture::get_tex_num() {
 	//cout << "get tex num" << endl;
 	//cout << "text [0] " << texture[0] << endl;
-	return texture[0];
+	if (tex_num > 0) return tex_num;
+	else return 0;
 }
 
 // quick and dirty bitmap loader...for 24 bit bitmaps with 1 plane only.  
 // See http://www.dcs.ed.ac.uk/~mxr/gfx/2d/BMP.txt for more info.
-int Texture::load(char *filename) {
+int Texture::load(string filename_s) {
     FILE *file;
     unsigned long size;                 // size of the img in bytes.
     unsigned long i;                    // standard counter.
     unsigned short int planes;          // number of planes in img (must be 1) 
     unsigned short int bpp;             // number of bits per pixel (must be 24)
     char temp;                          // temporary color storage for bgr-rgb conversion.
+
+	name = filename_s;
+	const char * filename = filename_s.c_str();
 
     // make sure the file is there.
     if ((file = fopen(filename, "rb"))==NULL)
@@ -103,9 +116,9 @@ int Texture::load(char *filename) {
      
      
     // Create Texture name
-    glGenTextures(1, &texture[0]);  
-    cout << "got texture num " << texture[0] << endl;  
-    glBindTexture(GL_TEXTURE_2D, texture[0]);   // 2d texture (x and y size)
+    glGenTextures(1, &tex_num);  
+    cout << "got texture num " << tex_num << endl;  
+    glBindTexture(GL_TEXTURE_2D, tex_num);   // 2d texture (x and y size)
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture

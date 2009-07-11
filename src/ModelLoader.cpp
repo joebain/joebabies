@@ -93,12 +93,12 @@ void ModelLoader::link_face(char* line, Face *f, Obj *o) {
 }
 
 //load in an object file to a set of pointfs
-void ModelLoader::load_obj(char* f_name, Obj *o) {
+void ModelLoader::load_obj(string f_name, Obj *o) {
 	
-	file = fopen(f_name, "r");
+	file = fopen(f_name.c_str(), "r");
 	
 	if (file == NULL) {
-		printf("File is not there!\n");
+		cout << "File " << f_name << " is not there!" << endl;
     	exit(0);
     }
 
@@ -136,7 +136,7 @@ void ModelLoader::load_obj(char* f_name, Obj *o) {
 
 	fclose(file);
 	
-	file = fopen(f_name, "r");
+	file = fopen(f_name.c_str(), "r");
 	
 	v_pos_count = 0;
 	v_norm_count = 0;
