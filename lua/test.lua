@@ -2,4 +2,9 @@
 
 require("babies")
 
-World.print("hello")
+--babies.start()
+
+print ("hello, this is lua")
+
+w = babies.get_world();
+--b = new_block("hedgehog.obj", "hedgehog.bmp");

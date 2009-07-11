@@ -17,6 +17,7 @@ Vector3i::~Vector3i()
 
 Vector3f Vector3i::to_real()
 {
+	#define GAP 2.2
 	Vector3f real;
 	real.init(x*GAP,y*GAP,z*GAP);
 	
