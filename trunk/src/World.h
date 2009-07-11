@@ -7,8 +7,15 @@
 #include "Obj.h"
 #include "Texture.h"
 
+#include <string>
 #include <vector>
 #include <time.h>
+
+extern "C" {
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+}
 
 class World
 {
@@ -18,12 +25,14 @@ private:
 	Vector3f rot, tran;
 	vector<Texture> textures;
 	vector<Obj> objects;
+	lua_State *L;
+	void run_lua(string file);
 public:
 	World(Display *d);
 	virtual ~World();
 	void main_loop();
 	void add_block(Block* b);
-	void new_block(string object, string texture);
+	Block* new_block(string object, string texture);
 	Block* get_blocks();
 	int num_blocks();
 };

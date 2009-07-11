@@ -15,38 +15,51 @@ World *w;
 
 int main (int argc, char** argv)
 {
-	d = new Display(argc, argv);
-	
 	/*
-	ModelLoader m;
-	
-	Obj red_block_o;
-	red_block_o.set_name("Red block");
-	Block red_block;
-	Texture red_tex;
-	m.load_obj("obj/block.obj",&red_block_o);
-	red_tex.load("img/red_block.bmp");
-	red_block_o.texture = &red_tex;
-	red_block.set_obj(&red_block_o);
-	*/
+	d = new Display(argc, argv);
 	
 	w = new World(d);
 	
-	//w->add_block(&red_block);
-	w->new_block("block.obj","blue_block.bmp");
+	w->new_block("hedgehog.obj","hedgehog.bmp");
 	
 	cout << "Entering main loop\n";
 	
 	glutTimerFunc(30,&call_timer,0);
 	
 	glutMainLoop();
+	*/
 	
+	start();
+
 	return 0;
 }
 
+void start()
+{
+	char* argv[] = {"start"};
+	
+	d = new Display(1, argv);
+	
+	w = new World(d);
+	
+	//w->new_block("hedgehog.obj","hedgehog.bmp");
+	
+	cout << "Entering main loop\n";
+	
+	glutTimerFunc(30,&call_timer,0);
+	
+	pthread_t thread1;
+	pthread_create( &thread1, NULL, &threadFunc1, NULL);
+}
+
 void *threadFunc1(void*) {
-	w->main_loop();
+	glutMainLoop();
 	return NULL;
+}
+
+World* get_world()
+{
+	return w;
 }
 
 void call_update()

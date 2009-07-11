@@ -1,5 +1,11 @@
 #include "World.h"
 
+extern "C" {
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+}
+
 #include <stdlib.h>
 #include <iostream>
 #include <GL/glut.h>
@@ -13,15 +19,18 @@ World::World(Display *d)
 {
 	this->d = d;
 	d->init();
-	cout << "size before: " << objects.size() << ", " << textures.size() << endl;
-	objects.resize(10);
-	textures.resize(10);
-	cout << "size after: " << objects.size() << ", " << textures.size() << endl;
+	
+	L = lua_open();
+	
+	luaL_openlibs(L);
+	
+	//run_lua("test.lua");
+
 }
 
 World::~World()
 {
-	
+	lua_close(L);
 }
 
 void World::add_block(Block* b)
@@ -31,7 +40,7 @@ void World::add_block(Block* b)
 	//objects.push_back(b->get_obj());
 }
 
-void World::new_block(string object, string texture)
+Block* World::new_block(string object, string texture)
 {
 	Block new_block;
 	Obj new_obj;
@@ -71,6 +80,8 @@ void World::new_block(string object, string texture)
 
 	d->blocks.push_back(new_block);
 
+	return &(d->blocks.back());
+
 }
 
 Block* World::get_blocks()
@@ -88,19 +99,37 @@ void World::main_loop()
 		Vector3f move;
 		float delta = 0.2;
 		if (d->key_up) {
-			move.x = delta;
-		} else if (d->key_down) {
-			move.x = -delta;
-		}
-		if (d->key_left) {
 			move.z = delta;
-		} else if (d->key_right) {
+		} else if (d->key_down) {
 			move.z = -delta;
 		}
+		if (d->key_left) {
+			move.x = delta;
+		} else if (d->key_right) {
+			move.x = -delta;
+		}
 		d->reset_keys();
-		d->blocks.back().move(move);
-		d->blocks.back().get_pos().print();
-		cout << endl;
+		//d->blocks.back().move(move);
+
 		
+
+
 		glutPostRedisplay();
+}
+
+void World::run_lua(string file)
+{
+	string l_file = "lua/"+file;
+	int s = luaL_loadfile(L, l_file.c_str());
+	if (s==0) { //if no errors loading file
+		// execute Lua program
+		s = lua_pcall(L, 0, LUA_MULTRET, 0);
+	} else {
+		cout << "unable to run file" << endl;
+	}
+	
+	if ( s!=0 ) {
+		cerr << "-- " << lua_tostring(L, -1) << endl;
+		lua_pop(L, 1); // remove error message
+	}
 }
