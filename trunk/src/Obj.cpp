@@ -2,6 +2,9 @@
 
 #include <GL/glu.h>
 #include <iostream>
+#include <string>
+
+#include "ModelLoader.h"
 
 Obj::Obj()
 {
@@ -15,9 +18,17 @@ Obj::~Obj()
 {
 }
 
-void Obj::set_name(char* name)
+void Obj::load(string filename)
 {
-	this->name = name;
+	this->name = filename;
+	
+	ModelLoader m;
+	m.load_obj(filename, this);
+}
+
+bool Obj::operator==(const Obj& obj)
+{
+	return name == obj.name;
 }
 
 void Obj::setClear()

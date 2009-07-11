@@ -1,12 +1,33 @@
 #!/bin/bash
 
-swig -lua lua/swig/*.i
+I_FILES=`ls src/*.i`
 
-WRAPPERS=`ls lua/swig/*_wrap.c`
+for I_FILE in $I_FILES
+do
+	swig -c++ -lua $I_FILE
+done
+
+cd src
+
+WRAPPERS=`ls *_wrap.cxx`
 
 g++ -I/usr/include/lua5.1 -c $WRAPPERS
 
-WRAPPER_OBJECTS=`ls lua/swig/*_wrap.c`
-SOURCE_OBJECTS=`ls src/*.o`
+cd ..
 
-g++ -shared -I/usr/include/lua5.1 -L/usr/lib/lua $WRAPPER_OBJECTS $SOURCE_OBJECTS -o rattlesnake.so
+WRAPPER_OBJECTS=`ls src/*_wrap.o`
+ALL_OBJECTS=`ls src/*.o`
+SOURCE_OBJECTS=
+
+for OBJECT in $ALL_OBJECTS
+do
+	if [[ $WRAPPER_OBJECTS != *$OBJECT* ]]
+	then
+		SOURCE_OBJECTS=$SOURCE_OBJECTS" "$OBJECT
+	fi
+done
+
+#echo $SOURCE_OBJECTS
+#echo $WRAPPER_OBJECTS
+
+g++ -shared -I/usr/include/lua5.1 -L/usr/lib/lua $WRAPPER_OBJECTS $SOURCE_OBJECTS -o babies.so

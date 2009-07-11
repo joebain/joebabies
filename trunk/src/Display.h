@@ -6,32 +6,32 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "World.h"
+#include <vector>
+
 #include "Vector3i.h"
 #include "Vector2i.h"
+#include "Block.h"
 
 class Display
 {
 public:
+	vector<Block> blocks;
+	bool key_up, key_down, key_left, key_right;
 	Display(int agrc, char** argv);
 	void update();
 	void pick();
-	void init(World *w);
+	void init();
 	virtual ~Display();
 	void keys(unsigned char key, int x, int y);
 	void s_keys(int key, int x, int y);
 	void mouse(int button, int state, int x, int y);
 	void activeMouse(int x, int y);
 	void resizeWindow(int w, int h);
-	//Vector3i picked;
+	void reset_keys();
 private:
-	World *w;
-	float ratio;
+	float win_ratio;
 	int win_width, win_height;
-	int rot_degs_x, rot_degs_y;
 	float near, far;
-	float z_trans, y_trans, x_trans;
-	Vector2i mouse_down_at;
 	float amb_light[4];
 	float dif_light[4];
 	float pos_light[4];

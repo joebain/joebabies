@@ -1,5 +1,5 @@
 #!/usr/bin/lua5.1
 
-require("rattlesnake")
+require("babies")
 
 World.print("hello")

@@ -1,6 +1,8 @@
 #ifndef OBJ_H_
 #define OBJ_H_
 
+#include <string>
+
 #include "Vertex.h"
 #include "Face.h"
 #include "Vector3f.h"
@@ -21,11 +23,12 @@ public:
 	Vector3f offset;
 	Obj();
 	Vector3f rotation;
-	void set_name(char* name);
+	void load(string filename);
+	bool operator==(const Obj& obj);
 	virtual ~Obj();
 	void display();
 	void translate(Vector3f t);
-	char* name;
+	string name;
 	void setClear();
 };
 
