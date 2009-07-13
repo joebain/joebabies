@@ -6,16 +6,15 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include <vector>
+#include <list>
 
-#include "Vector3i.h"
-#include "Vector2i.h"
+#include "Vector3f.h"
 #include "Block.h"
 
 class Display
 {
 public:
-	vector<Block> blocks;
+	list<Block> blocks;
 	bool key_up, key_down, key_left, key_right;
 	Display(int agrc, char** argv);
 	void update();
@@ -28,9 +27,12 @@ public:
 	void activeMouse(int x, int y);
 	void resizeWindow(int w, int h);
 	void reset_keys();
+	void translate(Vector3f t);
+	void rotate(Vector3f r);
 private:
 	float win_ratio;
 	int win_width, win_height;
+	Vector3f tra, rot;
 	float near, far;
 	float amb_light[4];
 	float dif_light[4];

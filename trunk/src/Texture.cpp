@@ -4,20 +4,54 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <string>
+#include <sstream>
+#include <cstring>
+
 
 using namespace std;
 
 Texture::Texture()
 {
-	//texture = new GLuint[1];
 	data = NULL;
+	//cout << "alocating texture memory" << endl;
+	//data = (char *) malloc(1);
+	//data[0] = '0';
+	//cout << "memory holds " << data[0] << endl;
+	//cout << "freeing memory" << endl;
+	//free(data);
 	tex_num = 0;
+
+	stringstream out;
+	int* num = (int*) malloc(1);
+	out << "unnamed_" << num;
+	free(num);
+	name = out.str();
+	cout << "new texture: " << name << endl;
 }
 
 Texture::~Texture()
 {
 	if (data != NULL) {
-		delete data;
+		cout << "deleting texture data for " << name << endl;
+		name = "deleted";
+		//cout << "memory holds " << data[0] << endl;
+		free(data);
+	}
+}
+
+Texture::Texture(const Texture& t)
+{
+	cout << "copying over here, tex num is " << t.tex_num << endl;
+	sizeX = t.sizeX;
+    sizeY = t.sizeY;
+    tex_num = t.tex_num;
+	name = t.name;
+	if (t.data == NULL) {
+		data = NULL;
+	} else {
+		int size = sizeX * sizeY * 3; //as below
+		data = (char*) malloc(size);
+		memcpy(data,t.data,size);
 	}
 }
 
@@ -27,8 +61,7 @@ bool Texture::operator==(const Texture& tex)
 }
 
 GLuint Texture::get_tex_num() {
-	//cout << "get tex num" << endl;
-	//cout << "text [0] " << texture[0] << endl;
+	//cout << "get tex num, psst its " << tex_num << endl;
 	if (tex_num > 0) return tex_num;
 	else return 0;
 }

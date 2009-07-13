@@ -32,6 +32,14 @@ void Display::update()
 
     glLoadIdentity();
     
+	glTranslatef(tra.x, tra.y, tra.z);
+	
+	glRotatef(rot.x,1,0,0);
+	glRotatef(rot.y,0,1,0);
+	glRotatef(rot.z,0,0,1);
+	//cout << "translate :";
+	//tra.print();
+	//cout << endl;
     
     if (pick_flag) {
     	//cout << "tracing\n";
@@ -39,9 +47,9 @@ void Display::update()
     }
     else {
     	//cout << "drawing\n";
-		vector<Block>::iterator iter;
+		list<Block>::iterator iter;
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
-			iter->get_obj()->display();
+			iter->display();
 		}
     	
     }
@@ -50,6 +58,16 @@ void Display::update()
 	
     glutSwapBuffers();
 	
+}
+
+void Display::translate(Vector3f t)
+{
+	tra += t;
+}
+
+void Display::rotate(Vector3f r)
+{
+	rot += r;
 }
 
 void Display::pick()

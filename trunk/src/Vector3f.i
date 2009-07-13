@@ -1,11 +1,5 @@
 %module Vector3f
 %{
-class Vector3f {
-public:
-	float x, y, z;
-};
+#include "Vector3f.h"
 %}
-class Vector3f {
-public:
-	float x, y, z;
-};
+%include "Vector3f.h"

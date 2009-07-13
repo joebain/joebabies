@@ -16,7 +16,8 @@ private:
 	string name;
 public:
 	Texture();
-	virtual ~Texture();
+	~Texture();
+	Texture(const Texture& t);
 	int load(string filename_s);
 	GLuint get_tex_num();
 	bool operator== (const Texture& tex);

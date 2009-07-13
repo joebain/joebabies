@@ -14,6 +14,15 @@ class Obj
 private:
 	bool clear;
 public:
+	Obj();
+	virtual ~Obj();
+	Obj(const Obj& o);
+	bool operator==(const Obj& obj);
+	void load(string filename);
+	void display();
+	void translate(Vector3f t);
+	void setClear();
+	void set_texture(Texture* t);
 	Vector3f *v_poss, *v_norms;
 	Vector2f *v_texts;
 	Vertex *vertices;
@@ -21,15 +30,8 @@ public:
 	Texture *texture;
 	int face_count;
 	Vector3f offset;
-	Obj();
 	Vector3f rotation;
-	void load(string filename);
-	bool operator==(const Obj& obj);
-	virtual ~Obj();
-	void display();
-	void translate(Vector3f t);
 	string name;
-	void setClear();
 };
 
 #endif /*OBJ_H_*/
