@@ -15,21 +15,25 @@ World *w;
 
 int main (int argc, char** argv)
 {
-	/*
+	
+	
 	d = new Display(argc, argv);
 	
 	w = new World(d);
 	
-	w->new_block("hedgehog.obj","hedgehog.bmp");
+	Block* b1 = w->new_block("block.obj","red_block.bmp");
+	Vector3f *v1 = new Vector3f(1.2,0,-5);
+	b1->move(*v1);
+	
+	Block* b2 = w->new_block("block.obj","blue_block.bmp");
+	Vector3f *v2 = new Vector3f(-1.2,0,-5);
+	b2->move(*v2);
 	
 	cout << "Entering main loop\n";
 	
 	glutTimerFunc(30,&call_timer,0);
 	
 	glutMainLoop();
-	*/
-	
-	start();
 
 	return 0;
 }
@@ -41,10 +45,16 @@ void start()
 	d = new Display(1, argv);
 	
 	w = new World(d);
+	/*
+	Block* b = w->new_block("block.obj","red_block.bmp");
+	Vector3f *v = new Vector3f(1.2,0,-5);
+	b->move(*v);
 	
-	//w->new_block("hedgehog.obj","hedgehog.bmp");
-	
-	cout << "Entering main loop\n";
+	Block* b2 = w->new_block("block.obj","blue_block.bmp");
+	Vector3f *v2 = new Vector3f(-1.2,0,-5);
+	b2->move(*v2);
+	*/
+	cout << "Using Lua eh, you fucking cunt?!?!?\n";
 	
 	glutTimerFunc(30,&call_timer,0);
 	

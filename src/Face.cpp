@@ -1,5 +1,7 @@
 #include "Face.h"
 
+#include <iostream>
+
 Face::Face()
 {
 }

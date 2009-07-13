@@ -3,6 +3,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include <string>
+#include <GL/gl.h>
 
 #include "ModelLoader.h"
 
@@ -16,6 +17,20 @@ Obj::Obj()
 
 Obj::~Obj()
 {
+}
+
+Obj::Obj(const Obj& o)
+{
+	v_poss = o.v_poss;
+	v_norms = o.v_norms;
+	v_texts = o.v_texts;
+	vertices = o.vertices;
+	faces = o.faces;
+	texture = o.texture;
+	face_count = o.face_count;
+	offset = o.offset;
+	rotation = o.rotation;
+	name = o.name;
 }
 
 void Obj::load(string filename)
@@ -36,6 +51,11 @@ void Obj::setClear()
 	clear = true;
 }
 
+void Obj::set_texture(Texture* t)
+{
+	texture = t;
+}
+
 void Obj::display()
 {	
 	if (clear) {
@@ -44,7 +64,7 @@ void Obj::display()
 	}
 	
 	int f,i;
-	//cout << "displaying object " << endl;
+	//cout << "displaying object " << name << endl;
 	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
 
 	//save the world matrix to the stack

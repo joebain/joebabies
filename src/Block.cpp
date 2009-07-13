@@ -18,13 +18,21 @@ Block::~Block()
 {
 }
 
+Block::Block(const Block& b)
+{
+	object = b.object;
+	pos = b.pos;
+	grid_pos = b.grid_pos;
+	texture = b.texture;
+}
+
 void Block::move(Vector3f move)
 {
 	pos.x += move.x;
 	pos.z += move.z;
 	pos.y += move.y;
 	
-	object->translate(pos);
+	//object->translate(pos);
 }
 
 void Block::set_pos(Vector3f pos)
@@ -33,7 +41,14 @@ void Block::set_pos(Vector3f pos)
 	this->pos.y = pos.y;
 	this->pos.z = pos.z;
 	
+	//object->translate(pos);
+}
+
+void Block::display()
+{
 	object->translate(pos);
+	object->texture = texture;
+	object->display();
 }
 
 Vector3f Block::get_pos()
@@ -49,4 +64,9 @@ Obj* Block::get_obj()
 void Block::set_obj(Obj *object)
 {
 	this->object = object;
+}
+
+void Block::set_tex(Texture *texture)
+{
+	this->texture = texture;
 }

@@ -8,7 +8,7 @@
 #include "Texture.h"
 
 #include <string>
-#include <vector>
+#include <list>
 #include <time.h>
 
 extern "C" {
@@ -23,8 +23,8 @@ private:
 	bool running;
 	Display* d;
 	Vector3f rot, tran;
-	vector<Texture> textures;
-	vector<Obj> objects;
+	list<Texture> textures;
+	list<Obj> objects;
 	lua_State *L;
 	void run_lua(string file);
 public:
@@ -33,8 +33,10 @@ public:
 	void main_loop();
 	void add_block(Block* b);
 	Block* new_block(string object, string texture);
-	Block* get_blocks();
+	list<Block>* get_blocks();
 	int num_blocks();
+	Display* get_display();
+	void send_vector();
 };
 
 #endif /*WORLD_H_*/

@@ -2,9 +2,14 @@
 
 require("babies")
 
---babies.start()
+babies.start()
 
-print ("hello, this is lua")
+w = babies.get_world()
 
-w = babies.get_world();
---b = new_block("hedgehog.obj", "hedgehog.bmp");
+b1 = w:new_block("block.obj", "red_block.bmp")
+v1 = babies.Vector3f(1.2,0,-5)
+b1:move(v1)
+
+b2 = w:new_block("block.obj", "blue_block.bmp")
+v2 = babies.Vector3f(-1.2,0,-5)
+b2:move(v2)

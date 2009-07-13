@@ -13,6 +13,7 @@ private:
 public:
 	float x, y, z;
 	Vector3f();
+	Vector3f(float x, float y, float z);
 	Vector3f copy();
 	Vector3f & operator=(const Vector3f &rhs);
 	void normalise();
