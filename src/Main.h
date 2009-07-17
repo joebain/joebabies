@@ -3,6 +3,7 @@
 
 #include "World.h"
 
+
 void call_update();
 void call_keys(unsigned char key, int x, int y);
 void call_s_keys(int key, int x, int y);
@@ -14,5 +15,6 @@ int main (int argc, char** argv);
 World* get_world();
 void start();
 void *threadFunc1(void*);
+lua_State* get_lua();
 
 #endif /*MAIN_H_*/

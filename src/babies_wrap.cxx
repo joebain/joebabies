@@ -1495,9 +1495,10 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_Vector3f swig_types[2]
 #define SWIGTYPE_p_World swig_types[3]
 #define SWIGTYPE_p_a_3__a_3__float swig_types[4]
-#define SWIGTYPE_p_std__string swig_types[5]
-static swig_type_info *swig_types[7];
-static swig_module_info swig_module = {swig_types, 6, 0, 0, 0, 0};
+#define SWIGTYPE_p_lua_State swig_types[5]
+#define SWIGTYPE_p_std__string swig_types[6]
+static swig_type_info *swig_types[8];
+static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1540,11 +1541,13 @@ class World {
 public:
 	Block* new_block(std::string object, std::string texture);
 	Display* get_display();
+	void set_lua(lua_State *L);
 };
 
 
 void start();
 World* get_world();
+lua_State* get_lua();
 
 #ifdef __cplusplus
 extern "C" {
@@ -2760,6 +2763,31 @@ fail:
 }
 
 
+static int _wrap_World_set_lua(lua_State* L) {
+  int SWIG_arg = 0;
+  World *arg1 = (World *) 0 ;
+  lua_State *arg2 = (lua_State *) 0 ;
+  
+  arg2 = L;
+  SWIG_check_num_args("set_lua",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("set_lua",1,"World *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_World,0))){
+    SWIG_fail_ptr("World_set_lua",1,SWIGTYPE_p_World);
+  }
+  
+  (arg1)->set_lua(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_new_World(lua_State* L) {
   int SWIG_arg = 0;
   World *result = 0 ;
@@ -2784,6 +2812,7 @@ delete arg1;
 static swig_lua_method swig_World_methods[] = {
     {"new_block", _wrap_World_new_block}, 
     {"get_display", _wrap_World_get_display}, 
+    {"set_lua", _wrap_World_set_lua}, 
     {0,0}
 };
 static swig_lua_attribute swig_World_attributes[] = {
@@ -2826,6 +2855,23 @@ fail:
 }
 
 
+static int _wrap_get_lua(lua_State* L) {
+  int SWIG_arg = 0;
+  lua_State *result = 0 ;
+  
+  SWIG_check_num_args("get_lua",0,0)
+  result = (lua_State *)get_lua();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_lua_State,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
@@ -2833,6 +2879,7 @@ fail:
 static const struct luaL_reg swig_commands[] = {
     { "start", _wrap_start},
     { "get_world", _wrap_get_world},
+    { "get_lua", _wrap_get_lua},
     {0,0}
 };
 
@@ -2855,6 +2902,7 @@ static swig_type_info _swigt__p_Display = {"_p_Display", "Display *", 0, 0, (voi
 static swig_type_info _swigt__p_Vector3f = {"_p_Vector3f", "Vector3f *", 0, 0, (void*)&_wrap_class_Vector3f, 0};
 static swig_type_info _swigt__p_World = {"_p_World", "World *", 0, 0, (void*)&_wrap_class_World, 0};
 static swig_type_info _swigt__p_a_3__a_3__float = {"_p_a_3__a_3__float", "float (*)[3][3]", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_lua_State = {"_p_lua_State", "lua_State *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_std_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
@@ -2863,6 +2911,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Vector3f,
   &_swigt__p_World,
   &_swigt__p_a_3__a_3__float,
+  &_swigt__p_lua_State,
   &_swigt__p_std__string,
 };
 
@@ -2871,6 +2920,7 @@ static swig_cast_info _swigc__p_Display[] = {  {&_swigt__p_Display, 0, 0, 0},{0,
 static swig_cast_info _swigc__p_Vector3f[] = {  {&_swigt__p_Vector3f, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_World[] = {  {&_swigt__p_World, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_a_3__a_3__float[] = {  {&_swigt__p_a_3__a_3__float, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_lua_State[] = {  {&_swigt__p_lua_State, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
@@ -2879,6 +2929,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Vector3f,
   _swigc__p_World,
   _swigc__p_a_3__a_3__float,
+  _swigc__p_lua_State,
   _swigc__p_std__string,
 };
 

@@ -1,17 +1,11 @@
 #!/usr/bin/lua5.1
---[[ doesnt work boo hoo
-require("babies")
 
-os.execute("sleep 1") --gots to sleep to gives us time
+--require("babies")
+--require("run.lua")
 
-w = babies.get_world()
+function step (amount)
+	v = babies.Vector3f(0,0,-0,1)
 
-block = w:new_block("block.obj","red_block.bmp")
-v = babies.Vector3f(0,0,-5)
---d = w:get_display()
---d:translate(v)
-
-function daily_grind(time)
-	
+	b1:rotate(v)
+	b2:rotate(v)
 end
---]]
