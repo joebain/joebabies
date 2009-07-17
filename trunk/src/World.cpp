@@ -21,12 +21,8 @@ World::World(Display *d)
 	this->d = d;
 	d->init();
 	
-	L = lua_open();
+	lua_go = false;
 	
-	luaL_openlibs(L);
-	
-	//luaL_dofile(L,"lua/vector.lua");
-	//send_vector();
 	//run_lua("test.lua");
 	
 	//luaL_dofile(L,"lua/grind.lua");
@@ -137,11 +133,10 @@ void World::main_loop()
 	d->translate(move);
 	
 	//call a lua function	
-	/*
-	lua_getglobal(L, "daily_grind");
-	lua_pushnumber(L, 1); //this will be a 'time passed' float eventually
-	lua_call(L, 1, 0);
-	*/
+	//lua_getglobal(L, "step");
+	//lua_pushnumber(L, 1);
+	//lua_call(L, 1, 0);
+	
 	glutPostRedisplay();
 }
 
@@ -182,4 +177,21 @@ void World::send_vector()
 	//SWIG_NewPointerObj(L,v,SWIGTYPE_p_Vector3f,1);
 	//lua_setglobal (L, "v");
 	//lua_call(L, 1, 0);
+}
+
+void World::set_lua(lua_State *L)
+{
+	cout << "hi thar" << endl;
+	
+	this->L = L;
+	lua_go = true;
+	
+	cout << "hi thar" << endl;
+	
+	//luaL_dofile(L,"lua/grind.lua");
+	
+	luaL_dofile(L,"lua/vector.lua");
+	send_vector();
+	
+	cout << "hi thar" << endl;
 }

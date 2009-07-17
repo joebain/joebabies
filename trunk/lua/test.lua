@@ -1,5 +1,8 @@
 #!/usr/bin/lua5.1
 
+print ("hello")
+
+--[[
 require("babies")
 
 babies.start()
@@ -13,3 +16,4 @@ b1:move(v1)
 b2 = w:new_block("block.obj", "blue_block.bmp")
 v2 = babies.Vector3f(-1.2,0,-5)
 b2:move(v2)
+--]]

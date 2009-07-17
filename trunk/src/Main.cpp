@@ -10,13 +10,19 @@
 #include "Obj.h"
 #include "Texture.h"
 
+extern "C" {
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+}
+
 Display *d;
 World *w;
+lua_State *L;
 
 int main (int argc, char** argv)
 {
-	
-	
+	/*
 	d = new Display(argc, argv);
 	
 	w = new World(d);
@@ -34,8 +40,27 @@ int main (int argc, char** argv)
 	glutTimerFunc(30,&call_timer,0);
 	
 	glutMainLoop();
-
+	*/
+	
+	L = lua_open();
+	
+	luaL_openlibs(L);
+	
+	cout << "doing lua" << endl;
+	
+	luaL_dofile(L,"lua/run.lua");
+	
+	cout << "done lua" << endl;
+	
+	while (true) {};
+	
 	return 0;
+	
+}
+
+lua_State* get_lua()
+{
+	return L;
 }
 
 void start()

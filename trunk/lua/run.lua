@@ -2,11 +2,25 @@
 
 require("babies")
 
+--os.execute("sleep 1")
+
 babies.start()
+
+--os.execute("sleep 1")
+
+print ("snazz")
 
 w = babies.get_world()
 
---os.execute("sleep 1")
+print ("snazz")
+
+l = babies.get_lua()
+
+print ("snazz")
+
+w:set_lua(l)
+
+print ("snazz")
 
 --[[
 	//this fucking works!
@@ -32,6 +46,8 @@ b2:move(v2)
 --v.z = 5
 
 --d:translate(v)
+
+
 
 while true do
 os.execute("sleep 1")
