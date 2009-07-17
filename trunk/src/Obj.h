@@ -21,6 +21,7 @@ public:
 	void load(string filename);
 	void display();
 	void translate(Vector3f t);
+	void rotate(Vector3f r);
 	void setClear();
 	void set_texture(Texture* t);
 	Vector3f *v_poss, *v_norms;

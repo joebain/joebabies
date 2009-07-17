@@ -1,11 +1,23 @@
-#!/usr/bin/lua5.1
 
---require("babies")
---require("run.lua")
+w = nil
+b = nil
+
+function start (world)
+
+	w = world
+	
+	b = w:new_block("block.obj","red_block.bmp")
+	
+	v = Vector3f(-1.2,0,-5)
+	
+	b:move(v)
+
+end
 
 function step (amount)
-	v = babies.Vector3f(0,0,-0,1)
-
-	b1:rotate(v)
-	b2:rotate(v)
+	
+	v = Vector3f(-1,0,0)
+	
+	b:rotate(v)
+	
 end

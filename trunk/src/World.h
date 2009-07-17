@@ -22,23 +22,14 @@ class World
 private:
 	bool running;
 	Display* d;
-	lua_State *L;
-	bool lua_go;
-	Vector3f rot, tran;
+	lua_State *l;
 	list<Texture> textures;
 	list<Obj> objects;
-	void run_lua(string file);
 public:
-	World(Display *d);
+	World(Display *d, lua_State *l);
 	virtual ~World();
 	void main_loop();
-	void add_block(Block* b);
 	Block* new_block(string object, string texture);
-	list<Block>* get_blocks();
-	int num_blocks();
-	Display* get_display();
-	void send_vector();
-	void set_lua(lua_State *L);
 };
 
 #endif /*WORLD_H_*/

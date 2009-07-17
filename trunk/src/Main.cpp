@@ -6,6 +6,8 @@
 
 #include "Display.h"
 #include "World.h"
+#include "Block.h"
+#include "Vector3f.h"
 #include "ModelLoader.h"
 #include "Obj.h"
 #include "Texture.h"
@@ -16,17 +18,17 @@ extern "C" {
 #include "lualib.h"
 }
 
+#include <luabind/luabind.hpp>
+
 Display *d;
 World *w;
-lua_State *L;
+lua_State *l;
+
 
 int main (int argc, char** argv)
 {
 	/*
-	d = new Display(argc, argv);
-	
-	w = new World(d);
-	
+
 	Block* b1 = w->new_block("block.obj","red_block.bmp");
 	Vector3f *v1 = new Vector3f(1.2,0,-5);
 	b1->move(*v1);
@@ -36,65 +38,70 @@ int main (int argc, char** argv)
 	b2->move(*v2);
 	
 	cout << "Entering main loop\n";
+
+	*/
+	
+	d = new Display(argc, argv);
+	
+	l = lua_open();
+	
+	w = new World(d,l);
+	
+	try {
+		
+		//lua_openlibs(l);
+		luaopen_io(l); // provides io.*
+		luaopen_base(l);
+		luaopen_table(l);
+		luaopen_string(l);
+		luaopen_math(l);
+		luaopen_loadlib(l);
+
+		
+		// Connect luaBind to this lua state
+		luabind::open(l);
+		
+		// Export our class with luaBind
+		luabind::module(l) [
+			luabind::class_<Vector3f>("Vector3f")
+				.def(luabind::constructor<float,float,float>())
+				.def_readwrite("x", &Vector3f::x)
+				.def_readwrite("y", &Vector3f::y)
+				.def_readwrite("z", &Vector3f::z)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<Block>("Block")
+				.def("move", &Block::move)
+				.def("rotate", &Block::rotate)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<World>("World")
+				.def("new_block", &World::new_block)
+		];
+		
+		lua_dofile(l,"lua/grind.lua");
+		
+		luabind::call_function<void>(l, "start",w);
+	
+	} catch(const std::exception &TheError) {
+		cerr << TheError.what() << endl;
+	}
+
+	cout << "started" << endl;
 	
 	glutTimerFunc(30,&call_timer,0);
 	
 	glutMainLoop();
-	*/
-	
-	L = lua_open();
-	
-	luaL_openlibs(L);
-	
-	cout << "doing lua" << endl;
-	
-	luaL_dofile(L,"lua/run.lua");
-	
-	cout << "done lua" << endl;
-	
-	while (true) {};
 	
 	return 0;
 	
 }
 
-lua_State* get_lua()
-{
-	return L;
-}
-
-void start()
-{
-	char* argv[] = {"start"};
-	
-	d = new Display(1, argv);
-	
-	w = new World(d);
-	/*
-	Block* b = w->new_block("block.obj","red_block.bmp");
-	Vector3f *v = new Vector3f(1.2,0,-5);
-	b->move(*v);
-	
-	Block* b2 = w->new_block("block.obj","blue_block.bmp");
-	Vector3f *v2 = new Vector3f(-1.2,0,-5);
-	b2->move(*v2);
-	*/
-	cout << "Using Lua eh, you fucking cunt?!?!?\n";
-	
-	glutTimerFunc(30,&call_timer,0);
-	
-	pthread_t thread1;
-	pthread_create( &thread1, NULL, &threadFunc1, NULL);
-}
-
 void *threadFunc1(void*) {
 	glutMainLoop();
 	return NULL;
-}
-
-World* get_world()
-{
-	return w;
 }
 
 void call_update()
