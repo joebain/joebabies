@@ -12,9 +12,6 @@ void call_active_mouse(int x, int y);
 void call_resize(int w, int h);
 void call_timer(int v);
 int main (int argc, char** argv);
-World* get_world();
-void start();
 void *threadFunc1(void*);
-lua_State* get_lua();
 
 #endif /*MAIN_H_*/

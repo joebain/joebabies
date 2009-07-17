@@ -111,3 +111,8 @@ void Obj::translate(Vector3f t)
 	offset = t;
 	//cout << "assigned!\n";
 }
+
+void Obj::rotate(Vector3f r)
+{
+	rotation = r;
+}

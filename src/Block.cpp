@@ -22,6 +22,7 @@ Block::Block(const Block& b)
 {
 	object = b.object;
 	pos = b.pos;
+	rot = b.rot;
 	grid_pos = b.grid_pos;
 	texture = b.texture;
 }
@@ -33,6 +34,11 @@ void Block::move(Vector3f move)
 	pos.y += move.y;
 	
 	//object->translate(pos);
+}
+
+void Block::rotate(Vector3f plus_rot)
+{
+	rot += plus_rot;
 }
 
 void Block::set_pos(Vector3f pos)
@@ -47,6 +53,7 @@ void Block::set_pos(Vector3f pos)
 void Block::display()
 {
 	object->translate(pos);
+	object->rotate(rot);
 	object->texture = texture;
 	object->display();
 }

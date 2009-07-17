@@ -15,6 +15,7 @@ private:
 	Texture* texture;
 	Vector3f pos;
 	Vector3i grid_pos;
+	Vector3f rot;
 public:
 	Block();
 	virtual ~Block();
@@ -25,6 +26,7 @@ public:
 	Obj* get_obj();
 	Vector3f get_pos();
 	void move(Vector3f move);
+	void rotate(Vector3f rot);
 	void display();
 };
 

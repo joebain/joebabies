@@ -6,6 +6,8 @@ extern "C" {
 #include "lualib.h"
 }
 
+#include <luabind/luabind.hpp>
+
 #include <stdlib.h>
 #include <iostream>
 #include <GL/glut.h>
@@ -14,31 +16,18 @@ extern "C" {
 #include <vector>
 
 #include "Block.h"
-//#include "Vector3f_wrap.cxx"
 
-World::World(Display *d)
+
+World::World(Display *d, lua_State *l)
 {
-	this->d = d;
+	this->d = d;	
 	d->init();
 	
-	lua_go = false;
-	
-	//run_lua("test.lua");
-	
-	//luaL_dofile(L,"lua/grind.lua");
-
+	this->l = l;
 }
 
 World::~World()
 {
-	lua_close(L);
-}
-
-void World::add_block(Block* b)
-{
-	//d->blocks.push_back(*b);
-	
-	//objects.push_back(b->get_obj());
 }
 
 Block* World::new_block(string object, string texture)
@@ -104,94 +93,29 @@ Block* World::new_block(string object, string texture)
 
 }
 
-list<Block>* World::get_blocks()
-{
-	return &(d->blocks);
-}
-
-int World::num_blocks()
-{
-	return d->blocks.size();
-}
-
 void World::main_loop()
-{
-	Vector3f move;
-	float delta = 0.2;
+{	
+	Vector3f move, view;
 	if (d->key_up) {
-		move.z = delta;
+		move.z = 0.2;
 	} else if (d->key_down) {
-		move.z = -delta;
+		move.z = -0.2;
 	}
 	if (d->key_left) {
-		move.x = delta;
+		view.y = -5;
 	} else if (d->key_right) {
-		move.x = -delta;
+		view.y = 5;
 	}
 	d->reset_keys();
-	//d->blocks.back().move(move);
 	d->translate(move);
+	d->rotate(view);
 	
-	//call a lua function	
-	//lua_getglobal(L, "step");
-	//lua_pushnumber(L, 1);
-	//lua_call(L, 1, 0);
+	try {
+		//call a lua function
+		luabind::call_function<void>(l, "step",1);
+	} catch(const std::exception &TheError) {
+		cerr << TheError.what() << endl;
+	}
 	
 	glutPostRedisplay();
-}
-
-void World::run_lua(string file)
-{
-	string l_file = "lua/"+file;
-	int s = luaL_loadfile(L, l_file.c_str());
-	if (s==0) { //if no errors loading file
-		// execute Lua program
-		s = lua_pcall(L, 0, LUA_MULTRET, 0);
-	} else {
-		cout << "unable to run file" << endl;
-	}
-	
-	if ( s!=0 ) {
-		cerr << "-- " << lua_tostring(L, -1) << endl;
-		lua_pop(L, 1); // remove error message
-	}
-}
-
-Display* World::get_display()
-{
-	return d;
-}
-
-void World::send_vector()
-{
-	lua_getglobal(L, "number");
-	lua_pushnumber(L, 5);
-	lua_call(L, 1, 0);
-
-	lua_getglobal(L, "number");
-	lua_pushnumber(L, 7);
-	lua_call(L, 1, 0);
-
-	//lua_getglobal(L, "vector");
-	//Vector3f *v = new Vector3f();
-	//SWIG_NewPointerObj(L,v,SWIGTYPE_p_Vector3f,1);
-	//lua_setglobal (L, "v");
-	//lua_call(L, 1, 0);
-}
-
-void World::set_lua(lua_State *L)
-{
-	cout << "hi thar" << endl;
-	
-	this->L = L;
-	lua_go = true;
-	
-	cout << "hi thar" << endl;
-	
-	//luaL_dofile(L,"lua/grind.lua");
-	
-	luaL_dofile(L,"lua/vector.lua");
-	send_vector();
-	
-	cout << "hi thar" << endl;
 }
