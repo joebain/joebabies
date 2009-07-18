@@ -120,7 +120,7 @@ void ModelLoader::load_obj(string f_name, Obj *o) {
 			face_count++;
 	}
 	
-	printf("Vertices: %d, Normals: %d, Faces: %d, Texture points: %d\n",v_pos_count,v_norm_count,face_count,v_text_count);
+	//printf("Vertices: %d, Normals: %d, Faces: %d, Texture points: %d\n",v_pos_count,v_norm_count,face_count,v_text_count);
 	
 	if (v_text_count > 0)
 		texture = true;

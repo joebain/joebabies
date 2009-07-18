@@ -26,13 +26,11 @@ Texture::Texture()
 	out << "unnamed_" << num;
 	free(num);
 	name = out.str();
-	cout << "new texture: " << name << endl;
 }
 
 Texture::~Texture()
 {
 	if (data != NULL) {
-		cout << "deleting texture data for " << name << endl;
 		name = "deleted";
 		//cout << "memory holds " << data[0] << endl;
 		free(data);
@@ -41,7 +39,6 @@ Texture::~Texture()
 
 Texture::Texture(const Texture& t)
 {
-	cout << "copying over here, tex num is " << t.tex_num << endl;
 	sizeX = t.sizeX;
     sizeY = t.sizeY;
     tex_num = t.tex_num;
@@ -94,14 +91,12 @@ int Texture::load(string filename_s) {
 	printf("Error reading width from %s.\n", filename);
 	return 0;
     }
-    printf("Width of %s: %lu\n", filename, sizeX);
     
     // read the height 
     if ((i = fread(&sizeY, 4, 1, file)) != 1) {
 	printf("Error reading height from %s.\n", filename);
 	return 0;
     }
-    printf("Height of %s: %lu\n", filename, sizeY);
     
     // calculate the size (assuming 24 bits or 3 bytes per pixel).
     size = sizeX * sizeY * 3;
@@ -149,8 +144,7 @@ int Texture::load(string filename_s) {
      
      
     // Create Texture name
-    glGenTextures(1, &tex_num);  
-    cout << "got texture num " << tex_num << endl;  
+    glGenTextures(1, &tex_num);
     glBindTexture(GL_TEXTURE_2D, tex_num);   // 2d texture (x and y size)
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture

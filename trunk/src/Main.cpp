@@ -11,6 +11,8 @@
 #include "ModelLoader.h"
 #include "Obj.h"
 #include "Texture.h"
+#include "Controller.h"
+#include "Camera.h"
 
 extern "C" {
 #include "lua.h"
@@ -49,14 +51,15 @@ int main (int argc, char** argv)
 	
 	try {
 		
-		//lua_openlibs(l);
+		luaL_openlibs(l);
+		/*
 		luaopen_io(l); // provides io.*
 		luaopen_base(l);
 		luaopen_table(l);
 		luaopen_string(l);
 		luaopen_math(l);
 		luaopen_loadlib(l);
-
+		*/
 		
 		// Connect luaBind to this lua state
 		luabind::open(l);
@@ -77,11 +80,31 @@ int main (int argc, char** argv)
 		];
 		
 		luabind::module(l) [
-			luabind::class_<World>("World")
-				.def("new_block", &World::new_block)
+			luabind::class_<Camera>("Camera")
+				.def("follow", &Camera::follow)
 		];
 		
-		lua_dofile(l,"lua/grind.lua");
+		luabind::module(l) [
+			luabind::class_<Display>("Display")
+				.def("get_camera", &Display::get_camera)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<Controller>("Controller")
+				.def(luabind::constructor<string>())
+		];
+		
+		luabind::module(l) [
+			luabind::class_<World>("World")
+				.def("new_block", &World::new_block)
+				.def("get_display", &World::get_display)
+				.def("reg_key_down", &World::reg_key_down)
+				.def("reg_key_up", &World::reg_key_up)
+				.def("reg_key_left", &World::reg_key_left)
+				.def("reg_key_right", &World::reg_key_right)
+		];
+		
+		luaL_dofile(l,"lua/grind.lua");
 		
 		luabind::call_function<void>(l, "start",w);
 	
