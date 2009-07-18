@@ -211,3 +211,10 @@ Vector3f Vector3f::matrix_multiply(float (&matrix)[3][3])
 	
 	return rv; 
 }
+
+ostream &operator<<(ostream &stream, Vector3f v)
+{
+  stream << v.x << " " << v.y << " " << v.z;
+
+  return stream;
+}

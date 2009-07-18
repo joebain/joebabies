@@ -25,6 +25,7 @@ public:
 	void set_pos(Vector3f pos);
 	Obj* get_obj();
 	Vector3f get_pos();
+	Vector3f get_rot();
 	void move(Vector3f move);
 	void rotate(Vector3f rot);
 	void display();

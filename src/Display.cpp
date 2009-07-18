@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+
 Display::Display(int argc, char** argv)
 {	
 	glutInit (&argc, argv);
@@ -15,14 +16,15 @@ Display::Display(int argc, char** argv)
 	win_height = 400;
 	glutInitWindowSize (win_width, win_height);
 	glutCreateWindow ("Joebabies");
-	
-	    
+
     glutDisplayFunc (call_update);
     glutKeyboardFunc(call_keys);
 	glutSpecialFunc(call_s_keys);
 	glutMouseFunc(call_mouse);
 	glutMotionFunc(call_active_mouse);
 	glutReshapeFunc(call_resize);
+	
+	camera = new Camera();
 
 }
 
@@ -32,15 +34,16 @@ void Display::update()
 
     glLoadIdentity();
     
+	/*
 	glTranslatef(tra.x, tra.y, tra.z);
 	
 	glRotatef(rot.x,1,0,0);
 	glRotatef(rot.y,0,1,0);
 	glRotatef(rot.z,0,0,1);
-	//cout << "translate :";
-	//tra.print();
-	//cout << endl;
-    
+    */
+	
+	camera->position();
+	
     if (pick_flag) {
     	//cout << "tracing\n";
     	
@@ -58,6 +61,11 @@ void Display::update()
 	
     glutSwapBuffers();
 	
+}
+
+Camera* Display::get_camera()
+{
+	return camera;
 }
 
 void Display::translate(Vector3f t)
@@ -143,10 +151,10 @@ void Display::init()
     glClearColor (1.0, 1.0, 1.0, 0.0);
     
     //ensure depth is drawn properly
-    //glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
-    
-    //glShadeModel(GL_FLAT);
+	
+	//glEnable(GL_LINE_SMOOTH);
+	//glEnable(GL_POLYGON_SMOOTH);
     
     //set the view
     win_ratio = ((float)win_height)/((float)win_width);
@@ -157,7 +165,7 @@ void Display::init()
 	far = 100;
 	gluPerspective(45,win_ratio,near,far);
 	
-	cout << "set ratio to " << win_ratio << endl;
+	//cout << "set ratio to " << win_ratio << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -308,8 +316,6 @@ void Display::resizeWindow(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 	gluPerspective(45,win_ratio,near,far);
-	
-	cout << "set ratio to " << win_ratio << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

@@ -63,6 +63,11 @@ Vector3f Block::get_pos()
 	return pos;
 }
 
+Vector3f Block::get_rot()
+{
+	return rot;
+}
+
 Obj* Block::get_obj()
 {
 	return object;

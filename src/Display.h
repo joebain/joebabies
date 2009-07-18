@@ -10,6 +10,7 @@
 
 #include "Vector3f.h"
 #include "Block.h"
+#include "Camera.h"
 
 class Display
 {
@@ -29,7 +30,9 @@ public:
 	void reset_keys();
 	void translate(Vector3f t);
 	void rotate(Vector3f r);
+	Camera* get_camera();
 private:
+	Camera* camera;
 	float win_ratio;
 	int win_width, win_height;
 	Vector3f tra, rot;

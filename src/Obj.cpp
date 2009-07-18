@@ -74,10 +74,10 @@ void Obj::display()
 	glTranslatef(offset.x,offset.y,offset.z);
 	
 	//rotate the object
-	glRotatef(rotation.y,0,1,0);
-	glRotatef(rotation.x,1,0,0);
 	//don't do z rotation cos it smells
 	//glRotatef(rotation.z,0,0,1);
+	glRotatef(rotation.y,0,1,0);
+	glRotatef(rotation.x,1,0,0);
 	
 	//cout << "bound texture" << endl;
 	for (f = 0 ; f < face_count ; f++) {

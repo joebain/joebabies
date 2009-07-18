@@ -6,6 +6,10 @@
 #define R2D 57.295779506
 #define D2R 0.017453293
 
+#include <iostream>
+
+using namespace std;
+
 class Vector3f
 {
 private:
@@ -33,6 +37,7 @@ public:
 	void rotate(Vector3f rot);
 	void abs();
 	void snap();
+	friend ostream &operator<<(ostream &stream, Vector3f v);
 };
 
 #endif /*VECTOR3F_H_*/
