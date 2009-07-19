@@ -15,7 +15,8 @@
 class Display
 {
 public:
-	list<Block> blocks;
+	list<Block*> blocks;
+	list<Block*> hud_blocks;
 	bool key_up, key_down, key_left, key_right;
 	Display(int agrc, char** argv);
 	void update();

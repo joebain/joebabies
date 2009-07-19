@@ -51,12 +51,34 @@ Vector3f Vector3f::operator+(Vector3f rhs) {
 	return v;
 }
 
+Vector3f Vector3f::operator-(Vector3f rhs) {
+	Vector3f v;
+	
+	v.init(x-rhs.x,y-rhs.y,z-rhs.z);
+	
+	return v;
+}
+
+Vector3f Vector3f::operator-() {
+	Vector3f v;
+	
+	v.init(-x,-y,-z);
+	
+	return v;
+}
+
 Vector3f Vector3f::operator*(float i) {
 	Vector3f v;
 	
 	v.init(x*i,y*i,z*i);
 	
 	return v;
+}
+
+void Vector3f::operator*=(float i) {
+	x *= i;
+	y *= i;
+	z *= i;
 }
 
 Vector3f& Vector3f::operator=(const Vector3f &rhs) {

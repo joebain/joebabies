@@ -7,7 +7,10 @@
 #include "Display.h"
 #include "World.h"
 #include "Block.h"
+#include "Block3D.h"
+#include "Block2D.h"
 #include "Vector3f.h"
+#include "Vector2f.h"
 #include "ModelLoader.h"
 #include "Obj.h"
 #include "Texture.h"
@@ -64,7 +67,8 @@ int main (int argc, char** argv)
 		// Connect luaBind to this lua state
 		luabind::open(l);
 		
-		// Export our class with luaBind
+		// Export our classes with luaBind
+		
 		luabind::module(l) [
 			luabind::class_<Vector3f>("Vector3f")
 				.def(luabind::constructor<float,float,float>())
@@ -74,9 +78,27 @@ int main (int argc, char** argv)
 		];
 		
 		luabind::module(l) [
+			luabind::class_<Vector2f>("Vector2f")
+				.def(luabind::constructor<float,float>())
+				.def_readwrite("x", &Vector2f::x)
+				.def_readwrite("y", &Vector2f::y)
+		];
+		
+		luabind::module(l) [
 			luabind::class_<Block>("Block")
-				.def("move", &Block::move)
-				.def("rotate", &Block::rotate)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<Block3D>("Block3D")
+				.def("move", &Block3D::move)
+				.def("rotate", &Block3D::rotate)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<Block2D>("Block2D")
+				.def("move", &Block2D::move)
+				.def("rotate", &Block2D::rotate)
+				.def("set_depth", &Block2D::set_depth)
 		];
 		
 		luabind::module(l) [
@@ -96,7 +118,9 @@ int main (int argc, char** argv)
 		
 		luabind::module(l) [
 			luabind::class_<World>("World")
-				.def("new_block", &World::new_block)
+				.def("new_block3d", &World::new_block3d)
+				.def("new_character", &World::new_character)
+				.def("new_block2d", &World::new_block2d)
 				.def("get_display", &World::get_display)
 				.def("reg_key_down", &World::reg_key_down)
 				.def("reg_key_up", &World::reg_key_up)

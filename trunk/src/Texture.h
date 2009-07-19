@@ -14,12 +14,16 @@ private:
     char *data;
     GLuint tex_num;
 	string name;
+	bool transparent;
+	GLuint mask_num;
 public:
 	Texture();
 	~Texture();
 	Texture(const Texture& t);
 	int load(string filename_s);
+	int make_mask();
 	GLuint get_tex_num();
+	GLuint get_mask_num();
 	bool operator== (const Texture& tex);
 };
 
