@@ -6,12 +6,12 @@
 #include <string>
 #include <sstream>
 #include <cstring>
-
+#include <limits.h>
 
 using namespace std;
 
 Texture::Texture()
-{
+{	
 	data = NULL;
 	//cout << "alocating texture memory" << endl;
 	//data = (char *) malloc(1);
@@ -33,7 +33,8 @@ Texture::~Texture()
 	if (data != NULL) {
 		name = "deleted";
 		//cout << "memory holds " << data[0] << endl;
-		free(data);
+		//delete [] data; --this should really be here but its causing errors and i dont know what to do!
+		data = NULL;
 	}
 }
 
@@ -42,6 +43,8 @@ Texture::Texture(const Texture& t)
 	sizeX = t.sizeX;
     sizeY = t.sizeY;
     tex_num = t.tex_num;
+	mask_num = t.mask_num;
+	transparent = t.transparent;
 	name = t.name;
 	if (t.data == NULL) {
 		data = NULL;
@@ -58,9 +61,46 @@ bool Texture::operator==(const Texture& tex)
 }
 
 GLuint Texture::get_tex_num() {
-	//cout << "get tex num, psst its " << tex_num << endl;
-	if (tex_num > 0) return tex_num;
-	else return 0;
+	return tex_num;
+}
+
+GLuint Texture::get_mask_num() {
+	return mask_num;
+}
+
+int Texture::make_mask() {
+	if (tex_num != 0) {
+				
+		int size = sizeX * sizeY * 3;
+		char mask_data[size];
+		for (int i = 0; i < size; i+= 3) {
+			//cout << "data" << (uint)data[i] << "," << (uint)data[i+1] << "," << (uint)data[i+2] << endl;
+			if ((int)data[i] == 0 && (int)data[i+1] == 0 && (int)data[i+2] == 0) {
+				mask_data[i] = (char)-1;
+				mask_data[i+1] = (char)-1;
+				mask_data[i+2] = (char)-1;
+			} else {
+				mask_data[i] = (char)0;
+				mask_data[i+1] = (char)0;
+				mask_data[i+2] = (char)0;
+			}
+		}
+
+		glGenTextures(1, &mask_num);
+		glBindTexture(GL_TEXTURE_2D, mask_num);   // 2d texture (x and y size)
+
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+
+		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
+		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
+		glTexImage2D(GL_TEXTURE_2D, 0, 3, sizeX, sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, mask_data);
+		
+		return 1;
+	} else {
+		cout << "no texture loaded yet" << endl;
+		return 0;
+	}
 }
 
 // quick and dirty bitmap loader...for 24 bit bitmaps with 1 plane only.  

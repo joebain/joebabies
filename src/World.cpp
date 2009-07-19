@@ -15,7 +15,7 @@ extern "C" {
 #include <math.h>
 #include <vector>
 
-#include "Block.h"
+#include "Block3D.h"
 #include "Controller.h"
 
 
@@ -31,9 +31,17 @@ World::~World()
 {
 }
 
-Block* World::new_block(string object, string texture)
+Block3D* World::new_character(string object, string texture)
 {
-	Block new_block;
+	Block3D* character = new_block3d(object, texture);
+	character->set_driven();
+	
+	return character;
+}
+
+Block3D* World::new_block3d(string object, string texture)
+{
+	Block3D new_block;
 	Obj new_obj;
 	Texture new_tex;
 	new_obj.load("obj/" + object);
@@ -68,11 +76,43 @@ Block* World::new_block(string object, string texture)
 		objects.push_back(new_obj);
 		new_block.set_obj(&(objects.back()));
 	}
+	
+	blocks3d.push_back(new_block);
 
-	d->blocks.push_back(new_block);
+	d->blocks.push_back(&(blocks3d.back()));
 
-	return &(d->blocks.back());
+	return &(blocks3d.back());
 
+}
+
+Block2D* World::new_block2d(Vector2f size, string texture)
+{
+	Block2D new_block;
+	Texture new_tex;
+	new_tex.load("img/" + texture);
+	
+	//check if this texture has already been loaded
+	bool found_texture = false;
+	list<Texture>::iterator t_iter;
+	for( t_iter = textures.begin(); t_iter != textures.end(); t_iter++ ) {
+		if (new_tex == *t_iter) {
+			new_block.set_tex(&(*t_iter));
+			found_texture = true;
+			break;
+		}
+	}
+	if (!found_texture) {
+		textures.push_back(new_tex);
+		new_block.set_tex(&(textures.back()));
+	}
+	
+	new_block.set_size(size);
+	
+	blocks2d.push_back(new_block);
+
+	d->hud_blocks.push_back(&(blocks2d.back()));
+
+	return &(blocks2d.back());
 }
 
 void World::main_loop()

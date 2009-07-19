@@ -49,13 +49,21 @@ void Display::update()
     	
     }
     else {
-    	//cout << "drawing\n";
-		list<Block>::iterator iter;
+    	//cout << "drawing " << blocks.size() << " blocks" << endl;
+		
+		list<Block*>::iterator iter;
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
-			iter->display();
+			(*iter)->display();
 		}
     	
     }
+	
+	glLoadIdentity();
+	
+	list<Block*>::iterator iter;
+	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
+		(*iter)->display();
+	}
 	
 	glFlush();
 	

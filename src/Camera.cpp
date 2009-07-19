@@ -6,42 +6,42 @@
 
 #include "Vector3f.h"
 
-void Camera::follow(Block* subject)
+void Camera::follow(Block3D* subject)
 {
 	this->subject = subject;
 	is_following = true;
+	follow_type = FOLLOW_TYPE_3D;
 }
 
 void Camera::position()
 {
 	if (is_following) {
 		
-		Vector3f r = subject->get_rot();
-		Vector3f p = subject->get_pos();
+		if (follow_type == FOLLOW_TYPE_3D) {
 		
-		r.y += 180;
+			Block3D* subject3d = (Block3D*) subject;
 		
-		Vector3f tmp;
-		
-		tmp.x = p.x - (cos(r.y) + sin(r.y));
-		tmp.z = p.z - (-sin(r.y) + cos(r.y));
-		tmp.y = 3; //some elevation
-		
-		//tra.x = p.x + tmp.x*8;
-		//tra.z = p.z + tmp.z*8;
-		
-		//rot.y = -r.y;
-		
-		//cout << "at " << tra << " them at " << p << endl;
-		
-		gluLookAt( tmp.x,
-			  tmp.y,
-			  tmp.z,
-			  p.x,
-			  p.y,
-			  p.z,
-			  0,
-			  1,
-			  0);
+			Vector3f r = subject3d->get_rot();
+			Vector3f p = subject3d->get_pos();
+			
+			r.y -= 45; //why? i don't know but it works
+			
+			Vector3f tmp;
+			
+			tmp.x = (cos(r.y*D2R) + sin(r.y*D2R));
+			tmp.z = (-sin(r.y*D2R) + cos(r.y*D2R));
+			tmp.y = 1; //some elevation
+			
+			tmp.normalise();
+			tmp *= 15; //probably should make this more dynamic or something
+			
+			tmp.x = p.x - tmp.x;
+			tmp.z = p.z - tmp.z;
+			
+			//cout << "at " << tmp << " them at " << p << endl;
+			
+			gluLookAt(tmp.x,tmp.y,tmp.z,p.x,p.y,p.z,0,1,0);
+			
+		}
 	}
 }
