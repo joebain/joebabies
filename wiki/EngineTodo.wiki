@@ -1,0 +1,15 @@
+#summary Things that need to be done in the engine.
+
+= Introduction =
+
+This is a list of all the stuff that needs to be done in the engine.
+
+
+= Details =
+
+* Fix the 'stuff doesn't appear bug' - Very important
+* Sound and music
+* Animation for objects and sprites
+* Transparency for 2D sprites
+* 2D text
+* Skybox and floors
