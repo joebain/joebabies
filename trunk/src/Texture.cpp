@@ -12,13 +12,8 @@ using namespace std;
 
 Texture::Texture()
 {	
-	data = NULL;
-	//cout << "alocating texture memory" << endl;
-	//data = (char *) malloc(1);
-	//data[0] = '0';
-	//cout << "memory holds " << data[0] << endl;
-	//cout << "freeing memory" << endl;
-	//free(data);
+	data = (char*) malloc(1);
+	
 	tex_num = 0;
 
 	stringstream out;
@@ -33,7 +28,7 @@ Texture::~Texture()
 	if (data != NULL) {
 		name = "deleted";
 		//cout << "memory holds " << data[0] << endl;
-		//delete [] data; --this should really be here but its causing errors and i dont know what to do!
+		free(data); //--this should really be here but its causing errors and i dont know what to do!
 		data = NULL;
 	}
 }
@@ -52,6 +47,8 @@ Texture::Texture(const Texture& t)
 		int size = sizeX * sizeY * 3; //as below
 		data = (char*) malloc(size);
 		memcpy(data,t.data,size);
+		if (data==NULL)
+			cout << "oh no, couldnt allocate memory fo texture" << endl;
 	}
 }
 
@@ -69,6 +66,7 @@ GLuint Texture::get_mask_num() {
 }
 
 int Texture::make_mask() {
+	
 	if (tex_num != 0) {
 				
 		int size = sizeX * sizeY * 3;
