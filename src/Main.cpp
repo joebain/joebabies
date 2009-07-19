@@ -142,6 +142,9 @@ int main (int argc, char** argv)
 	
 	glutMainLoop();
 	
+	delete d;
+	delete w;
+	
 	return 0;
 	
 }

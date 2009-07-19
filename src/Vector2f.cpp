@@ -24,6 +24,17 @@ Vector2f::~Vector2f()
 {
 }
 
+Vector2f& Vector2f::operator=(const Vector2f &rhs) {
+    
+    if (this == &rhs)
+    	return *this;
+    
+    x = rhs.x;
+    y = rhs.y;
+
+    return *this;
+}
+
 void Vector2f::init(float x, float y)
 {
 	this->x = x;

@@ -47,19 +47,21 @@ Block3D* World::new_block3d(string object, string texture)
 	new_obj.load("obj/" + object);
 	new_tex.load("img/" + texture);
 	
+	blocks3d.push_back(new_block);
+	
 	//check if this texture has already been loaded
 	bool found_texture = false;
 	list<Texture>::iterator t_iter;
 	for( t_iter = textures.begin(); t_iter != textures.end(); t_iter++ ) {
 		if (new_tex == *t_iter) {
-			new_block.set_tex(&(*t_iter));
+			blocks3d.back().set_tex(&(*t_iter));
 			found_texture = true;
 			break;
 		}
 	}
 	if (!found_texture) {
 		textures.push_back(new_tex);
-		new_block.set_tex(&(textures.back()));
+		blocks3d.back().set_tex(&(textures.back()));
 	}
 
 	//check if this object has already been loaded
@@ -67,18 +69,16 @@ Block3D* World::new_block3d(string object, string texture)
 	list<Obj>::iterator o_iter;
 	for( o_iter = objects.begin(); o_iter != objects.end(); o_iter++ ) {
 		if (new_obj == *o_iter) {
-			new_block.set_obj(&(*o_iter));
+			blocks3d.back().set_obj(&(*o_iter));
 			found_object = true;
 			break;
 		}
 	}
 	if (!found_object) {
 		objects.push_back(new_obj);
-		new_block.set_obj(&(objects.back()));
+		blocks3d.back().set_obj(&(objects.back()));
 	}
 	
-	blocks3d.push_back(new_block);
-
 	d->blocks.push_back(&(blocks3d.back()));
 
 	return &(blocks3d.back());
@@ -91,25 +91,25 @@ Block2D* World::new_block2d(Vector2f size, string texture)
 	Texture new_tex;
 	new_tex.load("img/" + texture);
 	
+	blocks2d.push_back(new_block);
+	
 	//check if this texture has already been loaded
 	bool found_texture = false;
 	list<Texture>::iterator t_iter;
 	for( t_iter = textures.begin(); t_iter != textures.end(); t_iter++ ) {
 		if (new_tex == *t_iter) {
-			new_block.set_tex(&(*t_iter));
+			blocks2d.back().set_tex(&(*t_iter));
 			found_texture = true;
 			break;
 		}
 	}
 	if (!found_texture) {
 		textures.push_back(new_tex);
-		new_block.set_tex(&(textures.back()));
+		blocks2d.back().set_tex(&(textures.back()));
 	}
 	
-	new_block.set_size(size);
+	blocks2d.back().set_size(size);
 	
-	blocks2d.push_back(new_block);
-
 	d->hud_blocks.push_back(&(blocks2d.back()));
 
 	return &(blocks2d.back());

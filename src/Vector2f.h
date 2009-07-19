@@ -15,6 +15,7 @@ public:
 	Vector2f(float x, float y);
 	Vector2f(const Vector2f& v);
 	~Vector2f();
+	Vector2f & operator=(const Vector2f &rhs);
 	void init(float x, float y);
 	void operator*=(float f);
 	void operator*=(Vector2f rhs);
