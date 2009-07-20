@@ -24,7 +24,7 @@ function start (world)
 		v = Vector3f(0,math.random(0,360),0)
 		b2:rotate(v)
 	end
-	
+	--[[
 	for x=-10,10 do
 		for y=-10,10 do
 			t = w:new_block3d("square.obj","grass.bmp")
@@ -34,12 +34,16 @@ function start (world)
 			t:rotate(v)
 		end
 	end
+	--]]
+	
+	v1 = Vector2f(20,20);
+	v2 = Vector2f(100,100);
+	f = w:new_floor(v2,v1,"grass.bmp")
 	
 	v = Vector2f(0.5,0.25)
-	hh = w:new_block2d(v,"hedgehog_hud.bmp")
-	depth = 1
-	v = Vector2f(0.12,-0.42)
-	hh:move(v)
+	hud = w:new_blockHUD(v,"hedgehog_hud.bmp")
+	v = Vector3f(0.12,-0.42,0)
+	hud:move(v)
 	
 	d = w:get_display()
 	c = d:get_camera()
@@ -80,7 +84,7 @@ function up ()
 	b:move(v)
 end
 
-function down()
+function down ()
 	v = Vector3f(0,0,-0.2)
 	b:move(v)
 end

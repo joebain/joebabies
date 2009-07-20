@@ -32,6 +32,8 @@ void Camera::position()
 			tmp.z = (-sin(r.y*D2R) + cos(r.y*D2R));
 			tmp.y = 1; //some elevation
 			
+			p.y += 4;
+			
 			tmp.normalise();
 			tmp *= 15; //probably should make this more dynamic or something
 			
