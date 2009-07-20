@@ -15,6 +15,7 @@ class Controller
 {
 public:
 	Controller(string function);
+	~Controller();
 	void set_lua(lua_State *l);
 	void call();
 private:

@@ -38,7 +38,8 @@ public:
 	void main_loop();
 	Block3D* new_block3d(string object, string texture);
 	Block3D* new_character(string object, string texture);
-	Block2D* new_block2d(Vector2f size, string texture);
+	Block2D* new_blockHUD(Vector2f size, string texture);
+	Block2D* new_floor(Vector2f size, Vector2f tex_size, string texture);
 	Display* get_display();
 	void reg_key_left(Controller* c);
 	void reg_key_right(Controller* c);

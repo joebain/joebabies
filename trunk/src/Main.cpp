@@ -99,6 +99,7 @@ int main (int argc, char** argv)
 				.def("move", &Block2D::move)
 				.def("rotate", &Block2D::rotate)
 				.def("set_depth", &Block2D::set_depth)
+				.def("set_tex_size", &Block2D::set_tex_size)
 		];
 		
 		luabind::module(l) [
@@ -120,7 +121,8 @@ int main (int argc, char** argv)
 			luabind::class_<World>("World")
 				.def("new_block3d", &World::new_block3d)
 				.def("new_character", &World::new_character)
-				.def("new_block2d", &World::new_block2d)
+				.def("new_blockHUD", &World::new_blockHUD)
+				.def("new_floor", &World::new_floor)
 				.def("get_display", &World::get_display)
 				.def("reg_key_down", &World::reg_key_down)
 				.def("reg_key_up", &World::reg_key_up)
@@ -134,6 +136,7 @@ int main (int argc, char** argv)
 	
 	} catch(const std::exception &TheError) {
 		cerr << TheError.what() << endl;
+		cerr << lua_tostring(l, -1) << endl;
 	}
 
 	cout << "started" << endl;
