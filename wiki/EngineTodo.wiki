@@ -10,6 +10,7 @@ This is a list of all the stuff that needs to be done in the engine.
   * ~~Fix the 'stuff doesn't appear bug' - Very important~~ - done!
   * Sound and music
   * Animation for objects and sprites
-  * Transparency for 2D sprites
+  * ~~Transparency for 2D sprites~~
   * 2D text
-  * Skybox and floors
+  * Skybox and ~~floors~~
+  * Make the grass dance
