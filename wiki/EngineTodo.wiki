@@ -12,7 +12,7 @@ This is a list of all the stuff that needs to be done in the engine.
   * Animation for objects and sprites
   * ~~Transparency for 2D sprites~~ (actually its not quite working)
   * 2D text (for huds)
-  * Skybox and ~~floors~~ (improvements are happening with the floors)
+  * Skybox and ~~floors~~ ~~(improvements are happening with the floors)~~ floors are so done!
   * Timing - make each call to 'step()' pass the amount of intervening time
   * Make sure all the things in the world are operating with the same coords
   * Maybe quarternion rotations (yeah right)
