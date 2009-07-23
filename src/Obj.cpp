@@ -168,7 +168,7 @@ Vector2i Obj::load_heightmap(string file_name, float scale)
 		for (string::iterator it=line.begin() ; it < line.end(); it++ ) {
 			if (*it == ',') {
 				int index = i*width+j;
-				v_poss[index].init((i-width/2)*scale,atof(tmp.c_str())*scale,(j-height/2)*scale);
+				v_poss[index].init((i-((float)width)/2.0f)*scale,atof(tmp.c_str())*scale,(j-((float)height)/2.0f)*scale);
 				v_texts[index].init(i,j);
 				v_norms[index].init(0,1,0);
 				vertices[index].pos = &v_poss[index];

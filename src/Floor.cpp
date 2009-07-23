@@ -20,7 +20,7 @@ float Floor::get_height(Vector2f pos)
 	int x = (int) fx;
 	int y = (int) fy;
 	
-	if (x > 0 && x < size.x-1 && y > 0 && y < size.y-1) {
+	if (x > 0 && x < size.y-1 && y > 0 && y < size.x-1) {
 		float a = object->vertices[x*size.x + y].pos->y;
 		float b = object->vertices[(x+1)*size.x + y].pos->y;
 		float c = object->vertices[x*size.x + (y+1)].pos->y;
@@ -28,9 +28,13 @@ float Floor::get_height(Vector2f pos)
 		
 		float x_fac = fx - (float)x;
 		float y_fac = fy - (float)y;
+		cout << a << "-----" << b << endl;
+		cout << "|-----|" << endl;
+		cout << "|-----|" << endl;
+		cout << c << "-----" << d << endl;
 		
-		//cout << "pos f: " << fx << "," << fy << " i: " << x << "," << y << endl;
-		//cout << "facs are: " << x_fac << "," << y_fac << endl;
+		cout << "pos f: " << fx << "," << fy << " i: " << x << "," << y << endl;
+		cout << "facs are: " << x_fac << "," << y_fac << endl;
 		
 		float ab = a * (1-x_fac) + b * x_fac;
 		float cd = c * (1-x_fac) + d * x_fac;
@@ -38,5 +42,6 @@ float Floor::get_height(Vector2f pos)
 		
 		return abcd;
 	} else
+		cout << "out of bounds: " << x << "," << y << endl;
 		return 0.0;
 }
