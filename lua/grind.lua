@@ -1,14 +1,20 @@
 
 w = nil
 b = nil
+f = nil
 
 function start (world)
 
 	w = world
 	
+	f = w:new_floor("simple_hmap","grass.bmp",5)
+	
 	b = w:new_character("hedgehog.obj","hedgehog.bmp")
 	v = Vector3f(0,0,-12)
 	b:move(v)
+	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
+	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
+	b:set_pos(v)
 	
 	
 	for i=1,10 do
@@ -24,25 +30,10 @@ function start (world)
 		v = Vector3f(0,math.random(0,360),0)
 		b2:rotate(v)
 	end
-	--[[
-	for x=-10,10 do
-		for y=-10,10 do
-			t = w:new_block3d("square.obj","grass.bmp")
-			v = Vector3f(x*2,-1,y*2)
-			t:move(v)
-			v = Vector3f(0,0,-90)
-			t:rotate(v)
-		end
-	end
-	--]]
 	
-	v1 = Vector2f(20,20);
-	v2 = Vector2f(100,100);
-	f = w:new_floor(v2,v1,"grass.bmp")
-	
-	v = Vector2f(0.5,0.25)
+	v = Vector2f(0.5,0.25) -- size of the sprite
 	hud = w:new_blockHUD(v,"hedgehog_hud.bmp")
-	v = Vector3f(0.12,-0.42,0)
+	v = Vector3f(0.12,-0.42,0) -- position on screen
 	hud:move(v)
 	
 	d = w:get_display()
@@ -82,10 +73,16 @@ end
 function up ()
 	v = Vector3f(0,0,0.2)
 	b:move(v)
+	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
+	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
+	b:set_pos(v)
 end
 
 function down ()
 	v = Vector3f(0,0,-0.2)
 	b:move(v)
+	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
+	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
+	b:set_pos(v)
 end
 

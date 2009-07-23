@@ -10,6 +10,8 @@
 #include "Obj.h"
 #include "Texture.h"
 #include "Controller.h"
+#include "Floor.h"
+#include "Vector2i.h"
 
 #include <string>
 #include <list>
@@ -20,6 +22,7 @@ extern "C" {
 #include "lauxlib.h"
 #include "lualib.h"
 }
+#include <luabind/luabind.hpp>
 
 class World
 {
@@ -31,6 +34,7 @@ private:
 	list<Obj> objects;
 	list<Block3D> blocks3d;
 	list<Block2D> blocks2d;
+	Floor floor;
 	Controller *left, *right, *up, *down;
 public:
 	World(Display *d, lua_State *l);
@@ -39,7 +43,7 @@ public:
 	Block3D* new_block3d(string object, string texture);
 	Block3D* new_character(string object, string texture);
 	Block2D* new_blockHUD(Vector2f size, string texture);
-	Block2D* new_floor(Vector2f size, Vector2f tex_size, string texture);
+	Floor* new_floor(string height_map, string texture, float scale);
 	Display* get_display();
 	void reg_key_left(Controller* c);
 	void reg_key_right(Controller* c);

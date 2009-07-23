@@ -50,7 +50,7 @@ void Display::update()
     }
     else {
     	//cout << "drawing " << blocks.size() << " blocks" << endl;
-		
+		if (floor != NULL) floor->display();
 		list<Block*>::iterator iter;
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
 			(*iter)->display();
@@ -161,6 +161,8 @@ void Display::init()
     //ensure depth is drawn properly
     glEnable(GL_DEPTH_TEST);
 	
+	//glShadeModel(GL_FLAT);
+	
 	//glEnable(GL_LINE_SMOOTH);
 	//glEnable(GL_POLYGON_SMOOTH);
     
@@ -172,8 +174,6 @@ void Display::init()
     near = 1;
 	far = 100;
 	gluPerspective(45,win_ratio,near,far);
-	
-	//cout << "set ratio to " << win_ratio << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

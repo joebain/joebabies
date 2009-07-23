@@ -11,11 +11,12 @@
 class Block3D : public Block
 {
 private:
+	bool is_driven;
+protected:
 	Obj* object;
 	Texture* texture;
 	Vector3f pos;
 	Vector3f rot;
-	bool is_driven;
 public:
 	Block3D();
 	virtual ~Block3D();

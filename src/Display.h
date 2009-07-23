@@ -11,12 +11,14 @@
 #include "Vector3f.h"
 #include "Block.h"
 #include "Camera.h"
+#include "Floor.h"
 
 class Display
 {
 public:
 	list<Block*> blocks;
 	list<Block*> hud_blocks;
+	Floor* floor;
 	bool key_up, key_down, key_left, key_right;
 	Display(int agrc, char** argv);
 	void update();

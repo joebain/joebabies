@@ -215,6 +215,11 @@ void Vector3f::abs()
 	z *= (z < 0 ? -1 : 1);
 }
 
+void Vector3f::point_up()
+{
+	y = fabs(y);
+}
+
 void Vector3f::snap()
 {
 	x = (int)(x+(x < 0 ? -0.5 : 0.5));
