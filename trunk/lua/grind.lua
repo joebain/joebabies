@@ -7,7 +7,7 @@ function start (world)
 
 	w = world
 	
-	f = w:new_floor("simple_hmap","grass.bmp",5)
+	f = w:new_floor("simple_hmap","tile.bmp",5)
 	
 	b = w:new_character("hedgehog.obj","hedgehog.bmp")
 	v = Vector3f(0,0,-12)
