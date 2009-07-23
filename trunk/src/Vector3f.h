@@ -37,6 +37,7 @@ public:
 	void rotate(Vector3f rot);
 	void abs();
 	void snap();
+	void point_up();
 	friend ostream &operator<<(ostream &stream, Vector3f v);
 };
 

@@ -9,8 +9,20 @@ Vector2i::Vector2i()
 {
 }
 
+Vector2i::Vector2i(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+
 Vector2i::~Vector2i()
 {
+}
+
+void Vector2i::init(int x, int y)
+{
+	this->x = x;
+	this->y = y;
 }
 
 Vector2i Vector2i::dir_between(Vector2i other)
@@ -41,4 +53,15 @@ float Vector2i::angle_between(Vector2i other)
 float Vector2i::mag()
 {
 	return sqrt(x*x + y*y);
+}
+
+Vector2i& Vector2i::operator=(const Vector2i &rhs) {
+    
+    if (this == &rhs)
+    	return *this;
+    
+    x = rhs.x;
+    y = rhs.y;
+
+    return *this;
 }

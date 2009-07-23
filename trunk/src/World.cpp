@@ -7,9 +7,11 @@ extern "C" {
 }
 
 #include <luabind/luabind.hpp>
+#include <luabind/object.hpp>
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <GL/glut.h>
 #include <time.h>
 #include <math.h>
@@ -116,40 +118,34 @@ Block2D* World::new_blockHUD(Vector2f size, string texture)
 	return &(blocks2d.back());
 }
 
-Block2D* World::new_floor(Vector2f size, Vector2f tex_size, string texture)
+Floor* World::new_floor(string height_map, string texture, float scale)
 {
-	Block2D new_block(false);
+	Obj new_obj;
 	Texture new_tex;
+	Vector2i size = new_obj.load_heightmap(height_map, scale);
 	new_tex.load("img/" + texture);
 	
-	blocks2d.push_back(new_block);
+	floor.set_perm_obj(new_obj);
+	floor.set_scale(scale);
+	floor.set_size(size);
 	
 	//check if this texture has already been loaded
 	bool found_texture = false;
 	list<Texture>::iterator t_iter;
 	for( t_iter = textures.begin(); t_iter != textures.end(); t_iter++ ) {
 		if (new_tex == *t_iter) {
-			blocks2d.back().set_tex(&(*t_iter));
+			floor.set_tex(&(*t_iter));
 			found_texture = true;
 			break;
 		}
 	}
 	if (!found_texture) {
 		textures.push_back(new_tex);
-		blocks2d.back().set_tex(&(textures.back()));
+		floor.set_tex(&(textures.back()));
 	}
 	
-	blocks2d.back().set_size(size);
-	blocks2d.back().set_tex_size(tex_size);
-	Vector3f v;
-	v.init(90,0,0);
-	blocks2d.back().rotate(v);
-	v.init(-size.x/2,0,-size.y/2);
-	blocks2d.back().move(v);
-	
-	d->blocks.push_back(&(blocks2d.back()));
-
-	return &(blocks2d.back());
+	d->floor = &floor;
+	return &floor;
 }
 
 void World::main_loop()

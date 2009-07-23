@@ -7,6 +7,7 @@
 #include "Face.h"
 #include "Vector3f.h"
 #include "Vector2f.h"
+#include "Vector2i.h"
 #include "Texture.h"
 
 class Obj
@@ -24,6 +25,7 @@ public:
 	void rotate(Vector3f r);
 	void setClear();
 	void set_texture(Texture* t);
+	Vector2i load_heightmap(string filename, float scale);
 	Vector3f *v_poss, *v_norms;
 	Vector2f *v_texts;
 	Vertex *vertices;

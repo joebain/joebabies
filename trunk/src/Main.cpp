@@ -85,6 +85,13 @@ int main (int argc, char** argv)
 		];
 		
 		luabind::module(l) [
+			luabind::class_<Vector2i>("Vector2i")
+				.def(luabind::constructor<int,int>())
+				.def_readwrite("x", &Vector2i::x)
+				.def_readwrite("y", &Vector2i::y)
+		];
+		
+		luabind::module(l) [
 			luabind::class_<Block>("Block")
 		];
 		
@@ -92,6 +99,8 @@ int main (int argc, char** argv)
 			luabind::class_<Block3D>("Block3D")
 				.def("move", &Block3D::move)
 				.def("rotate", &Block3D::rotate)
+				.def("get_pos", &Block3D::get_pos)
+				.def("set_pos", &Block3D::set_pos)
 		];
 		
 		luabind::module(l) [
@@ -100,6 +109,11 @@ int main (int argc, char** argv)
 				.def("rotate", &Block2D::rotate)
 				.def("set_depth", &Block2D::set_depth)
 				.def("set_tex_size", &Block2D::set_tex_size)
+		];
+		
+		luabind::module(l) [
+			luabind::class_<Floor>("Floor")
+				.def("get_height", &Floor::get_height)
 		];
 		
 		luabind::module(l) [
