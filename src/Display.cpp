@@ -30,19 +30,18 @@ Display::Display(int argc, char** argv)
 
 void Display::update()
 {
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
     
-	/*
-	glTranslatef(tra.x, tra.y, tra.z);
-	
-	glRotatef(rot.x,1,0,0);
-	glRotatef(rot.y,0,1,0);
-	glRotatef(rot.z,0,0,1);
-    */
-	
 	camera->position();
+	
+	if (sky != NULL) sky->display();
+	
+	glEnable(GL_LIGHTING);
+	
+	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
 	
     if (pick_flag) {
     	//cout << "tracing\n";
@@ -59,6 +58,8 @@ void Display::update()
     }
 	
 	glLoadIdentity();
+	
+	glDisable(GL_LIGHTING);
 	
 	list<Block*>::iterator iter;
 	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
@@ -179,32 +180,30 @@ void Display::init()
     glLoadIdentity();
 
 	//init light
-	amb_light[0] = 0.5;// = { 0.5f, 0.5f, 0.5f, 1.0f };
-	amb_light[1] = 0.5;
-	amb_light[2] = 0.5;
+	amb_light[0] = 0.8;
+	amb_light[1] = 0.8;
+	amb_light[2] = 0.8;
 	amb_light[3] = 1.0;
-	dif_light[0] = 1.0;//{ 1.0f, 1.0f, 1.0f, 1.0f };
-	dif_light[1] = 1.0;
-	dif_light[2] = 1.0;
+	dif_light[0] = 0.8;
+	dif_light[1] = 0.8;
+	dif_light[2] = 0.8;
 	dif_light[3] = 1.0;
-	pos_light[0] = 0.3;//{ 0.3f, 1.0f, 3.0f, 1.0f };
-	pos_light[1] = 1.0;
-	pos_light[2] = 3.0;
-	pos_light[3] = 1.0;
-	
+	pos_light[0] = 0.0;
+	pos_light[1] = 10.0;
+	pos_light[2] = 0.0;
+	pos_light[3] = 0.2;
 	/*
-	rot_degs_x = 45;
-	rot_degs_y = 0;
-	z_trans = -30;
-	x_trans = 0;
-	y_trans = 0;
+	spec_light[0] = 0.5f;
+	spec_light[1] = 0.5f;
+	spec_light[2] = 0.5f;
+	spec_light[3] = 1.0f;
 	*/
-	
 	pick_flag = 0;
 	mouse_down = 0;
 
     glLightfv(GL_LIGHT1, GL_AMBIENT, amb_light);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, dif_light);
+	//glLightfv(GL_LIGHT1, GL_SPECULAR, spec_light);
     glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
     
     glEnable(GL_LIGHT1);

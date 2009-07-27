@@ -17,8 +17,6 @@ extern "C" {
 #include <math.h>
 #include <vector>
 
-#include "Block3D.h"
-#include "Controller.h"
 
 
 World::World(Display *d, lua_State *l)
@@ -27,6 +25,8 @@ World::World(Display *d, lua_State *l)
 	d->init();
 	
 	this->l = l;
+	
+	time.get_time();
 }
 
 World::~World()
@@ -148,6 +148,30 @@ Floor* World::new_floor(string height_map, string texture, float scale)
 	return &floor;
 }
 
+Sky* World::new_sky(string texture)
+{
+	Texture new_tex;
+	new_tex.load("img/" + texture);
+	
+	//check if this texture has already been loaded
+	bool found_texture = false;
+	list<Texture>::iterator t_iter;
+	for( t_iter = textures.begin(); t_iter != textures.end(); t_iter++ ) {
+		if (new_tex == *t_iter) {
+			sky.set_tex(&(*t_iter));
+			found_texture = true;
+			break;
+		}
+	}
+	if (!found_texture) {
+		textures.push_back(new_tex);
+		sky.set_tex(&(textures.back()));
+	}
+	
+	d->sky = &sky;
+	return &sky;
+}
+
 void World::main_loop()
 {	
 	Vector3f move, view;
@@ -181,9 +205,10 @@ void World::main_loop()
 	
 	try {
 		//call a lua function
-		luabind::call_function<void>(l, "step",1);
+		luabind::call_function<void>(l, "step",time.time_since_last());
 	} catch(const std::exception &TheError) {
 		cerr << TheError.what() << endl;
+		cerr << lua_tostring(l, -1) << endl;
 	}
 	
 	glutPostRedisplay();

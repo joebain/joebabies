@@ -2,34 +2,41 @@
 w = nil
 b = nil
 f = nil
+s = nil
+ts = {}
+scale = 100
 
 function start (world)
 
 	w = world
 	
-	f = w:new_floor("simple_hmap","tile.bmp",5)
+	f = w:new_floor("simple_hmap","grass.bmp",5)
+	--s = w:new_sky("sky.bmp")
 	
 	b = w:new_character("hedgehog.obj","hedgehog.bmp")
-	v = Vector3f(0,0,-12)
-	b:move(v)
-	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
-	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
+	v = Vector3f(10,0,40)
+	v.y = f:get_height(Vector2f(v.x,v.z))
 	b:set_pos(v)
 	
 	
-	for i=1,10 do
-		b2 = w:new_block3d("block.obj","blue_block.bmp")
-		v = Vector3f(math.random(-20,20),0,math.random(-20,20))
+	for i=1,100 do
+		b2 = w:new_block3d("tree.obj","tree.bmp")
+		v = Vector3f(math.random(0,100),0,math.random(0,40))
+		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 	end
 	
-	for i=1,5 do
-		b2 = w:new_block3d("turtle.obj","turtle.bmp")
-		v = Vector3f(math.random(-20,20),0,math.random(-20,20))
+	for i=1,10 do
+		b2 = w:new_character("turtle.obj","turtle.bmp")
+		v = Vector3f(math.random(0,40),0,math.random(0,40))
+		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 		v = Vector3f(0,math.random(0,360),0)
 		b2:rotate(v)
+		table.insert(ts,b2)
 	end
+	
+	ts[#ts]:rotate(v)
 	
 	v = Vector2f(0.5,0.25) -- size of the sprite
 	hud = w:new_blockHUD(v,"hedgehog_hud.bmp")
@@ -56,8 +63,16 @@ function start (world)
 	
 end
 
-function step (amount)
-	
+function step (delta)
+	for i = 1,#ts do
+		m = Vector3f(0,0,1.0*delta)
+		m.y = f:get_height(Vector2f(m.x,m.z))
+		ts[i]:move(m)
+		if (math.random(0,10) == 1) then
+			r = Vector3f(0,math.random(-20,20),0)
+			ts[i]:rotate(r)
+		end
+	end
 end
 
 function right ()
@@ -76,6 +91,10 @@ function up ()
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
+	
+	--~ scale = scale + 1
+	--~ s:set_scale(scale)
+	--~ print("scale is " .. scale)
 end
 
 function down ()
@@ -84,5 +103,9 @@ function down ()
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
+	
+	--~ scale = scale - 1
+	--~ s:set_scale(scale)
+	--~ print("scale is " .. scale)
 end
 

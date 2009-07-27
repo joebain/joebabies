@@ -16,6 +16,7 @@
 #include "Texture.h"
 #include "Controller.h"
 #include "Camera.h"
+#include "Sky.h"
 
 extern "C" {
 #include "lua.h"
@@ -117,6 +118,11 @@ int main (int argc, char** argv)
 		];
 		
 		luabind::module(l) [
+			luabind::class_<Sky>("Sky")
+				.def("set_scale", &Sky::set_scale)
+		];
+		
+		luabind::module(l) [
 			luabind::class_<Camera>("Camera")
 				.def("follow", &Camera::follow)
 		];
@@ -137,6 +143,7 @@ int main (int argc, char** argv)
 				.def("new_character", &World::new_character)
 				.def("new_blockHUD", &World::new_blockHUD)
 				.def("new_floor", &World::new_floor)
+				.def("new_sky", &World::new_sky)
 				.def("get_display", &World::get_display)
 				.def("reg_key_down", &World::reg_key_down)
 				.def("reg_key_up", &World::reg_key_up)
