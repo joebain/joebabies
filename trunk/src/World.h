@@ -12,6 +12,8 @@
 #include "Controller.h"
 #include "Floor.h"
 #include "Vector2i.h"
+#include "Timer.h"
+#include "Sky.h"
 
 #include <string>
 #include <list>
@@ -35,7 +37,9 @@ private:
 	list<Block3D> blocks3d;
 	list<Block2D> blocks2d;
 	Floor floor;
+	Sky sky;
 	Controller *left, *right, *up, *down;
+	Timer time;
 public:
 	World(Display *d, lua_State *l);
 	virtual ~World();
@@ -44,6 +48,7 @@ public:
 	Block3D* new_character(string object, string texture);
 	Block2D* new_blockHUD(Vector2f size, string texture);
 	Floor* new_floor(string height_map, string texture, float scale);
+	Sky* new_sky(string texture);
 	Display* get_display();
 	void reg_key_left(Controller* c);
 	void reg_key_right(Controller* c);

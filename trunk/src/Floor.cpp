@@ -14,8 +14,8 @@ void Floor::set_perm_obj(Obj obj)
 
 float Floor::get_height(Vector2f pos)
 {	
-	float fx = pos.x/scale + ((float)size.x)/2.0f;
-	float fy = pos.y/scale + ((float)size.y)/2.0f;
+	float fx = pos.x/scale;// + ((float)size.x)/2.0f;
+	float fy = pos.y/scale;// + ((float)size.y)/2.0f;
 
 	int x = (int) fx;
 	int y = (int) fy;
@@ -28,13 +28,6 @@ float Floor::get_height(Vector2f pos)
 		
 		float x_fac = fx - (float)x;
 		float y_fac = fy - (float)y;
-		cout << a << "-----" << b << endl;
-		cout << "|-----|" << endl;
-		cout << "|-----|" << endl;
-		cout << c << "-----" << d << endl;
-		
-		cout << "pos f: " << fx << "," << fy << " i: " << x << "," << y << endl;
-		cout << "facs are: " << x_fac << "," << y_fac << endl;
 		
 		float ab = a * (1-x_fac) + b * x_fac;
 		float cd = c * (1-x_fac) + d * x_fac;
@@ -42,6 +35,6 @@ float Floor::get_height(Vector2f pos)
 		
 		return abcd;
 	} else
-		cout << "out of bounds: " << x << "," << y << endl;
+		//cout << "out of bounds: " << x << "," << y << endl;
 		return 0.0;
 }

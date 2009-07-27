@@ -12,6 +12,7 @@
 #include "Block.h"
 #include "Camera.h"
 #include "Floor.h"
+#include "Sky.h"
 
 class Display
 {
@@ -19,6 +20,7 @@ public:
 	list<Block*> blocks;
 	list<Block*> hud_blocks;
 	Floor* floor;
+	Sky* sky;
 	bool key_up, key_down, key_left, key_right;
 	Display(int agrc, char** argv);
 	void update();
@@ -43,6 +45,7 @@ private:
 	float amb_light[4];
 	float dif_light[4];
 	float pos_light[4];
+	float spec_light[4];
 	int mouse_x, mouse_y;
 	bool pick_flag, mouse_down;
 	GLuint getClosestHit(GLuint* selectBuf, GLint hits);
