@@ -10,10 +10,10 @@ This is a list of all the stuff that needs to be done in the engine.
   * ~~Fix the 'stuff doesn't appear bug' - Very important~~ - done!
   * Sound and music
   * Animation for objects and sprites
-  * ~~Transparency for 2D sprites~~ (actually its not quite working)
+  * ~~Transparency for 2D sprites~~ ~~(actually its not quite working)~~ it is, it was just lighting problems which are now fixed
   * 2D text (for huds)
   * Skybox and ~~floors~~ ~~(improvements are happening with the floors)~~ floors are so done!
-  * Timing - make each call to 'step()' pass the amount of intervening time
+  * ~~Timing - make each call to 'step()' pass the amount of intervening time~~ done!
   * Make sure all the things in the world are operating with the same coords
   * Maybe quarternion rotations (yeah right)
   * Maybe some anti aliasing or toon shading - something to make it look nice
