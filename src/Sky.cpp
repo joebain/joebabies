@@ -2,7 +2,7 @@
 
 Sky::Sky()
 {
-	scale = 10;
+	scale = 100;
 	
 	object = &perm_object;
 	
@@ -13,16 +13,18 @@ Sky::Sky()
 	object->v_norms = new Vector3f[8];
 	object->v_texts = new Vector2f[8];
 	
-	object->v_poss[0].init(0,0,0);		//front bottom right
-	object->v_poss[1].init(0,0,scale);	//back bottom right
-	object->v_poss[2].init(0,scale,scale);	//back top right
-	object->v_poss[3].init(0,scale,0);	//front top right
-	object->v_poss[4].init(scale,0,0);	//front bottom left
-	object->v_poss[5].init(scale,0,scale);	//back bottom left
-	object->v_poss[6].init(scale,scale,scale);//back top left
-	object->v_poss[7].init(scale,scale,0);	//front top left
+	int depth = -5;
 	
-	/*
+	object->v_poss[0].init(-scale/2,-scale*depth,-scale/2);		//front bottom right
+	object->v_poss[1].init(-scale/2,-scale*depth,3*scale/2);	//back bottom right
+	object->v_poss[2].init(-scale/2,scale,3*scale/2);	//back top right
+	object->v_poss[3].init(-scale/2,scale,-scale/2);	//front top right
+	object->v_poss[4].init(3*scale/2,-scale*depth,-scale/2);	//front bottom left
+	object->v_poss[5].init(3*scale/2,-scale*depth,3*scale/2);	//back bottom left
+	object->v_poss[6].init(3*scale/2,scale,3*scale/2);//back top left
+	object->v_poss[7].init(3*scale/2,scale,-scale/2);	//front top left
+	
+	
 	object->v_norms[0].init(1,0,1);
 	object->v_norms[1].init(1,0,-1);
 	object->v_norms[2].init(1,-1,-1);
@@ -31,7 +33,7 @@ Sky::Sky()
 	object->v_norms[5].init(-1,0,-1);
 	object->v_norms[6].init(-1,-1,-1);
 	object->v_norms[7].init(-1,-1,1);
-	*/
+	
 	
 	for (int i = 0; i < 8; i++)
 		object->v_norms[i].normalise();
@@ -40,15 +42,19 @@ Sky::Sky()
 	object->v_texts[1].init(1,0);
 	object->v_texts[2].init(1,1);
 	object->v_texts[3].init(0,1);
-	object->v_texts[4].init(0,0);
-	object->v_texts[5].init(1,0);
-	object->v_texts[6].init(1,1);
-	object->v_texts[7].init(0,1);
+	object->v_texts[4].init(0,1);
+	object->v_texts[5].init(1,1);
+	object->v_texts[6].init(1,0);
+	object->v_texts[7].init(0,0);
 	
 	for (int i = 0; i < 8; i++) {
-		object->vertices[i].pos = &object->v_poss[1];
-		object->vertices[i].normal = &object->v_norms[1];
-		object->vertices[i].text = &object->v_texts[1];
+		cout << "vertex no " << i << endl;
+		object->vertices[i].pos = &object->v_poss[i];
+		cout << "pos is " << *object->vertices[i].pos << endl;
+		object->vertices[i].normal = &object->v_norms[i];
+		cout << "norm is " << *object->vertices[i].normal << endl;
+		object->vertices[i].text = &object->v_texts[i];
+		cout << "text is " << *object->vertices[i].text << endl;
 	}
 	
 	object->face_count = 5;
@@ -94,12 +100,12 @@ void Sky::set_scale(float scale)
 {
 	this->scale = scale;
 	
-	object->v_poss[0].init(0,0,0);		//front bottom right
-	object->v_poss[1].init(0,0,scale);	//back bottom right
-	object->v_poss[2].init(0,scale,scale);	//back top right
-	object->v_poss[3].init(0,scale,0);	//front top right
-	object->v_poss[4].init(scale,0,0);	//front bottom left
-	object->v_poss[5].init(scale,0,scale);	//back bottom left
-	object->v_poss[6].init(scale,scale,scale);//back top left
-	object->v_poss[7].init(scale,scale,0);	//front top left
+	object->v_poss[0].init(-scale/2,-scale/2,-scale/2);		//front bottom right
+	object->v_poss[1].init(-scale/2,-scale/2,3*scale/2);	//back bottom right
+	object->v_poss[2].init(-scale/2,3*scale/2,3*scale/2);	//back top right
+	object->v_poss[3].init(-scale/2,3*scale/2,-scale/2);	//front top right
+	object->v_poss[4].init(3*scale/2,-scale/2,-scale/2);	//front bottom left
+	object->v_poss[5].init(3*scale/2,-scale/2,3*scale/2);	//back bottom left
+	object->v_poss[6].init(3*scale/2,3*scale/2,3*scale/2);//back top left
+	object->v_poss[7].init(3*scale/2,3*scale/2,-scale/2);	//front top left
 }
