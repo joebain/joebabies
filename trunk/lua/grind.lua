@@ -11,22 +11,25 @@ function start (world)
 	w = world
 	
 	f = w:new_floor("simple_hmap","grass.bmp",5)
-	--s = w:new_sky("sky.bmp")
+	s = w:new_sky("sky.bmp")
+	s:set_scale(70)
 	
 	b = w:new_character("hedgehog.obj","hedgehog.bmp")
-	v = Vector3f(10,0,40)
+	v = Vector3f(2,0,2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	b:set_pos(v)
+	v = Vector3f(0,45,0)
+	b:rotate(v)
 	
 	
-	for i=1,100 do
+	for i=1,20 do
 		b2 = w:new_block3d("tree.obj","tree.bmp")
 		v = Vector3f(math.random(0,100),0,math.random(0,40))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 	end
 	
-	for i=1,10 do
+	for i=1,20 do
 		b2 = w:new_character("turtle.obj","turtle.bmp")
 		v = Vector3f(math.random(0,40),0,math.random(0,40))
 		v.y = f:get_height(Vector2f(v.x,v.z))
@@ -66,8 +69,10 @@ end
 function step (delta)
 	for i = 1,#ts do
 		m = Vector3f(0,0,1.0*delta)
-		m.y = f:get_height(Vector2f(m.x,m.z))
 		ts[i]:move(m)
+		height = f:get_height(Vector2f(ts[i]:get_pos().x,ts[i]:get_pos().z))
+		v = Vector3f(ts[i]:get_pos().x,height,ts[i]:get_pos().z)
+		ts[i]:set_pos(v)
 		if (math.random(0,10) == 1) then
 			r = Vector3f(0,math.random(-20,20),0)
 			ts[i]:rotate(r)

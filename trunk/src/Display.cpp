@@ -32,12 +32,19 @@ void Display::update()
 {
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glLoadIdentity();
+	
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(45,win_ratio,near,far*100);
     
 	camera->position();
 	
 	if (sky != NULL) sky->display();
+	
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	camera->position();
 	
 	glEnable(GL_LIGHTING);
 	
@@ -157,7 +164,7 @@ GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
 void Display::init()
 {
 	//set bg colour
-    glClearColor (1.0, 1.0, 1.0, 0.0);
+    glClearColor (0.0, 0.0, 0.0, 0.0);
     
     //ensure depth is drawn properly
     glEnable(GL_DEPTH_TEST);
@@ -190,7 +197,7 @@ void Display::init()
 	dif_light[3] = 1.0;
 	pos_light[0] = 0.0;
 	pos_light[1] = 10.0;
-	pos_light[2] = 0.0;
+	pos_light[2] = -2.0;
 	pos_light[3] = 0.2;
 	/*
 	spec_light[0] = 0.5f;
