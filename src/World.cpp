@@ -1,5 +1,18 @@
 #include "World.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include <math.h>
+#include <vector>
+
+#include <GL/glut.h>
+
+
 extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
@@ -8,16 +21,6 @@ extern "C" {
 
 #include <luabind/luabind.hpp>
 #include <luabind/object.hpp>
-
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include <GL/glut.h>
-#include <time.h>
-#include <math.h>
-#include <vector>
-
-
 
 World::World(Display *d, lua_State *l)
 {

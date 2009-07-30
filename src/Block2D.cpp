@@ -1,5 +1,8 @@
 #include "Block2D.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <iostream>
 #include <string>
 

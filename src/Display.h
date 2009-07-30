@@ -3,10 +3,15 @@
 
 #define BUFSIZE 512
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <stdlib.h>
 
 #include <list>
+
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "Vector3f.h"
 #include "Block.h"
@@ -41,7 +46,7 @@ private:
 	float win_ratio;
 	int win_width, win_height;
 	Vector3f tra, rot;
-	float near, far;
+	float near_vp, far_vp;
 	float amb_light[4];
 	float dif_light[4];
 	float pos_light[4];

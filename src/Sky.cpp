@@ -48,13 +48,9 @@ Sky::Sky()
 	object->v_texts[7].init(0,0);
 	
 	for (int i = 0; i < 8; i++) {
-		cout << "vertex no " << i << endl;
 		object->vertices[i].pos = &object->v_poss[i];
-		cout << "pos is " << *object->vertices[i].pos << endl;
 		object->vertices[i].normal = &object->v_norms[i];
-		cout << "norm is " << *object->vertices[i].normal << endl;
 		object->vertices[i].text = &object->v_texts[i];
-		cout << "text is " << *object->vertices[i].text << endl;
 	}
 	
 	object->face_count = 5;

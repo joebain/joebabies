@@ -1,13 +1,13 @@
 #include "Controller.h"
 
+#include <stdlib.h>
+#include <iostream>
+
 extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
 }
-
-#include <stdlib.h>
-#include <iostream>
 
 #include <luabind/luabind.hpp>
 

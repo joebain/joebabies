@@ -1,12 +1,16 @@
 #include "Texture.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <stdlib.h>
 #include <iostream>
-#include <GL/gl.h>
 #include <string>
 #include <sstream>
 #include <cstring>
 #include <limits.h>
+
+#include <GL/gl.h>
 
 using namespace std;
 
@@ -70,7 +74,7 @@ int Texture::make_mask() {
 	if (tex_num != 0) {
 				
 		int size = sizeX * sizeY * 3;
-		char mask_data[size];
+		char* mask_data = (char*)malloc(size*sizeof(char));
 		for (int i = 0; i < size; i+= 3) {
 			//cout << "data" << (uint)data[i] << "," << (uint)data[i+1] << "," << (uint)data[i+2] << endl;
 			if ((int)data[i] == 0 && (int)data[i+1] == 0 && (int)data[i+2] == 0) {
@@ -94,9 +98,11 @@ int Texture::make_mask() {
 		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
 		glTexImage2D(GL_TEXTURE_2D, 0, 3, sizeX, sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, mask_data);
 		
+		free(mask_data);
+
 		return 1;
 	} else {
-		cout << "no texture loaded yet" << endl;
+		cout << "no texture loaded yet" << endl;		
 		return 0;
 	}
 }

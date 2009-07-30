@@ -1,9 +1,13 @@
 #include "Floor.h"
 
-#include <GL/gl.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+
+#include <GL/gl.h>
 
 void Floor::set_perm_obj(Obj obj)
 {

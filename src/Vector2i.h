@@ -1,7 +1,7 @@
 #ifndef VECTOR2I_H_
 #define VECTOR2I_H_
 
-#define R2D 57.295779506
+#include "consts.h"
 
 class Vector2i
 {

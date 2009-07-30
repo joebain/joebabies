@@ -45,14 +45,14 @@ float Vector2i::angle_between(Vector2i other)
 	
 	if (other.y > x*grad) ang = 2*M_PI - ang;
 	*/
-	ang = atan2(y,x) - atan2(other.y,other.x);
+	ang = atan2((float)y,(float)x) - atan2((float)other.y,(float)other.x);
 	
 	return ang*R2D;
 }
 
 float Vector2i::mag()
 {
-	return sqrt(x*x + y*y);
+	return sqrt((float)(x*x) + (float)(y*y));
 }
 
 Vector2i& Vector2i::operator=(const Vector2i &rhs) {

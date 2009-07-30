@@ -1,6 +1,11 @@
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <stdlib.h>
+
 #include <GL/gl.h>
 #include <string>
 

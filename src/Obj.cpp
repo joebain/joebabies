@@ -1,11 +1,15 @@
 #include "Obj.h"
 
-#include <GL/glu.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
+
 #include <GL/gl.h>
-#include <stdlib.h>
+#include <GL/glu.h>
 
 #include "ModelLoader.h"
 
