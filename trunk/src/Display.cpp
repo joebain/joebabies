@@ -1,10 +1,14 @@
 #include "Display.h"
 
-#include "Main.h"
-
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <iostream>
-#include <GL/glut.h>
+
 #include <GL/glu.h>
+#include <GL/glut.h>
+
+#include "Main.h"
 
 
 Display::Display(int argc, char** argv)
@@ -36,7 +40,7 @@ void Display::update()
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluPerspective(45,win_ratio,near,far*100);
+	gluPerspective(45,win_ratio,near_vp,far_vp*100);
     
 	camera->position();
 	
@@ -118,7 +122,7 @@ void Display::pick()
 	
 	gluPickMatrix(mouse_x, win_height-mouse_y, 1.0, 1.0, view);	
 	
-	gluPerspective(45,win_ratio,near,far);
+	gluPerspective(45,win_ratio,near_vp,far_vp);
 		
 	
 	glMatrixMode(GL_MODELVIEW);
@@ -179,9 +183,9 @@ void Display::init()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
-    near = 1;
-	far = 100;
-	gluPerspective(45,win_ratio,near,far);
+    near_vp = 1;
+	far_vp = 100;
+	gluPerspective(45,win_ratio,near_vp,far_vp);
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -329,7 +333,7 @@ void Display::resizeWindow(int w, int h)
 	//set the view
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	gluPerspective(45,win_ratio,near,far);
+	gluPerspective(45,win_ratio,near_vp,far_vp);
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

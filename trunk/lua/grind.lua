@@ -21,7 +21,6 @@ function start (world)
 	v = Vector3f(0,45,0)
 	b:rotate(v)
 	
-	
 	for i=1,20 do
 		b2 = w:new_block3d("tree.obj","tree.bmp")
 		v = Vector3f(math.random(0,100),0,math.random(0,40))
@@ -38,8 +37,6 @@ function start (world)
 		b2:rotate(v)
 		table.insert(ts,b2)
 	end
-	
-	ts[#ts]:rotate(v)
 	
 	v = Vector2f(0.5,0.25) -- size of the sprite
 	hud = w:new_blockHUD(v,"hedgehog_hud.bmp")
@@ -62,7 +59,6 @@ function start (world)
 	
 	c_d = Controller("down")
 	w:reg_key_down(c_d)
-	
 	
 end
 

@@ -1,8 +1,12 @@
 #include "Main.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <stdlib.h>
+
 #include <iostream>
 #include <GL/glut.h>
-#include <pthread.h>
 
 #include "Display.h"
 #include "World.h"
@@ -171,11 +175,6 @@ int main (int argc, char** argv)
 	
 	return 0;
 	
-}
-
-void *threadFunc1(void*) {
-	glutMainLoop();
-	return NULL;
 }
 
 void call_update()
