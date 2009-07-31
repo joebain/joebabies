@@ -39,13 +39,13 @@ Sky::Sky()
 		object->v_norms[i].normalise();
 	
 	object->v_texts[0].init(0,0);
-	object->v_texts[1].init(1,0);
-	object->v_texts[2].init(1,1);
+	object->v_texts[1].init(0.25,0);
+	object->v_texts[2].init(0.25,1);
 	object->v_texts[3].init(0,1);
-	object->v_texts[4].init(0,1);
-	object->v_texts[5].init(1,1);
-	object->v_texts[6].init(1,0);
-	object->v_texts[7].init(0,0);
+	object->v_texts[4].init(0.75,0);
+	object->v_texts[5].init(0.5,0);
+	object->v_texts[6].init(0.5,1);
+	object->v_texts[7].init(0.75,1);
 	
 	for (int i = 0; i < 8; i++) {
 		object->vertices[i].pos = &object->v_poss[i];
