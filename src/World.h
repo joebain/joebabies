@@ -7,6 +7,7 @@
 #include "Block.h"
 #include "Block3D.h"
 #include "Block2D.h"
+#include "Block2DText.h"
 #include "Obj.h"
 #include "Texture.h"
 #include "Controller.h"
@@ -36,6 +37,7 @@ private:
 	list<Obj> objects;
 	list<Block3D> blocks3d;
 	list<Block2D> blocks2d;
+	list<Block2DText> blocks2dtext;
 	Floor floor;
 	Sky sky;
 	Controller *left, *right, *up, *down;
@@ -47,6 +49,7 @@ public:
 	Block3D* new_block3d(string object, string texture);
 	Block3D* new_character(string object, string texture);
 	Block2D* new_blockHUD(Vector2f size, string texture);
+	Block2DText* new_blockText(Vector2f pos, string text);
 	Floor* new_floor(string height_map, string texture, float scale);
 	Sky* new_sky(string texture);
 	Display* get_display();

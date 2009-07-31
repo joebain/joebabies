@@ -121,6 +121,21 @@ Block2D* World::new_blockHUD(Vector2f size, string texture)
 	return &(blocks2d.back());
 }
 
+Block2DText* World::new_blockText(Vector2f pos, string text)
+{
+	Block2DText new_block;
+	
+	blocks2dtext.push_back(new_block);
+	
+	
+	blocks2dtext.back().set_pos(Vector3f(pos.x,pos.y,0));
+	blocks2dtext.back().set_text(text);
+	
+	d->hud_blocks.push_back(&(blocks2dtext.back()));
+
+	return &(blocks2dtext.back());
+}
+
 Floor* World::new_floor(string height_map, string texture, float scale)
 {
 	Obj new_obj;
