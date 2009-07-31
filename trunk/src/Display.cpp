@@ -72,10 +72,20 @@ void Display::update()
 	
 	glDisable(GL_LIGHTING);
 	
+	glMatrixMode(GL_PROJECTION);
+	
+	glPushMatrix();
+	
+	glOrtho(0,win_width,0,win_height,1,-1);
+	
 	list<Block*>::iterator iter;
 	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
 		(*iter)->display();
 	}
+	
+	glPopMatrix();
+	
+	glMatrixMode(GL_MODELVIEW);
 	
 	glFlush();
 	
