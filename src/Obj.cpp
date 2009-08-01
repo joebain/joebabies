@@ -48,6 +48,11 @@ void Obj::load(string filename)
 	m.load_obj(filename, this);
 }
 
+void Obj::set_name(string name)
+{
+	this->name = name;
+}
+
 bool Obj::operator==(const Obj& obj)
 {
 	return name == obj.name;

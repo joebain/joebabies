@@ -25,7 +25,9 @@ public:
 	void rotate(Vector3f r);
 	void setClear();
 	void set_texture(Texture* t);
+	void set_name(string name);
 	Vector2i load_heightmap(string filename, float scale);
+	string name;
 	Vector3f *v_poss, *v_norms;
 	Vector2f *v_texts;
 	Vertex *vertices;
@@ -34,7 +36,6 @@ public:
 	int face_count;
 	Vector3f offset;
 	Vector3f rotation;
-	string name;
 };
 
 #endif /*OBJ_H_*/

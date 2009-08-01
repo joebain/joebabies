@@ -68,24 +68,49 @@ void Display::update()
     	
     }
 	
-	glLoadIdentity();
-	
 	glDisable(GL_LIGHTING);
 	
+	glLoadIdentity();
+	
 	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	
+	gluOrtho2D(0,win_width,0,win_height);
+	
+	glMatrixMode(GL_MODELVIEW);
 	
 	glPushMatrix();
+	glLoadIdentity();
 	
-	glOrtho(0,win_width,0,win_height,1,-1);
+	//~ glLineWidth(5);
+	//~ glColor3f(1.0,0.0,0.0);
+	//~ glBegin(GL_LINES);
+	//~ 
+	//~ glVertex3f(0,0,1);
+	//~ glVertex3f(0,20,1);
+	//~ glVertex3f(20,0,1);
+	//~ glVertex3f(win_width,win_height,1);
+	//~ 
+	//~ glEnd();
+	//~ glColor3f(1.0,1.0,1.0);
+	
+	
+	glDisable(GL_DEPTH_TEST);
 	
 	list<Block*>::iterator iter;
 	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
 		(*iter)->display();
 	}
 	
+	glEnable(GL_DEPTH_TEST);
+	
 	glPopMatrix();
 	
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
+	
 	
 	glFlush();
 	

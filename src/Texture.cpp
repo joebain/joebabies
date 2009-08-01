@@ -200,3 +200,8 @@ int Texture::load(string filename_s) {
     // we're done.
     return 1;
 }
+
+void Texture::set_name(string name)
+{
+	this->name = name;
+}

@@ -11,7 +11,7 @@
 
 Block2D::Block2D()
 {
-	pos.init(0,0,0);
+	pos.init(0,0,1);
 	size.init(0,0);
 	is_driven = false;
 	rot.init(0,0,0);
@@ -121,14 +121,6 @@ void Block2D::display()
 		//first the mask
 		glBindTexture(GL_TEXTURE_2D, texture->get_mask_num());
 		
-		//~ glPushMatrix();
-		//~ 
-		//~ glTranslatef(pos.x, pos.y, pos.z);
-		//~ 
-		//~ glRotatef(rot.z,0,0,1);
-		//~ glRotatef(rot.y,0,1,0);
-		//~ glRotatef(rot.x,1,0,0);
-		
 		glBegin(GL_QUADS);
 			
 		glTexCoord2f(tex_coords[0][0],tex_coords[0][1]);
@@ -148,36 +140,31 @@ void Block2D::display()
 		glVertex3f(size.x,0,0);
 
 		glEnd();
-		
-		//~ glPopMatrix();
-		
-		//and now for the texture
 		
 		glBlendFunc(GL_ONE, GL_ONE);
 	}
-		glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
+	
+	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
+	
+	glBegin(GL_QUADS);
 		
-		//~ glPushMatrix();
-		
-		glBegin(GL_QUADS);
-			
-		glTexCoord2f(tex_coords[0][0],tex_coords[0][1]);
-		glNormal3f(0,0,1);
-		glVertex3f(0,0,0);
+	glTexCoord2f(tex_coords[0][0],tex_coords[0][1]);
+	glNormal3f(0,0,1);
+	glVertex3f(0,0,0);
 
-		glTexCoord2f(tex_coords[1][0],tex_coords[1][1]);
-		glNormal3f(0,0,1);
-		glVertex3f(0,size.y,0);
-		
-		glTexCoord2f(tex_coords[2][0],tex_coords[2][1]);
-		glNormal3f(0,0,1);
-		glVertex3f(size.x,size.y,0);
-		
-		glTexCoord2f(tex_coords[3][0],tex_coords[3][1]);
-		glNormal3f(0,0,1);
-		glVertex3f(size.x,0,0);
+	glTexCoord2f(tex_coords[1][0],tex_coords[1][1]);
+	glNormal3f(0,0,1);
+	glVertex3f(0,size.y,0);
+	
+	glTexCoord2f(tex_coords[2][0],tex_coords[2][1]);
+	glNormal3f(0,0,1);
+	glVertex3f(size.x,size.y,0);
+	
+	glTexCoord2f(tex_coords[3][0],tex_coords[3][1]);
+	glNormal3f(0,0,1);
+	glVertex3f(size.x,0,0);
 
-		glEnd();
+	glEnd();
 		
 	if (is_masked) {
 		glEnable(GL_DEPTH_TEST);
