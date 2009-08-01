@@ -26,6 +26,7 @@ public:
 	~Texture();
 	Texture(const Texture& t);
 	int load(string filename_s);
+	void set_name(string name);
 	int make_mask();
 	GLuint get_tex_num();
 	GLuint get_mask_num();

@@ -17,7 +17,7 @@ void Floor::set_perm_obj(Obj obj)
 }
 
 float Floor::get_height(Vector2f pos)
-{	
+{
 	float fx = pos.x/scale;// + ((float)size.x)/2.0f;
 	float fy = pos.y/scale;// + ((float)size.y)/2.0f;
 
@@ -25,6 +25,7 @@ float Floor::get_height(Vector2f pos)
 	int y = (int) fy;
 	
 	if (x > 0 && x < size.y-1 && y > 0 && y < size.x-1) {
+		
 		float a = object->vertices[x*size.x + y].pos->y;
 		float b = object->vertices[(x+1)*size.x + y].pos->y;
 		float c = object->vertices[x*size.x + (y+1)].pos->y;

@@ -1,5 +1,6 @@
 
 w = nil
+bf = nil
 b = nil
 f = nil
 s = nil
@@ -9,12 +10,13 @@ scale = 100
 function start (world)
 
 	w = world
+	bf = w:get_block_factory();
 	
-	f = w:new_floor("simple_hmap","grass.bmp",5)
-	s = w:new_sky("sky.bmp")
-	s:set_scale(70)
+	f = bf:new_floor("simple_hmap","grass.bmp",5)
+	s = bf:new_sky("sky.bmp")
+	s:set_scale(200)
 	
-	b = w:new_character("hedgehog.obj","hedgehog.bmp")
+	b = bf:new_character("hedgehog.obj","hedgehog.bmp")
 	v = Vector3f(2,0,2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	b:set_pos(v)
@@ -22,14 +24,14 @@ function start (world)
 	b:rotate(v)
 	
 	for i=1,20 do
-		b2 = w:new_block3d("tree.obj","tree.bmp")
+		b2 = bf:new_block3d("tree.obj","tree.bmp")
 		v = Vector3f(math.random(0,100),0,math.random(0,40))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 	end
 	
 	for i=1,20 do
-		b2 = w:new_character("turtle.obj","turtle.bmp")
+		b2 = bf:new_character("turtle.obj","turtle.bmp")
 		v = Vector3f(math.random(0,40),0,math.random(0,40))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
@@ -38,10 +40,19 @@ function start (world)
 		table.insert(ts,b2)
 	end
 	
-	v = Vector2f(0.5,0.25) -- size of the sprite
-	hud = w:new_blockHUD(v,"hedgehog_hud.bmp")
-	v = Vector3f(0.12,-0.42,0) -- position on screen
-	hud:move(v)
+	v = Vector2f(200,100)
+	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
+	--v = Vector3f(0,0,1)
+	--hud:move(v)
+	
+	--v = Vector2f(400,40)
+	--hud = bf:new_blockHUD(v,"blank.bmp")
+	--v = Vector3f(200,200,0)
+	--hud:move(v)
+	
+	v = Vector2f(300,0)
+	s = Vector2f(20,20)
+	text = bf:new_blockText(v,s,"Some text","font_wbg.bmp")
 	
 	d = w:get_display()
 	c = d:get_camera()

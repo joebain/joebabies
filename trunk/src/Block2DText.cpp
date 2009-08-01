@@ -1,6 +1,7 @@
 #include "Block2DText.h"
 
 #include <GL/glut.h>
+#include <math.h>
 
 void Block2DText::set_text(string text)
 {
@@ -14,11 +15,163 @@ string Block2DText::get_text()
 
 void Block2DText::display()
 {
-	glColor3f(1.0,1.0,1.0);
+	glPushMatrix();
 	
-	glRasterPos2f(pos.x, pos.y);
-	int i;
-	for (i=0; i<text.length(); i++) {
-    	glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, (int) text[i]);
+	glTranslatef(pos.x, pos.y, pos.z);
+		
+	glRotatef(rot.z,0,0,1);
+	glRotatef(rot.y,0,1,0);
+	glRotatef(rot.x,1,0,0);
+	
+	if (is_masked) {
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		
+		glBlendFunc(GL_DST_COLOR,GL_ZERO);
+		
+		//first the mask
+		glBindTexture(GL_TEXTURE_2D, texture->get_mask_num());
+		
+		glBegin(GL_QUADS);
+		
+		Vector2f offset;
+		for (string::iterator it=text.begin() ; it < text.end(); it++ ) {
+			
+			Vector2f tc = get_tcs(*it);
+			
+			glTexCoord2f(tc.x, tc.y);
+			glNormal3f(0,0,1);
+			glVertex3f(offset.x,offset.y,0);
+
+			glTexCoord2f(tc.x, tc.y + C_SPACE);
+			glNormal3f(0,0,1);
+			glVertex3f(offset.x,size.y + offset.y,0);
+			
+			glTexCoord2f(tc.x + C_SPACE, tc.y + C_SPACE);
+			glNormal3f(0,0,1);
+			glVertex3f(size.x + offset.x,size.y + offset.y,0);
+			
+			glTexCoord2f(tc.x + C_SPACE, tc.y);
+			glNormal3f(0,0,1);
+			glVertex3f(size.x + offset.x,offset.y,0);
+			
+			offset.x += size.x;
+
+		}
+		
+		glEnd();
+		
+		glBlendFunc(GL_ONE, GL_ONE);
 	}
+	
+	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
+	
+	glBegin(GL_QUADS);
+		
+	Vector2f offset;
+	for (string::iterator it=text.begin() ; it < text.end(); it++ ) {
+		
+		Vector2f tc = get_tcs(*it);
+		
+		glTexCoord2f(tc.x, tc.y);
+		glNormal3f(0,0,1);
+		glVertex3f(offset.x,offset.y,0);
+
+		glTexCoord2f(tc.x, tc.y + C_SPACE);
+		glNormal3f(0,0,1);
+		glVertex3f(offset.x,size.y + offset.y,0);
+		
+		glTexCoord2f(tc.x + C_SPACE, tc.y + C_SPACE);
+		glNormal3f(0,0,1);
+		glVertex3f(size.x + offset.x,size.y + offset.y,0);
+		
+		glTexCoord2f(tc.x + C_SPACE, tc.y);
+		glNormal3f(0,0,1);
+		glVertex3f(size.x + offset.x,offset.y,0);
+		
+		offset.x += size.x;
+
+	}
+
+	glEnd();
+		
+	if (is_masked) {
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+	}
+	
+	glPopMatrix();
+	
+}
+
+Vector2f Block2DText::get_tcs(char c)
+{
+	c = toupper(c);
+	
+	Vector2f pos;
+	
+	if (c >= 65 && c <= 90) {
+		pos.x = ((c-65)%7)/7.0;
+		pos.y = 1.0 - ((float) floor((c-65)/7)+1.0)/7.0;
+	} else {
+		switch (c) {
+			case '!':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 4.0;
+			break;
+			case '\'':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 5.0;
+			break;
+			case '"':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 6.0;
+			break;
+			case '?':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 3.0;
+			break;
+			case '.':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE;
+			break;
+			case ',':
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 2.0;
+			break;
+			case ' ':
+			pos.y = 0.0;
+			pos.x = 0.0;
+			break;
+			case '-':
+			pos.y = 0.0;
+			pos.x = C_SPACE;
+			break;
+			case '(':
+			pos.y = 0.0;
+			pos.x = C_SPACE * 2.0;
+			break;
+			case ')':
+			pos.y = 0.0;
+			pos.x = C_SPACE * 3.0;
+			break;
+			case '+':
+			pos.y = 0.0;
+			pos.x = C_SPACE * 4.0;
+			break;
+			case '$':
+			pos.y = 0.0;
+			pos.x = C_SPACE * 5.0;
+			break;
+			case '&':
+			pos.y = 0.0;
+			pos.x = C_SPACE * 6.0;
+			break;
+			default:
+			pos.y = C_SPACE;
+			pos.x = C_SPACE * 3.0;
+		}
+	}
+	
+	return pos;
 }
