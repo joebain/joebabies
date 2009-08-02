@@ -33,6 +33,7 @@ private:
 	Controller *left, *right, *up, *down;
 	Timer time;
 	Buttons buttons;
+	bool done;
 public:
 	World(Display *d, lua_State *l);
 	virtual ~World();
@@ -40,6 +41,7 @@ public:
 	BlockFactory* get_block_factory();
 	Display* get_display();
 	Buttons* get_buttons();
+	void quit();
 	void reg_key_left(Controller* c);
 	void reg_key_right(Controller* c);
 	void reg_key_down(Controller* c);

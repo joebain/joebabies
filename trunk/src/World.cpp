@@ -10,7 +10,7 @@
 #include <math.h>
 #include <vector>
 
-#include <GL/glut.h>
+#include "SDL.h"
 
 extern "C" {
 #include "lua.h"
@@ -23,9 +23,8 @@ extern "C" {
 
 World::World(Display *d, lua_State *l)
 {
-	this->d = d;	
-	d->init();
-	d->buttons = &buttons;
+	this->d = d;
+	buttons.set_display(d);
 	
 	this->l = l;
 	
@@ -39,15 +38,46 @@ World::~World()
 }
 
 void World::main_loop()
-{	
-	try {
-		//call a lua function
-		luabind::call_function<void>(l, "step",time.time_since_last());
-	} catch(const std::exception &TheError) {
-		cerr << TheError.what() << endl;
-		cerr << lua_tostring(l, -1) << endl;
+{
+	
+	done = false;
+	
+	while (!done) {
+	
+		d->update();
+		
+		try {
+			//call a lua function
+			luabind::call_function<void>(l, "step",time.time_since_last());
+		} catch(const std::exception &TheError) {
+			cerr << TheError.what() << endl;
+			cerr << lua_tostring(l, -1) << endl;
+		}
+		//glutPostRedisplay();
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			switch(event.type){
+				case SDL_QUIT:
+				quit();
+				break;
+				case SDL_KEYDOWN:
+				buttons.handle_keydown(&event.key.keysym);
+				break;
+				case SDL_KEYUP:
+				buttons.handle_keyup(&event.key.keysym);
+				break;
+			}
+		}
+		
+		if (buttons.req_quit) quit();
 	}
-	glutPostRedisplay();
+}
+
+void World::quit()
+{
+	SDL_Quit();
+	
+	done = true;
 }
 
 Display* World::get_display()

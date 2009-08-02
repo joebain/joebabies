@@ -1,6 +1,5 @@
 #include "Block2DText.h"
 
-#include <GL/glut.h>
 #include <math.h>
 
 void Block2DText::set_text(string text)
