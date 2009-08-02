@@ -51,7 +51,7 @@ These are all defined in LuaBinder.cpp so if this list gets out of date look the
   * *Block2D*
   ** _move(Vector3f)_ - Move along this vector.
   ** _rotate(Vector3f)_ - Rotate around the x, y and z axes by these amounts.
-  ** _set_depth(float depth) - Alters the depth, for making sure the right sprites are on top.
+  ** _set_depth(float depth)_ - Alters the depth, for making sure the right sprites are on top.
   ** _set_tex_size(Vector2f size)_ - Set the number of times a texture will repeat in the x and y. This is (1,1) by default.
 
   * *VectorNx*
