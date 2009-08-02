@@ -21,6 +21,7 @@ These are all defined in LuaBinder.cpp so if this list gets out of date look the
   * *World*
    * _get_display()_ - Get the display.
    * _get_block_factory()_ - Get the block factory.
+   * _get_buttons()_ - Get the buttons, information about button presses.
 
   * *Display*
    * _get_camera()_ - Get the camera.
@@ -35,6 +36,10 @@ These are all defined in LuaBinder.cpp so if this list gets out of date look the
    * _Block2DText new_blockText(Vector2f pos, Vector2f size, string text, string font)_ - A HUD style piece of text.
    * _Floor new_floor(string height_map, string texture, float scale)_ - The floor. The height map is just a text file. See _simple_hmap_ for an example.
    * _Sky new_sky(string texture)_ - The sky.
+
+  * *Buttons*
+   Holds members which indicate whether a key is being pressed. Currently:
+   * up, down, left, right
 
   * *Sky*
    * _set_scale(float scale)_ - Resize the sky.
