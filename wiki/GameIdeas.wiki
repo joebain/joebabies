@@ -1,0 +1,17 @@
+#summary Ideas about the game
+
+==Ideas about the game==
+
+So there are no hard and decided things about the game but I will basically lay out my idea as far as I have one.
+
+===Story===
+
+You have just got a job as IT support at the zoo, it is you task to go round the zoo and help all the animals out with their IT problems. But one day the internet falls from the sky with pieces crashing all round the zoo. Of course your bosses blame you so you must get all the pieces back and restore the internet. Many of the pieces of the internet are inside the cages with the animals and because the internet has fallen from the sky none of the electronic door locks work, so you need the help of the animals to get the internet back.
+
+===Gameplay===
+
+You can go to the side of a cage and talk to the animals and give them simple instructions, but only very simple ones as animals are quite stupid. Another possibility is that each type of animal has a skill, like a beaver can swim or a parrot can pass an instruction on to another animal. The instructions would be things like "Go forward but go right when you hit a wall" or "Take 3 steps then turn left, and repeat". The instructions should be represented by icons and there probably wouldn't be many, very simple. A nice idea maybe would be that once you've given an animal an instruction then it carries it above its head, and for example the parrot might pass his on, or if it's a goldfish(?) it would disappear after a while.
+
+===Conclusion===
+
+By combining simple instructions and the different skills the animals have to to be guided to the pieces of the internet (and possibly bring them back to you). I imagine it would play a bit like Chu Chu Rocket.
