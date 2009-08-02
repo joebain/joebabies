@@ -19,41 +19,41 @@ This gets called approximately every 33 ms which should get us 30fps ish. This m
 These are all defined in LuaBinder.cpp so if this list gets out of date look there.
 
   * *World*
-  ** _get_display()_ - Get the display.
-  ** _get_block_factory()_ - Get the block factory.
+   * _get_display()_ - Get the display.
+   * _get_block_factory()_ - Get the block factory.
 
   * *Display*
-  ** _get_camera()_ - Get the camera.
+   * _get_camera()_ - Get the camera.
 
   * *Camera*
-  ** _follow(Block3D subject)_ - Set the camera to follow a block (i.e. a character)
+   * _follow(Block3D subject)_ - Set the camera to follow a block (i.e. a character)
 
   * *BlockFactory*
-  ** _Block3D new_block3d(string object, string texture)_ - Create a new block and add it too the world.
-  ** _Block3D new_character(string object, string texture)_ - Create a new character. Characters are actually blocks but a flag is set so they move forward along the direction they are facing. A normal block is moved always in world coords and rotated on the spot.
-  ** _Block2D new_blockHUD(Vector2f size, string texture)_ - A HUD style sprite. At the moment the transparent colour is black so you can only use near black in the textures. I will change this at some point.
-  ** _Block2DText new_blockText(Vector2f pos, Vector2f size, string text, string font)_ - A HUD style piece of text.
-  ** _Floor new_floor(string height_map, string texture, float scale)_ - The floor. The height map is just a text file. See _simple_hmap_ for an example.
-  ** _Sky new_sky(string texture)_ - The sky.
+   * _Block3D new_block3d(string object, string texture)_ - Create a new block and add it too the world.
+   * _Block3D new_character(string object, string texture)_ - Create a new character. Characters are actually blocks but a flag is set so they move forward along the direction they are facing. A normal block is moved always in world coords and rotated on the spot.
+   * _Block2D new_blockHUD(Vector2f size, string texture)_ - A HUD style sprite. At the moment the transparent colour is black so you can only use near black in the textures. I will change this at some point.
+   * _Block2DText new_blockText(Vector2f pos, Vector2f size, string text, string font)_ - A HUD style piece of text.
+   * _Floor new_floor(string height_map, string texture, float scale)_ - The floor. The height map is just a text file. See _simple_hmap_ for an example.
+   * _Sky new_sky(string texture)_ - The sky.
 
   * *Sky*
-  ** _set_scale(float scale)_ - Resize the sky.
+   * _set_scale(float scale)_ - Resize the sky.
 
   * *Floor*
-  ** _get_height(Vector2f pos)_ - Get the height of the floor at this position.
+   * _get_height(Vector2f pos)_ - Get the height of the floor at this position.
 
   * *Block3D*
-  ** _move(Vector3f)_ - Move along this vector.
-  ** _rotate(Vector3f)_ - Rotate around the x, y and z axes by these amounts.
-  ** _Vector3f get_pos()_ - Get the position.
-  ** _set_pos(Vector3f pos)_ - Set the position.
+   * _move(Vector3f)_ - Move along this vector.
+   * _rotate(Vector3f)_ - Rotate around the x, y and z axes by these amounts.
+   * _Vector3f get_pos()_ - Get the position.
+   * _set_pos(Vector3f pos)_ - Set the position.
 
   * *Block2D*
-  ** _move(Vector3f)_ - Move along this vector.
-  ** _rotate(Vector3f)_ - Rotate around the x, y and z axes by these amounts.
-  ** _set_depth(float depth)_ - Alters the depth, for making sure the right sprites are on top.
-  ** _set_tex_size(Vector2f size)_ - Set the number of times a texture will repeat in the x and y. This is (1,1) by default.
+   * _move(Vector3f)_ - Move along this vector.
+   * _rotate(Vector3f)_ - Rotate around the x, y and z axes by these amounts.
+   * _set_depth(float depth)_ - Alters the depth, for making sure the right sprites are on top.
+   * _set_tex_size(Vector2f size)_ - Set the number of times a texture will repeat in the x and y. This is (1,1) by default.
 
   * *VectorNx*
-  ** _Constructor()_ - These can be constructed by passing the appropriate number of values.
-  ** _x, y, z_ - Read and write the coordinates.
+   * _Constructor()_ - These can be constructed by passing the appropriate number of values.
+   * _x, y, z_ - Read and write the coordinates.
