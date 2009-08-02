@@ -6,31 +6,46 @@
 #include <iostream>
 
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include "SDL.h"
 
 #include "Main.h"
 
 
-Display::Display(int argc, char** argv)
+Display::Display()
 {	
-	glutInit (&argc, argv);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
-	glutInitWindowPosition (50, 50);
-	win_width = 600;
-	win_height = 400;
-	glutInitWindowSize (win_width, win_height);
-	glutCreateWindow ("Joebabies");
+	win_width = 640;
+	win_height = 480;
 
-    glutDisplayFunc (call_update);
-    glutKeyboardFunc(call_keys);
-	glutSpecialFunc(call_s_keys);
-	glutSpecialUpFunc(call_s_keys_up);
-	glutMouseFunc(call_mouse);
-	glutMotionFunc(call_active_mouse);
-	glutReshapeFunc(call_resize);
+    SDL_Init(SDL_INIT_VIDEO);
+	
+    const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
+	
+	int videoFlags;
+    /* the flags to pass to SDL_SetVideoMode */
+    videoFlags  = SDL_OPENGL;          /* Enable OpenGL in SDL */
+    videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
+    videoFlags |= SDL_HWPALETTE;       /* Store the palette in hardware */
+
+    /* This checks to see if surfaces can be stored in memory */
+    if (videoInfo->hw_available)
+		videoFlags |= SDL_HWSURFACE;
+    else
+		videoFlags |= SDL_SWSURFACE;
+
+    /* This checks if hardware blits can be done */
+    if (videoInfo->blit_hw)
+		videoFlags |= SDL_HWACCEL;
+
+    /* Sets up OpenGL double buffering */
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+
+    /* get a SDL surface */
+	int screen_bpp = 32;
+    surface = SDL_SetVideoMode(win_width, win_height, screen_bpp, videoFlags);
 	
 	camera = new Camera();
-
+	
+	init();
 }
 
 void Display::update()
@@ -55,12 +70,13 @@ void Display::update()
 	
 	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
 	
-	glPushMatrix();
-	glColor3f(0,0,1);
-	glTranslatef(pos_light[0],pos_light[1],pos_light[2]);
-	glutSolidSphere(1,10,10);
-	glColor3f(1,1,1);
-	glPopMatrix();
+	//the light
+	//~ glPushMatrix();
+	//~ glColor3f(0,0,1);
+	//~ glTranslatef(pos_light[0],pos_light[1],pos_light[2]);
+	//~ glutSolidSphere(1,10,10);
+	//~ glColor3f(1,1,1);
+	//~ glPopMatrix();
 	
     if (pick_flag) {
     	//cout << "tracing\n";
@@ -89,20 +105,7 @@ void Display::update()
 	glMatrixMode(GL_MODELVIEW);
 	
 	glPushMatrix();
-	glLoadIdentity();
-	
-	//~ glLineWidth(5);
-	//~ glColor3f(1.0,0.0,0.0);
-	//~ glBegin(GL_LINES);
-	//~ 
-	//~ glVertex3f(0,0,1);
-	//~ glVertex3f(0,20,1);
-	//~ glVertex3f(20,0,1);
-	//~ glVertex3f(win_width,win_height,1);
-	//~ 
-	//~ glEnd();
-	//~ glColor3f(1.0,1.0,1.0);
-	
+	glLoadIdentity();	
 	
 	glDisable(GL_DEPTH_TEST);
 	
@@ -122,23 +125,13 @@ void Display::update()
 	
 	glFlush();
 	
-    glutSwapBuffers();
+	SDL_GL_SwapBuffers( );
 	
 }
 
 Camera* Display::get_camera()
 {
 	return camera;
-}
-
-void Display::translate(Vector3f t)
-{
-	tra += t;
-}
-
-void Display::rotate(Vector3f r)
-{
-	rot += r;
 }
 
 void Display::pick()
@@ -170,7 +163,7 @@ void Display::pick()
 	
 	glMatrixMode(GL_MODELVIEW);
 	
-	glutSwapBuffers();
+	//glutSwapBuffers();
 	
 	pick_flag = 1;
 	update();
@@ -222,7 +215,7 @@ void Display::init()
 	//glEnable(GL_POLYGON_SMOOTH);
     
     //set the view
-    win_ratio = ((float)win_height)/((float)win_width);
+    win_ratio = ((float)win_width)/((float)win_height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
@@ -263,144 +256,12 @@ void Display::init()
     glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHTING);
 	
+	glDisable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_2D);
 }
 
-void Display::keys(unsigned char key, int x, int y)
+void Display::set_fullscreen()
 {
-	float light_move = 1.0;
-	
-	switch(key) {
-		case 'q':
-		pos_light[0] += light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case 'w':
-		pos_light[0] -= light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case 'a':
-		pos_light[1] += light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case 's':
-		pos_light[1] -= light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case '1':
-		pos_light[2] += light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case '2':
-		pos_light[2] -= light_move;
-		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
-		break;
-		case '[':
-		
-		break;
-		case ']':
-		
-		break;
-		case 'i':
-		
-		break;
-	}
+	SDL_WM_ToggleFullScreen(surface);
 }
 
-void Display::s_keys(int key, int x, int y)
-{
-	switch (key) {
-		case GLUT_KEY_UP:
-		buttons->up = true;
-		break;
-		case GLUT_KEY_DOWN:
-		buttons->down = true;
-		break;
-		case GLUT_KEY_RIGHT:
-		buttons->right = true;
-		break;
-		case GLUT_KEY_LEFT:
-		buttons->left = true;
-		break;
-		case GLUT_KEY_PAGE_UP:
-		
-		break;
-		case GLUT_KEY_PAGE_DOWN:
-		
-		break;
-	}
-}
-
-void Display::s_keys_up(int key, int x, int y)
-{
-	switch (key) {
-		case GLUT_KEY_UP:
-		buttons->up = false;
-		break;
-		case GLUT_KEY_DOWN:
-		buttons->down = false;
-		break;
-		case GLUT_KEY_RIGHT:
-		buttons->right = false;
-		break;
-		case GLUT_KEY_LEFT:
-		buttons->left = false;
-		break;
-		case GLUT_KEY_PAGE_UP:
-		
-		break;
-		case GLUT_KEY_PAGE_DOWN:
-		
-		break;
-	}
-}
-
-void Display::mouse(int button, int state, int x, int y)
-{
-
-	if (button == GLUT_LEFT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			mouse_x = x;
-			mouse_y = y;
-			if (!mouse_down) {
-	
-			}
-			//pick();			
-		}
-		else if (state == GLUT_UP) {
-			mouse_down = false;
-		}
-	} else if (button == GLUT_RIGHT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			
-		}
-	}
-	
-}
-
-void Display::activeMouse(int x, int y)
-{
-	
-}
-
-void Display::resizeWindow(int w, int h)
-{
-	win_width = w;
-	win_height = h;
-	
-	glViewport(0, 0, w, h);
-	
-	win_ratio = ((float)w)/((float)h);
-	
-	//set the view
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-	gluPerspective(45,win_ratio,near_vp,far_vp);
-	
-	glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-
-Display::~Display()
-{
-}
