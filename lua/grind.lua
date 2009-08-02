@@ -11,12 +11,10 @@ scale = 100
 player_turn_speed = 40.0
 player_travel_speed = 10.0
 
---~ buttons = {
-	--~ ["up"] = up(),
-	--~ ["down"] = down(),
-	--~ ["right"] = right(),
-	--~ ["left"] = left()
---~ }
+x_l_bound = 2
+z_l_bound = 2
+x_u_bound = 96
+z_u_bound = 48
 
 function start (world)
 
@@ -42,7 +40,7 @@ function start (world)
 		b2:move(v)
 	end
 	
-	for i=1,20 do
+	for i=1,40 do
 		b2 = bf:new_character("turtle.obj","turtle.bmp")
 		v = Vector3f(math.random(0,40),0,math.random(0,40))
 		v.y = f:get_height(Vector2f(v.x,v.z))
@@ -64,39 +62,33 @@ function start (world)
 	
 	v = Vector2f(300,0)
 	s = Vector2f(20,20)
-	text = bf:new_blockText(v,s,"zoo babies!","font_wbg.bmp")
+	text = bf:new_blockText(v,s,"Zoo Babies!","font_wbg.bmp")
 	
 	d = w:get_display()
 	c = d:get_camera()
 	
 	c:follow(b)
 	
-	--~ c_l = Controller("left")
-	--~ w:reg_key_left(c_l)
-	--~ 
-	--~ c_r = Controller("right")
-	--~ w:reg_key_right(c_r)
-	--~ 
-	--~ c_u = Controller("up")
-	--~ w:reg_key_up(c_u)
-	--~ 
-	--~ c_d = Controller("down")
-	--~ w:reg_key_down(c_d)
 	music = world:new_audio_file("main", true);
 	sound = world:new_audio_file("bugsbunny2", false);
 	music:play();
-	sound:play_loop(3);
+	sound:play();
 end
 
 function step (delta)
 	for i = 1,#ts do
-		m = Vector3f(0,0,1.0*delta)
+		m = Vector3f(0,0,3.0*delta)
 		ts[i]:move(m)
+		if (ts[i]:get_pos().x < x_l_bound or ts[i]:get_pos().z < z_l_bound or
+		    ts[i]:get_pos().x > x_u_bound or ts[i]:get_pos().z > z_u_bound) then
+		  m = Vector3f(0,0,-3.0*delta)
+		  ts[i]:move(m)
+		end
 		height = f:get_height(Vector2f(ts[i]:get_pos().x,ts[i]:get_pos().z))
 		v = Vector3f(ts[i]:get_pos().x,height,ts[i]:get_pos().z)
 		ts[i]:set_pos(v)
-		if (math.random(0,10) == 1) then
-			r = Vector3f(0,math.random(-20,20),0)
+		if (math.random(0,100) == 1) then
+			r = Vector3f(0,45.0,0)
 			ts[i]:rotate(r)
 		end
 	end
@@ -121,6 +113,11 @@ end
 function up (delta)
 	v = Vector3f(0,0,delta*player_travel_speed)
 	b:move(v)
+	if (b:get_pos().x < x_l_bound or b:get_pos().z < z_l_bound or
+	    b:get_pos().x > x_u_bound or b:get_pos().z > z_u_bound) then
+	  m = Vector3f(0,0,-player_travel_speed*delta)
+	  b:move(m)
+  end
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
@@ -129,6 +126,11 @@ end
 function down (delta)
 	v = Vector3f(0,0,-delta*player_travel_speed)
 	b:move(v)
+	if (b:get_pos().x < x_l_bound or b:get_pos().z < z_l_bound or
+	    b:get_pos().x > x_u_bound or b:get_pos().z > z_u_bound) then
+	  m = Vector3f(0,0,player_travel_speed*delta)
+	  b:move(m)
+  end
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
