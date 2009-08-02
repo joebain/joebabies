@@ -21,7 +21,7 @@ AudioMixer::AudioMixer()
 AudioMixer::~AudioMixer()
 {
   Mix_HaltMusic();
-  Mix_HaltChannel(-1);
+  Mix_HaltChannel(-1); // this means stop them all
   Mix_CloseAudio();
 }
 
@@ -30,7 +30,9 @@ AudioMixer::new_audio_file(string name, bool is_music)
 {
   string filename;
   void *audio;
+  // Check if this audio file is a music file or not
   if (is_music) {
+    // Load a music file...
     string filename = "audio/" + name + ".ogg";
     audio = (void*) Mix_LoadMUS(filename.c_str());
     if(audio == NULL) 
@@ -49,6 +51,5 @@ AudioMixer::new_audio_file(string name, bool is_music)
     }
   }
   AudioFile *audiofile = new AudioFile(name, audio, is_music);
-  return audiofile;
-  
+  return audiofile; 
 }
