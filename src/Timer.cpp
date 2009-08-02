@@ -9,9 +9,20 @@
 double Timer::get_time()
 {
 #ifdef WIN32
+
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-	last = ((double)st.wSecond) + ((double) st.wMilliseconds)/1000000.0;
+
+	FILETIME ft;
+	SystemTimeToFileTime(&st, &ft);
+
+	ULARGE_INTEGER uli;
+	uli.LowPart = ft.dwLowDateTime;
+	uli.HighPart = ft.dwHighDateTime;
+
+	ULONGLONG ms_time(uli.QuadPart/10000);
+
+	last = ((double) ms_time)/1000.0;
 #else
 	struct timeval now;
 	struct timezone tz_null;

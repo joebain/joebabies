@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="References/lua/include;References/luabind/include;References/boost/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,11 +61,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib glut32.lib lua.debug.lib luabind.debug.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLMain.lib lua.debug.lib luabind.debug.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="References/lua/msvc-9.0-sp1/lib-x86;References/luabind/msvc-9.0-sp1/lib-x86"
 				GenerateDebugInformation="true"
 				SubSystem="1"
+				EntryPointSymbol=""
+				ResourceOnlyDLL="false"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -117,6 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="References/lua/include;References/luabind/include;References/boost/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -135,9 +138,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLMain.lib lua.release.lib luabind.release.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="References/lua/msvc-9.0-sp1/lib-x86;References/luabind/msvc-9.0-sp1/lib-x86"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -182,7 +187,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Block2DText.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Block3D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BlockFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Buttons.cpp"
 				>
 			</File>
 			<File
@@ -207,6 +224,10 @@
 			</File>
 			<File
 				RelativePath=".\lua\grind.lua"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LuaBinder.cpp"
 				>
 			</File>
 			<File
@@ -272,7 +293,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Block2DText.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Block3D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BlockFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Buttons.h"
 				>
 			</File>
 			<File
@@ -297,6 +330,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Floor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LuaBinder.h"
 				>
 			</File>
 			<File

@@ -2,14 +2,14 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <SDL/SDL.h>
+#else
+#include "SDL.h"
 #endif
+
 #include <iostream>
 
 #include <GL/glu.h>
-#include "SDL.h"
-
-#include "Main.h"
-
 
 Display::Display()
 {	
