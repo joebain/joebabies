@@ -18,6 +18,6 @@ This is a list of all the stuff that needs to be done in the engine.
   * Maybe quarternion rotations (yeah right)
   * Maybe some anti aliasing or toon shading - something to make it look nice
   * Improve the camera - less rigid / fixed
-  * Make it possible to press forward and left at the same time
+  * ~~Make it possible to press forward and left at the same time~~
   * Come up with some way of using lua to script the animals behaviour
   * Make the grass dance
