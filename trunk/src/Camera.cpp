@@ -35,15 +35,18 @@ void Camera::position()
 			
 			tmp.x = (cos(r.y*D2R) + sin(r.y*D2R));
 			tmp.z = (-sin(r.y*D2R) + cos(r.y*D2R));
-			tmp.y = 0.5; //some elevation
+			tmp.y = 0.3;
 			
-			p.y += 4;
+			p.y += 2;
 			
 			tmp.normalise();
 			tmp *= 15; //probably should make this more dynamic or something
 			
 			tmp.x = p.x - tmp.x;
 			tmp.z = p.z - tmp.z;
+			tmp.y = p.y + tmp.y;
+			
+			//p.y += 1;
 			
 			//cout << "at " << tmp << " them at " << p << endl;
 			

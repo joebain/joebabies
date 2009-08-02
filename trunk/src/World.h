@@ -15,6 +15,7 @@ extern "C" {
 #include "Display.h"
 #include "Controller.h"
 #include "Timer.h"
+#include "Buttons.h"
 
 #include "BlockFactory.h"
 
@@ -31,12 +32,14 @@ private:
 	BlockFactory bf;
 	Controller *left, *right, *up, *down;
 	Timer time;
+	Buttons buttons;
 public:
 	World(Display *d, lua_State *l);
 	virtual ~World();
 	void main_loop();
 	BlockFactory* get_block_factory();
 	Display* get_display();
+	Buttons* get_buttons();
 	void reg_key_left(Controller* c);
 	void reg_key_right(Controller* c);
 	void reg_key_down(Controller* c);

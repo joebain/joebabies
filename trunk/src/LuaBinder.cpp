@@ -14,6 +14,7 @@
 #include "BlockFactory.h"
 #include "World.h"
 #include "Display.h"
+#include "Buttons.h"
 
 void LuaBinder::bind(lua_State *l)
 {
@@ -102,13 +103,18 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
+		luabind::class_<Buttons>("Buttons")
+			.def_readonly("up", &Buttons::up)
+			.def_readonly("down", &Buttons::down)
+			.def_readonly("right", &Buttons::right)
+			.def_readonly("left", &Buttons::left)
+	];
+	
+	luabind::module(l) [
 		luabind::class_<World>("World")
 			.def("get_display", &World::get_display)
 			.def("get_block_factory", &World::get_block_factory)
-			.def("reg_key_down", &World::reg_key_down)
-			.def("reg_key_up", &World::reg_key_up)
-			.def("reg_key_left", &World::reg_key_left)
-			.def("reg_key_right", &World::reg_key_right)
+			.def("get_buttons", &World::get_buttons)
 	];
 
 }

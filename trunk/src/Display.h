@@ -18,6 +18,7 @@
 #include "Camera.h"
 #include "Floor.h"
 #include "Sky.h"
+#include "Buttons.h"
 
 class Display
 {
@@ -26,7 +27,7 @@ public:
 	list<Block*> hud_blocks;
 	Floor* floor;
 	Sky* sky;
-	bool key_up, key_down, key_left, key_right;
+	Buttons* buttons;
 	Display(int agrc, char** argv);
 	void update();
 	void pick();
@@ -34,10 +35,10 @@ public:
 	virtual ~Display();
 	void keys(unsigned char key, int x, int y);
 	void s_keys(int key, int x, int y);
+	void s_keys_up(int key, int x, int y);
 	void mouse(int button, int state, int x, int y);
 	void activeMouse(int x, int y);
 	void resizeWindow(int w, int h);
-	void reset_keys();
 	void translate(Vector3f t);
 	void rotate(Vector3f r);
 	Camera* get_camera();
