@@ -22,12 +22,16 @@ lua_State *l;
 
 int main (int argc, char** argv)
 {
+	cout << "starting" << endl;
+
 	d = new Display();
 	
 	l = lua_open();
 	
 	w = new World(d,l);
 	
+	cout << "starting lua" << endl;
+
 	try {
 		luaL_openlibs(l);
 				

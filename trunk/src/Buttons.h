@@ -1,7 +1,11 @@
 #ifndef BUTTONS_H
 #define BUTTONS_H
 
+#ifdef WIN32
+#include <SDL/SDL.h>
+#else
 #include "SDL.h"
+#endif
 
 #include "Display.h"
 

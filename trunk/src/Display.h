@@ -5,6 +5,9 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <SDL/SDL.h>
+#else
+#include "SDL.h"
 #endif
 #include <stdlib.h>
 
@@ -12,8 +15,6 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-
-#include "SDL.h"
 
 #include "Block.h"
 #include "Camera.h"

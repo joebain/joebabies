@@ -2,6 +2,9 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <SDL/SDL.h>
+#else
+#include "SDL.h"
 #endif
 #include <stdlib.h>
 #include <iostream>
@@ -9,8 +12,6 @@
 #include <time.h>
 #include <math.h>
 #include <vector>
-
-#include "SDL.h"
 
 extern "C" {
 #include "lua.h"

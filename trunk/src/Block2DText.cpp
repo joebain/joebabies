@@ -111,7 +111,7 @@ Vector2f Block2DText::get_tcs(char c)
 	
 	if (c >= 65 && c <= 90) {
 		pos.x = ((c-65)%7)/7.0;
-		pos.y = 1.0 - ((float) floor((c-65)/7)+1.0)/7.0;
+		pos.y = 1.0 - ((float) floor((float)(c-65)/7)+1.0)/7.0;
 	} else {
 		switch (c) {
 			case '!':
