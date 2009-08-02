@@ -8,6 +8,9 @@ s = nil
 ts = {}
 scale = 100
 
+player_turn_speed = 40.0
+player_travel_speed = 10.0
+
 --~ buttons = {
 	--~ ["up"] = up(),
 	--~ ["down"] = down(),
@@ -79,7 +82,10 @@ function start (world)
 	--~ 
 	--~ c_d = Controller("down")
 	--~ w:reg_key_down(c_d)
-	
+	music = world:new_audio_file("main", true);
+	sound = world:new_audio_file("bugsbunny2", false);
+	music:play();
+	sound:play_loop(3);
 end
 
 function step (delta)
@@ -103,17 +109,17 @@ function step (delta)
 end
 
 function right (delta)
-	v = Vector3f(0,-delta*20.0,0)
+	v = Vector3f(0,-delta*player_turn_speed,0)
 	b:rotate(v)
 end
 
 function left (delta)
-	v = Vector3f(0,delta*20.0,0)
+	v = Vector3f(0,delta*player_turn_speed,0)
 	b:rotate(v)
 end
 
 function up (delta)
-	v = Vector3f(0,0,delta*5.0)
+	v = Vector3f(0,0,delta*player_travel_speed)
 	b:move(v)
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
@@ -121,7 +127,7 @@ function up (delta)
 end
 
 function down (delta)
-	v = Vector3f(0,0,-delta*5.0)
+	v = Vector3f(0,0,-delta*player_travel_speed)
 	b:move(v)
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)

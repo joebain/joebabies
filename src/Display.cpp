@@ -16,7 +16,7 @@ Display::Display()
 	win_width = 640;
 	win_height = 480;
 
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	
     const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
 	

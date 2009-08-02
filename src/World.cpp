@@ -19,6 +19,9 @@ extern "C" {
 #include "lualib.h"
 }
 
+#include "AudioFile.h"
+#include "AudioMixer.h"
+
 #include <luabind/luabind.hpp>
 #include <luabind/object.hpp>
 
@@ -32,6 +35,8 @@ World::World(Display *d, lua_State *l)
 	bf.set_display(d);
 	
 	time.get_time();
+	
+	mixer = new AudioMixer();
 }
 
 World::~World()
@@ -118,4 +123,10 @@ void World::reg_key_down(Controller* c)
 {
 	down = c;
 	c->set_lua(l);
+}
+
+AudioFile* World::new_audio_file(string name, bool is_music) 
+{
+  AudioFile *af = mixer->new_audio_file(name, is_music);
+  return af;
 }

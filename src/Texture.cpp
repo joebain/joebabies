@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cstring>
 #include <limits.h>
+#include <stdio.h>
 
 #include <GL/gl.h>
 
