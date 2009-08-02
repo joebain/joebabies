@@ -4,7 +4,8 @@
 
 You'll need to install:
   * Gcc, make, etc.
-  * OpenGL, GLU, GLUT
+  * OpenGL, GLU
+  * SDL
   * Lua 5.1
   * Boost, bjam
 all of which should be quite easy from your favourite repositories.
