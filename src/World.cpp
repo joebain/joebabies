@@ -25,6 +25,7 @@ World::World(Display *d, lua_State *l)
 {
 	this->d = d;	
 	d->init();
+	d->buttons = &buttons;
 	
 	this->l = l;
 	
@@ -39,35 +40,6 @@ World::~World()
 
 void World::main_loop()
 {	
-	Vector3f move, view;
-	if (d->key_up) {
-		if (up != NULL)
-			up->call();
-		else
-			move.z = 0.2;
-	}
-	if (d->key_down) {
-		if (down != NULL)
-			down->call();
-		else
-			move.z = -0.2;
-	}
-	if (d->key_left) {
-		if (left != NULL)
-			left->call();
-		else
-			view.y = -5;
-	}
-	if (d->key_right) {
-		if (right != NULL)
-			right->call();
-		else
-			view.y = 5;
-	}
-	d->reset_keys();
-	d->translate(move);
-	d->rotate(view);
-	
 	try {
 		//call a lua function
 		luabind::call_function<void>(l, "step",time.time_since_last());
@@ -75,7 +47,6 @@ void World::main_loop()
 		cerr << TheError.what() << endl;
 		cerr << lua_tostring(l, -1) << endl;
 	}
-	
 	glutPostRedisplay();
 }
 
@@ -87,6 +58,11 @@ Display* World::get_display()
 BlockFactory* World::get_block_factory()
 {
 	return &bf;
+}
+
+Buttons* World::get_buttons()
+{
+	return &buttons;
 }
 
 void World::reg_key_left(Controller* c)

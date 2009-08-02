@@ -7,6 +7,7 @@
 void call_update();
 void call_keys(unsigned char key, int x, int y);
 void call_s_keys(int key, int x, int y);
+void call_s_keys_up(int key, int x, int y);
 void call_mouse(int button, int state, int x, int y);
 void call_active_mouse(int x, int y);
 void call_resize(int w, int h);

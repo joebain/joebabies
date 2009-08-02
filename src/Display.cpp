@@ -24,6 +24,7 @@ Display::Display(int argc, char** argv)
     glutDisplayFunc (call_update);
     glutKeyboardFunc(call_keys);
 	glutSpecialFunc(call_s_keys);
+	glutSpecialUpFunc(call_s_keys_up);
 	glutMouseFunc(call_mouse);
 	glutMotionFunc(call_active_mouse);
 	glutReshapeFunc(call_resize);
@@ -53,6 +54,13 @@ void Display::update()
 	glEnable(GL_LIGHTING);
 	
 	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
+	
+	glPushMatrix();
+	glColor3f(0,0,1);
+	glTranslatef(pos_light[0],pos_light[1],pos_light[2]);
+	glutSolidSphere(1,10,10);
+	glColor3f(1,1,1);
+	glPopMatrix();
 	
     if (pick_flag) {
     	//cout << "tracing\n";
@@ -226,18 +234,18 @@ void Display::init()
     glLoadIdentity();
 
 	//init light
-	amb_light[0] = 0.8;
-	amb_light[1] = 0.8;
-	amb_light[2] = 0.8;
+	amb_light[0] = 2.5;
+	amb_light[1] = 2.5;
+	amb_light[2] = 2.5;
 	amb_light[3] = 1.0;
-	dif_light[0] = 0.8;
-	dif_light[1] = 0.8;
-	dif_light[2] = 0.8;
-	dif_light[3] = 1.0;
-	pos_light[0] = 0.0;
+	dif_light[0] = 1.0;
+	dif_light[1] = 1.0;
+	dif_light[2] = 1.0;
+	dif_light[3] = 0.5;
+	pos_light[0] = 17.0;
 	pos_light[1] = 10.0;
-	pos_light[2] = -2.0;
-	pos_light[3] = 0.2;
+	pos_light[2] = 10.0;
+	pos_light[3] = 0.0;
 	/*
 	spec_light[0] = 0.5f;
 	spec_light[1] = 0.5f;
@@ -260,24 +268,32 @@ void Display::init()
 
 void Display::keys(unsigned char key, int x, int y)
 {
+	float light_move = 1.0;
+	
 	switch(key) {
 		case 'q':
-		
+		pos_light[0] += light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case 'w':
-		
+		pos_light[0] -= light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case 'a':
-		
+		pos_light[1] += light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case 's':
-		
+		pos_light[1] -= light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case '1':
-		
+		pos_light[2] += light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case '2':
-		
+		pos_light[2] -= light_move;
+		cout << "light at " << pos_light[0] << "," << pos_light[1] << "," << pos_light[2] << endl;
 		break;
 		case '[':
 		
@@ -289,25 +305,22 @@ void Display::keys(unsigned char key, int x, int y)
 		
 		break;
 	}
-	
-	glutPostRedisplay();
 }
 
 void Display::s_keys(int key, int x, int y)
 {
-	
 	switch (key) {
 		case GLUT_KEY_UP:
-		key_up = true;
+		buttons->up = true;
 		break;
 		case GLUT_KEY_DOWN:
-		key_down = true;
+		buttons->down = true;
 		break;
 		case GLUT_KEY_RIGHT:
-		key_right = true;
+		buttons->right = true;
 		break;
 		case GLUT_KEY_LEFT:
-		key_left = true;
+		buttons->left = true;
 		break;
 		case GLUT_KEY_PAGE_UP:
 		
@@ -316,16 +329,30 @@ void Display::s_keys(int key, int x, int y)
 		
 		break;
 	}
-
-	glutPostRedisplay();
 }
 
-void Display::reset_keys()
+void Display::s_keys_up(int key, int x, int y)
 {
-	key_up = false;
-	key_down = false;
-	key_left = false;
-	key_right = false;
+	switch (key) {
+		case GLUT_KEY_UP:
+		buttons->up = false;
+		break;
+		case GLUT_KEY_DOWN:
+		buttons->down = false;
+		break;
+		case GLUT_KEY_RIGHT:
+		buttons->right = false;
+		break;
+		case GLUT_KEY_LEFT:
+		buttons->left = false;
+		break;
+		case GLUT_KEY_PAGE_UP:
+		
+		break;
+		case GLUT_KEY_PAGE_DOWN:
+		
+		break;
+	}
 }
 
 void Display::mouse(int button, int state, int x, int y)

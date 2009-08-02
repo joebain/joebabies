@@ -74,6 +74,11 @@ void call_s_keys(int key, int x, int y)
 	d->s_keys(key,x,y);
 }
 
+void call_s_keys_up(int key, int x, int y)
+{
+	d->s_keys_up(key,x,y);
+}
+
 void call_mouse(int button, int state, int x, int y)
 {
 	d->mouse(button,state,x,y);
