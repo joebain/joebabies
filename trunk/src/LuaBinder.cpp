@@ -15,6 +15,7 @@
 #include "World.h"
 #include "Display.h"
 #include "Buttons.h"
+#include "AudioFile.h"
 
 void LuaBinder::bind(lua_State *l)
 {
@@ -115,6 +116,13 @@ void LuaBinder::bind(lua_State *l)
 			.def("get_display", &World::get_display)
 			.def("get_block_factory", &World::get_block_factory)
 			.def("get_buttons", &World::get_buttons)
+			.def("new_audio_file", &World::new_audio_file)
 	];
-
+	
+	luabind::module(l) [
+		luabind::class_<AudioFile>("AudioFile")
+			.def("play", &AudioFile::play)
+			.def("play_loop", &AudioFile::play_loop)
+			.def("stop", &AudioFile::stop)
+	];
 }

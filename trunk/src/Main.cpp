@@ -20,6 +20,7 @@ World *w;
 lua_State *l;
 
 
+
 int main (int argc, char** argv)
 {
 	cout << "starting" << endl;
@@ -48,7 +49,7 @@ int main (int argc, char** argv)
 		cerr << TheError.what() << endl;
 		cerr << lua_tostring(l, -1) << endl;
 	}
-
+  
 	w->main_loop();
 	
 	delete d;
