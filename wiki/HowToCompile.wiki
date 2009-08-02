@@ -11,6 +11,6 @@ all of which should be quite easy from your favourite repositories.
 
 The hard bit, you need to compile the newest version of luabind as Ubuntu is out of date. You need luabind 0.8.1 from [http://sourceforge.net/projects/luabind/files/luabind/ here] and to install it you use bjam. Type 'bjam install' in the root of the folder I think.
 
-=And then...=
+==And then...==
 
 If that all goes ok you should just be able to type 'make' and the './babies' to run.
