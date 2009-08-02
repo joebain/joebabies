@@ -22,6 +22,7 @@ These are all defined in LuaBinder.cpp so if this list gets out of date look the
    * _get_display()_ - Get the display.
    * _get_block_factory()_ - Get the block factory.
    * _get_buttons()_ - Get the buttons, information about button presses.
+   * _new_audio_file(string name, bool is_music)_ - Create a new AudioFile object, will look in audio sub-directory for name + .ogg if is_music is true, .wav if it's false.
 
   * *Display*
    * _get_camera()_ - Get the camera.
@@ -62,3 +63,8 @@ These are all defined in LuaBinder.cpp so if this list gets out of date look the
   * *VectorNx*
    * _Constructor()_ - These can be constructed by passing the appropriate number of values.
    * _x, y, z_ - Read and write the coordinates.
+
+  * *AudioFile*
+   * _play()_ - Plays the audio sample.
+   * _play_loop(int times) - Plays the sample times+1 times. -1 gives infinite repeat.
+   * _stop()_ - Stops playing the sample. May break if audio sample isn't playing... untested.
