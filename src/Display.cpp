@@ -2,14 +2,9 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <SDL/SDL.h>
-#else
-#include "SDL.h"
 #endif
 
 #include <iostream>
-
-#include <GL/glu.h>
 
 Display::Display()
 {	
@@ -51,7 +46,7 @@ Display::Display()
 	init();
 }
 
-void Display::update()
+void Display::update(float delta)
 {
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -61,6 +56,8 @@ void Display::update()
 	glLoadIdentity();
 	gluPerspective(45,win_ratio,near_vp,far_vp*100);
     
+	//cout << "doing camera" << endl;
+	camera->move(delta);
 	camera->position();
 	
 	if (sky != NULL) sky->display();
@@ -169,7 +166,7 @@ void Display::pick()
 	//glutSwapBuffers();
 	
 	pick_flag = 1;
-	update();
+	//update();
 	pick_flag = 0;
 	
 	glMatrixMode(GL_PROJECTION);
@@ -223,7 +220,7 @@ void Display::init()
     glLoadIdentity();
     
     near_vp = 1;
-	far_vp = 100;
+	far_vp = 200;
 	gluPerspective(45,win_ratio,near_vp,far_vp);
 	
 	glMatrixMode(GL_MODELVIEW);

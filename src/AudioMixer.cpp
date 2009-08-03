@@ -1,8 +1,5 @@
 #include "AudioMixer.h"
 
-#include "SDL.h"
-#include "SDL_mixer.h"
-
 AudioMixer::AudioMixer()
 {
   // Here's your playback options

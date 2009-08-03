@@ -16,11 +16,9 @@ void Block2DText::display()
 {
 	glPushMatrix();
 	
-	glTranslatef(pos.x, pos.y, pos.z);
+	glTranslatef(pos.x, pos.y, 1);
 		
-	glRotatef(rot.z,0,0,1);
-	glRotatef(rot.y,0,1,0);
-	glRotatef(rot.x,1,0,0);
+	glRotatef(rot,0,0,1);
 	
 	if (is_masked) {
 		glDisable(GL_DEPTH_TEST);

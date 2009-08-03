@@ -84,6 +84,13 @@ void ModelLoader::link_face(char* line, Face *f, Obj *o) {
 		}
 		v.normal = &o->v_norms[atoi(line+i-1)-1];
 		
+		//set size
+		if (v.pos->x > o->max.x) o->max.x = v.pos->x;
+		else if (v.pos->x < o->min.x) o->min.x = v.pos->x;
+		if (v.pos->y > o->max.y) o->max.y = v.pos->y;
+		else if (v.pos->y < o->min.y) o->min.y = v.pos->y;
+		if (v.pos->z > o->max.z) o->max.z = v.pos->z;
+		else if (v.pos->z < o->min.z) o->min.z = v.pos->z;
 		//cout << "v.pos " << v.pos->x << "," << v.pos->y << " v.text " << v.text->x << "," << v.text->y << " v.norm " << v.normal->x << "," << v.normal->y << endl;
 		
 		f->vertices[v_count++] = v;

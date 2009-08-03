@@ -51,7 +51,7 @@ Block2DText* BlockFactory::new_blockText(Vector2f pos, Vector2f size, string tex
 	
 	blocks2dtext.push_back(new_block);
 	
-	blocks2dtext.back().set_pos(Vector3f(pos.x,pos.y,1));
+	blocks2dtext.back().set_pos(Vector2f(pos.x,pos.y));
 	//blocks2dtext.back().set_mask(false);
 	blocks2dtext.back().set_text(text);
 	blocks2dtext.back().set_size(size);

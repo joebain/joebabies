@@ -1,8 +1,8 @@
 #ifndef AUDIOMIXER_H_
 #define AUDIOMIXER_H_
 
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 #include "AudioFile.h"
 

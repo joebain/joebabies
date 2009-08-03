@@ -15,6 +15,7 @@ public:
 	float x, y, z;
 	Vector3f();
 	Vector3f(float x, float y, float z);
+	Vector3f(const Vector3f& v);
 	Vector3f copy();
 	Vector3f & operator=(const Vector3f &rhs);
 	void normalise();
@@ -38,6 +39,7 @@ public:
 	void abs();
 	void snap();
 	void point_up();
+	float magnitude();
 	friend ostream &operator<<(ostream &stream, Vector3f v);
 };
 

@@ -2,10 +2,10 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <SDL/SDL.h>
-#else
-#include "SDL.h"
 #endif
+
+#include <SDL/SDL.h>
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -50,11 +50,13 @@ void World::main_loop()
 	
 	while (!done) {
 	
-		d->update();
+		float delta = time.time_since_last();
+	
+		d->update(delta);
 		
 		try {
 			//call a lua function
-			luabind::call_function<void>(l, "step",time.time_since_last());
+			luabind::call_function<void>(l, "step",delta);
 		} catch(const std::exception &TheError) {
 			cerr << TheError.what() << endl;
 			cerr << lua_tostring(l, -1) << endl;
@@ -81,7 +83,7 @@ void World::main_loop()
 
 void World::quit()
 {
-	SDL_Quit();
+	//SDL_Quit();
 	
 	done = true;
 }
