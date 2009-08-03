@@ -18,6 +18,9 @@ Display::Display()
 
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	
+	SDL_WM_SetIcon(SDL_LoadBMP("img/icon.bmp"), NULL);
+	SDL_WM_SetCaption("Zoo Babies", "Zoo Babies");
+	
     const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
 	
 	int videoFlags;
@@ -263,5 +266,6 @@ void Display::init()
 void Display::set_fullscreen()
 {
 	SDL_WM_ToggleFullScreen(surface);
+	SDL_ShowCursor(SDL_DISABLE);
 }
 
