@@ -10,7 +10,20 @@ You have just got a job as IT support at the zoo, it is you task to go round the
 
 ===Gameplay===
 
-You can go to the side of a cage and talk to the animals and give them simple instructions, but only very simple ones as animals are quite stupid. Another possibility is that each type of animal has a skill, like a beaver can swim or a parrot can pass an instruction on to another animal. The instructions would be things like "Go forward but go right when you hit a wall" or "Take 3 steps then turn left, and repeat". The instructions should be represented by icons and there probably wouldn't be many, very simple. A nice idea maybe would be that once you've given an animal an instruction then it carries it above its head, and for example the parrot might pass his on, or if it's a goldfish(?) it would disappear after a while.
+So after mine and Steve's brain storm (thought shower?) we are perhaps a bit closer to an actual game idea.
+
+Each 'level' should consist of a cage with animals inside. Each animal has a set of actions it can do, specific to that kind of animal. The ideas for animal so far are:
+  *Gorilla - Can climb trees and smash boxes with his big gorllia fists.
+  *Beaver - Can swim and cut down trees.
+  *Parrot - Can fly (i.e. is not blocked by normal obstacles) and pass instructions on to other animals.
+
+We also talked about animals being limited in the directions they can move, like chess pieces essentially. A gorilla can move like a rook, a beaver like a queen, the parrot is completely free.
+
+The game will be puzzley, you can get round the outside of a cage and call the animals to you, but they can only travel in their restricted straight / diagonal lines. Once they are at the side of the cage (assuming they can get there, they are not blocked by an obstacle) you can speak to them and give them instructions. The instructions basically have two components: a direction and an action. The animal will then go in that direction and perform that action if appropriate, for example you can tell a gorilla to go forward and climb. He will walk (stroll? gambol?) forward and if he comes across a tree he will climb it.
+
+In this way you can direct the animals and the puzzles revolve around using the animals in the right order and with the right instructions. Me and Steve came up with two possible levels. See the pictures below:
+
+[http://adam-a.co.uk/upload/files/level1.png Level 1]
 
 ===Conclusion===
 
