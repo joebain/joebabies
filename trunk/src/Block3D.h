@@ -21,6 +21,8 @@ protected:
 	Vector3f offset;
 	Vector3f* bb_min;
 	Vector3f* bb_max;
+	Vector3f min;
+	Vector3f max;
 	bool collide_x(Vector3f* omin, Vector3f* omax);
 	bool collide_y(Vector3f* omin, Vector3f* omax);
 	bool collide_z(Vector3f* omin, Vector3f* omax);
