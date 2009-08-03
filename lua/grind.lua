@@ -154,7 +154,7 @@ function position_hedgey(delta)
 	hedgey:set_pos(v)
 	
 	wobble = math.sin(player_wobble_counter)
-	r = Vector3f(0,wobble/player_wobble_factor,0)
+	r = Vector3f(0,100*delta*(wobble/player_wobble_factor),0)
 	player_wobble_counter = player_wobble_counter + delta*15
 	hedgey:rotate(r)
 	
