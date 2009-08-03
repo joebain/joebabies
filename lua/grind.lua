@@ -2,7 +2,7 @@
 w = nil
 display = nil
 bf = nil
-b = nil
+hedgey = nil
 bs = nil
 f = nil
 s = nil
@@ -17,10 +17,10 @@ player_wobble_counter = 0.0
 player_wobble_factor = 0.5
 player_bounce_factor = 5.0
 
-x_l_bound = 2
-z_l_bound = 2
-x_u_bound = 96
-z_u_bound = 48
+x_l_bound = 100
+z_l_bound = 100
+x_u_bound = 200
+z_u_bound = 200
 
 function start (world)
 
@@ -32,23 +32,23 @@ function start (world)
 	s = bf:new_sky("sky.bmp")
 	s:set_scale(200)
 	
-	b = bf:new_character("hedgehog.obj","hedgehog.bmp")
-	v = Vector3f(2,0,2)
+	hedgey = bf:new_character("hedgehog.obj","hedgehog.bmp")
+	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
-	b:set_pos(v)
+	hedgey:set_pos(v)
 	v = Vector3f(0,45,0)
-	b:set_dir(v)
+	hedgey:set_dir(v)
 	
-	for i=1,20 do
+	for i=1,40 do
 		b2 = bf:new_block3d("tree.obj","tree.bmp")
-		v = Vector3f(math.random(0,100),0,math.random(0,40))
+		v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 	end
 	
-	for i=1,40 do
+	for i=1,60 do
 		b2 = bf:new_character("turtle.obj","turtle.bmp")
-		v = Vector3f(math.random(1,40),0,math.random(1,40))
+		v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
 		v = Vector3f(0,math.random(0,360),0)
@@ -57,14 +57,14 @@ function start (world)
 	end
 	
 	block = bf:new_block3d("block.obj","red_block.bmp")
-	v = Vector3f(20,0,20)
+	v = Vector3f(x_l_bound+20,0,z_l_bound+20)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	block:move(v)
 	
 	display = w:get_display()
 	c = display:get_camera()
 	
-	c:follow(b)
+	c:follow(hedgey)
 	
 	music = world:new_audio_file("main", true);
 	sound = world:new_audio_file("bugsbunny2", false);
@@ -86,8 +86,12 @@ function step (delta)
 		height = f:get_height(Vector2f(ts[i]:get_pos().x,ts[i]:get_pos().z))
 		v = Vector3f(ts[i]:get_pos().x,height,ts[i]:get_pos().z)
 		ts[i]:set_pos(v)
-		if (math.random(0,100) == 1) then
+		rand = math.random(0,200)
+		if (rand == 1) then
 			r = Vector3f(0,45.0,0)
+			ts[i]:change_dir(r)
+		elseif (rand == 2) then
+			r = Vector3f(0,-45.0,0)
 			ts[i]:change_dir(r)
 		end
 	end
@@ -97,7 +101,7 @@ function step (delta)
 	if (bs.left) then left(delta) end
 	if (bs.right) then right(delta) end
 	
-	if b:collide(block) and not collided then
+	if hedgey:collide(block) and not collided then
 		put_dialogue("Hello, my name is Hedgey the Hedgehog. I like cheese and fast cars. Do you have a cracker for me?","hedgehog")
 		collided = true
 	end
@@ -106,56 +110,56 @@ end
 
 function right (delta)
 	v = Vector3f(0,-delta*player_turn_speed,0)
-	b:change_dir(v)
+	hedgey:change_dir(v)
 end
 
 function left (delta)
 	v = Vector3f(0,delta*player_turn_speed,0)
-	b:change_dir(v)
+	hedgey:change_dir(v)
 end
 
 function up (delta)
 	v = Vector3f(0,0,delta*player_travel_speed)
-	b:move(v)
+	hedgey:move(v)
 	
 	position_hedgey(delta)
 end
 
 function down (delta)
 	v = Vector3f(0,0,-delta*player_travel_speed)
-	b:move(v)
+	hedgey:move(v)
 	
 	position_hedgey(delta)
 end
 
 function position_hedgey(delta)
 	
-	if b:get_pos().x < x_l_bound then
-		m = Vector3f(x_l_bound,0,b:get_pos().z)
-		b:set_pos(m)
-	elseif b:get_pos().x > x_u_bound then
-		m = Vector3f(x_u_bound,0,b:get_pos().z)
-		b:set_pos(m)
+	if hedgey:get_pos().x < x_l_bound then
+		m = Vector3f(x_l_bound,0,hedgey:get_pos().z)
+		hedgey:set_pos(m)
+	elseif hedgey:get_pos().x > x_u_bound then
+		m = Vector3f(x_u_bound,0,hedgey:get_pos().z)
+		hedgey:set_pos(m)
 	end
-	if b:get_pos().z < z_l_bound then
-		m = Vector3f(b:get_pos().x,0,z_l_bound)
-		b:set_pos(m)
-	elseif b:get_pos().z > z_u_bound then
-		m = Vector3f(b:get_pos().x,0,z_u_bound)
-		b:set_pos(m)
+	if hedgey:get_pos().z < z_l_bound then
+		m = Vector3f(hedgey:get_pos().x,0,z_l_bound)
+		hedgey:set_pos(m)
+	elseif hedgey:get_pos().z > z_u_bound then
+		m = Vector3f(hedgey:get_pos().x,0,z_u_bound)
+		hedgey:set_pos(m)
   	end
 	
-	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
-	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
-	b:set_pos(v)
+	height = f:get_height(Vector2f(hedgey:get_pos().x,hedgey:get_pos().z))
+	v = Vector3f(hedgey:get_pos().x,height,hedgey:get_pos().z)
+	hedgey:set_pos(v)
 	
 	wobble = math.sin(player_wobble_counter)
 	r = Vector3f(0,wobble/player_wobble_factor,0)
 	player_wobble_counter = player_wobble_counter + delta*15
-	b:rotate(r)
+	hedgey:rotate(r)
 	
 	v = Vector3f(0,math.abs(wobble/player_bounce_factor),0)
-	b:set_offset(v)
+	hedgey:set_offset(v)
 
 end
 

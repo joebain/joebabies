@@ -28,6 +28,8 @@ Block3D::Block3D(const Block3D& b)
 	texture = b.texture;
 	is_driven = b.is_driven;
 	offset = b.offset;
+	max = b.max;
+	min = b.min;
 }
 
 void Block3D::move(Vector3f move)
@@ -113,26 +115,25 @@ void Block3D::set_driven()
 
 Vector3f Block3D::get_bb_min() 
 {
-	Vector3f v(bb_min->x,bb_min->y,bb_min->z);
+	min = (*bb_min) + pos;
 	
-	v += pos;
-	
-	return v;
+	return min;
 }
 
 Vector3f Block3D::get_bb_max()
 {
-	Vector3f v(bb_max->x,bb_max->y,bb_max->z);
+	max = (*bb_max) + pos;
 	
-	v += pos;
-	
-	return v;
+	return max;
 }
 
 bool Block3D::collide(Block3D* other)
 {	
 	Vector3f omax = other->get_bb_max();
 	Vector3f omin = other->get_bb_min();
+	
+	get_bb_max();
+	get_bb_min();
 	
 	if (collide_x(&omax,&omin) && collide_y(&omax,&omin) && collide_z(&omax,&omin))
 		return true;
@@ -142,8 +143,8 @@ bool Block3D::collide(Block3D* other)
 
 bool Block3D::collide_x(Vector3f* omax, Vector3f* omin)
 {
-	if ((omax->x > bb_min->x && omin->x < bb_max->x ) ||
-		 (omax->x < bb_min->x && omin->x > bb_max->x ))
+	if ((omax->x > min.x && omax->x < max.x ) ||
+		 (omin->x > min.x && omin->x < max.x ))
 		return true;
 	else
 		return false;
@@ -151,8 +152,8 @@ bool Block3D::collide_x(Vector3f* omax, Vector3f* omin)
 
 bool Block3D::collide_y(Vector3f* omax, Vector3f* omin)
 {
-	if ((omax->y > bb_min->y && omin->y < bb_max->y ) ||
-		 (omax->y < bb_min->y && omin->y > bb_max->y ))
+	if ((omax->y > min.y && omax->y < max.y ) ||
+		 (omin->y > min.y && omin->y < max.y ))
 		return true;
 	else
 		return false;
@@ -160,8 +161,8 @@ bool Block3D::collide_y(Vector3f* omax, Vector3f* omin)
 
 bool Block3D::collide_z(Vector3f* omax, Vector3f* omin)
 {
-	if ((omax->z > bb_min->z && omin->z < bb_max->z ) ||
-		 (omax->z < bb_min->z && omin->z > bb_max->z ))
+	if ((omax->z > min.z && omax->z < max.z ) ||
+		 (omin->z > min.z && omin->z < max.z ))
 		return true;
 	else
 		return false;
