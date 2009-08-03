@@ -3,12 +3,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-extern "C" {
-#include "lua.h"
-#include "lauxlib.h"
-#include "lualib.h"
-}
-
 #include <luabind/luabind.hpp>
 
 Controller::Controller(string function)

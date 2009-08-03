@@ -81,6 +81,13 @@ void Vector3f::operator*=(float i) {
 	z *= i;
 }
 
+Vector3f::Vector3f(const Vector3f& v)
+{
+	x = v.x;
+	y = v.y;
+	z = v.z;
+}
+
 Vector3f& Vector3f::operator=(const Vector3f &rhs) {
     
     if (this == &rhs)
@@ -213,6 +220,11 @@ void Vector3f::abs()
 	x *= (x < 0 ? -1 : 1);
 	y *= (y < 0 ? -1 : 1);
 	z *= (z < 0 ? -1 : 1);
+}
+
+float Vector3f::magnitude()
+{
+	return sqrt(x*x + y*y + z*z);
 }
 
 void Vector3f::point_up()

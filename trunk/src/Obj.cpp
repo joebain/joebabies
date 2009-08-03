@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -19,6 +20,10 @@ Obj::Obj()
 	offset = *(new Vector3f());
 	clear = false;
 	rotation.init(0,0,0);
+	float maxfloat = numeric_limits<float>::max();
+	float minfloat = numeric_limits<float>::min();
+	min.init(maxfloat,maxfloat,maxfloat);
+	max.init(minfloat,minfloat,minfloat);
 }
 
 Obj::~Obj()
@@ -38,6 +43,8 @@ Obj::Obj(const Obj& o)
 	rotation = o.rotation;
 	name = o.name;
 	clear = o.clear;
+	max = o.max;
+	min = o.min;
 }
 
 void Obj::load(string filename)

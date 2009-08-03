@@ -1,11 +1,5 @@
 #include "Buttons.h"
 
-#ifdef WIN32
-#include <SDL/SDL.h>
-#else
-#include "SDL.h"
-#endif
-
 Buttons::Buttons()
 {
 	clear();

@@ -36,6 +36,8 @@ public:
 	int face_count;
 	Vector3f offset;
 	Vector3f rotation;
+	Vector3f max;
+	Vector3f min;
 };
 
 #endif /*OBJ_H_*/

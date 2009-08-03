@@ -5,10 +5,9 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <SDL/SDL.h>
-#else
-#include "SDL.h"
 #endif
+
+#include <SDL/SDL.h>
 #include <stdlib.h>
 
 #include <list>
@@ -29,11 +28,13 @@ public:
 	Floor* floor;
 	Sky* sky;
 	Display();
-	void update();
+	void update(float delta);
 	void pick();
 	void init();
 	void set_fullscreen();
 	Camera* get_camera();
+	int get_width() {return win_width;}
+	int get_height() {return win_height;}
 private:
 	SDL_Surface *surface;
 	Camera* camera;
@@ -52,3 +53,4 @@ private:
 };
 
 #endif /*DISPLAY_H_*/
+

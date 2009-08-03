@@ -54,6 +54,12 @@ void LuaBinder::bind(lua_State *l)
 			.def("rotate", &Block3D::rotate)
 			.def("get_pos", &Block3D::get_pos)
 			.def("set_pos", &Block3D::set_pos)
+			.def("get_dir", &Block3D::get_dir)
+			.def("set_dir", &Block3D::set_dir)
+			.def("change_dir", &Block3D::change_dir)
+			.def("nudge", &Block3D::nudge)
+			.def("set_offset", &Block3D::set_offset)
+			.def("collide", &Block3D::collide)
 	];
 	
 	luabind::module(l) [
@@ -96,6 +102,8 @@ void LuaBinder::bind(lua_State *l)
 	luabind::module(l) [
 		luabind::class_<Display>("Display")
 			.def("get_camera", &Display::get_camera)
+			.def("get_width", &Display::get_width)
+			.def("get_height", &Display::get_height)
 	];
 	
 	luabind::module(l) [
