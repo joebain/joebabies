@@ -7,12 +7,13 @@ This is a list of all the stuff that needs to be done in the engine.
 
 = Details =
 
-  * make 2d blocks just 2d - take out all the vector3f stuff
+  * ~~make 2d blocks just 2d - take out all the vector3f stuff~~
   * collision checks
   * make it easy to view a cage from above
   * better transparency:
    * different transparent colour
    * or proper transparency (look into SDL_image maybe)
+  * allow removing objects and sprites from the world
 
   * ~~Fix the 'stuff doesn't appear bug' - Very important~~ - done!
   * ~~Sound and music~~ - done!
