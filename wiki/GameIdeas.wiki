@@ -13,9 +13,9 @@ You have just got a job as IT support at the zoo, it is you task to go round the
 So after mine and Steve's brain storm (thought shower?) we are perhaps a bit closer to an actual game idea.
 
 Each 'level' should consist of a cage with animals inside. Each animal has a set of actions it can do, specific to that kind of animal. The ideas for animal so far are:
-  *Gorilla - Can climb trees and smash boxes with his big gorllia fists.
-  *Beaver - Can swim and cut down trees.
-  *Parrot - Can fly (i.e. is not blocked by normal obstacles) and pass instructions on to other animals.
+  * Gorilla - Can climb trees and smash boxes with his big gorllia fists.
+  * Beaver - Can swim and cut down trees.
+  * Parrot - Can fly (i.e. is not blocked by normal obstacles) and pass instructions on to other animals.
 
 We also talked about animals being limited in the directions they can move, like chess pieces essentially. A gorilla can move like a rook, a beaver like a queen, the parrot is completely free.
 
