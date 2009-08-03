@@ -10,6 +10,7 @@ scale = 100
 
 player_turn_speed = 40.0
 player_travel_speed = 10.0
+player_wobble_counter = 0.0
 
 x_l_bound = 2
 z_l_bound = 2
@@ -121,6 +122,9 @@ function up (delta)
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
+	r = Vector3f(0,math.sin(player_wobble_counter)/35,math.sin(player_wobble_counter)/35)
+	player_wobble_counter = player_wobble_counter + delta*15
+	b:rotate(r)
 end
 
 function down (delta)
@@ -134,5 +138,8 @@ function down (delta)
 	height = f:get_height(Vector2f(b:get_pos().x,b:get_pos().z))
 	v = Vector3f(b:get_pos().x,height,b:get_pos().z)
 	b:set_pos(v)
+	r = Vector3f(0,math.sin(player_wobble_counter)/35,math.sin(player_wobble_counter)/35)
+	player_wobble_counter = player_wobble_counter + delta*15
+	b:rotate(r)
 end
 
