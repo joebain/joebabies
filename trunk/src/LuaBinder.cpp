@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Sky.h"
 #include "BlockFactory.h"
+#include "Block3DImaginary.h"
 #include "World.h"
 #include "Display.h"
 #include "Buttons.h"
@@ -60,6 +61,11 @@ void LuaBinder::bind(lua_State *l)
 			.def("nudge", &Block3D::nudge)
 			.def("set_offset", &Block3D::set_offset)
 			.def("collide", &Block3D::collide)
+			.def("add_child", &Block3D::add_child)
+	];
+	
+	luabind::module(l) [
+		luabind::class_<Block3DImaginary, Block3D>("Block3DImaginary")
 	];
 	
 	luabind::module(l) [
@@ -92,6 +98,9 @@ void LuaBinder::bind(lua_State *l)
 			.def("new_blockText", &BlockFactory::new_blockText)
 			.def("new_floor", &BlockFactory::new_floor)
 			.def("new_sky", &BlockFactory::new_sky)
+			.def("new_imaginary_block", &BlockFactory::new_imaginary_block)
+			.def("remove_blockText", &BlockFactory::remove_blockText)
+			.def("remove_blockHUD", &BlockFactory::remove_blockHUD)
 	];
 	
 	luabind::module(l) [
@@ -117,6 +126,7 @@ void LuaBinder::bind(lua_State *l)
 			.def_readonly("down", &Buttons::down)
 			.def_readonly("right", &Buttons::right)
 			.def_readonly("left", &Buttons::left)
+			.def_readonly("space", &Buttons::space)
 	];
 	
 	luabind::module(l) [

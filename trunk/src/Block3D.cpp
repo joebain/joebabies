@@ -30,6 +30,10 @@ Block3D::Block3D(const Block3D& b)
 	offset = b.offset;
 	max = b.max;
 	min = b.min;
+	
+	children = b.children;
+	
+	changed = b.changed;
 }
 
 void Block3D::move(Vector3f move)
@@ -38,9 +42,16 @@ void Block3D::move(Vector3f move)
 	if (is_driven) {
 		move_tmp.rotate(-dir);	
 	}
-		pos.x += move_tmp.x;
-		pos.z += move_tmp.z;
-		pos.y += move_tmp.y;
+	
+	pos.x += move_tmp.x;
+	pos.z += move_tmp.z;
+	pos.y += move_tmp.y;
+	
+	changed = true;
+	
+	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		(*it)->set_pos(pos);
+	}
 }
 
 void Block3D::nudge(Vector3f nudge)
@@ -49,19 +60,72 @@ void Block3D::nudge(Vector3f nudge)
 	if (is_driven) {
 		move_tmp.rotate(-dir);	
 	}
-		offset.x += move_tmp.x;
-		offset.z += move_tmp.z;
-		offset.y += move_tmp.y;
+
+	offset.x += move_tmp.x;
+	offset.z += move_tmp.z;
+	offset.y += move_tmp.y;
+	
+	changed = true;
 }
 
 void Block3D::rotate(Vector3f plus_rot)
 {
 	rot += plus_rot;
+	
+	changed = true;
 }
 
 void Block3D::change_dir(Vector3f plus_dir)
 {
 	dir += plus_dir;
+	
+	changed = true;
+	
+	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		(*it)->change_dir(plus_dir);
+		(*it)->offset.rotate(-plus_dir);
+	}
+}
+
+void Block3D::update_bb()
+{
+	min = (*bb_min);
+	min.rotate(-dir);
+	min += pos + offset;
+	
+	max = (*bb_max);
+	max.rotate(-dir);
+	max += pos + offset;
+	
+	if (min.x > max.x) {
+		float tmp = max.x;
+		max.x = min.x;
+		min.x = tmp;
+	}
+	if (min.y > max.y) {
+		float tmp = max.y;
+		max.y = min.y;
+		min.y = tmp;
+	}
+	if (min.z > max.z) {
+		float tmp = max.z;
+		max.z = min.z;
+		min.z = tmp;
+	}
+	
+	changed = false;
+}
+
+void Block3D::set_dir(Vector3f dir)
+{
+	this->dir = dir;
+	
+	changed = true;
+	
+	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		(*it)->set_dir(dir);
+		(*it)->offset.rotate(dir);
+	}
 }
 
 void Block3D::set_pos(Vector3f pos)
@@ -70,7 +134,11 @@ void Block3D::set_pos(Vector3f pos)
 	this->pos.y = pos.y;
 	this->pos.z = pos.z;
 	
-	//object->translate(pos);
+	changed = true;
+	
+	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		(*it)->set_pos(pos);
+	}
 }
 
 void Block3D::display()
@@ -115,27 +183,33 @@ void Block3D::set_driven()
 
 Vector3f Block3D::get_bb_min() 
 {
-	min = (*bb_min) + pos;
-	
+	if (changed) update_bb();
 	return min;
 }
 
 Vector3f Block3D::get_bb_max()
 {
-	max = (*bb_max) + pos;
-	
+	if (changed) update_bb();
 	return max;
 }
 
 bool Block3D::collide(Block3D* other)
-{	
+{
 	Vector3f omax = other->get_bb_max();
 	Vector3f omin = other->get_bb_min();
 	
-	get_bb_max();
-	get_bb_min();
+	if (changed) update_bb();
 	
-	if (collide_x(&omax,&omin) && collide_y(&omax,&omin) && collide_z(&omax,&omin))
+	//cout << "us " << max << "  " << min << endl;
+	//cout << "them " << omax << "  " << omin << endl;;
+	
+	bool colx = collide_x(&omax,&omin);
+	bool coly = collide_y(&omax,&omin);
+	bool colz = collide_z(&omax,&omin);
+	
+	//cout << "x y z " << colx << " " << coly << " " << colz << endl;
+	
+	if (colx && coly && colz)
 		return true;
 	else
 		return false;
@@ -144,7 +218,8 @@ bool Block3D::collide(Block3D* other)
 bool Block3D::collide_x(Vector3f* omax, Vector3f* omin)
 {
 	if ((omax->x > min.x && omax->x < max.x ) ||
-		 (omin->x > min.x && omin->x < max.x ))
+		 (omin->x > min.x && omin->x < max.x ) ||
+		 (omin->x < min.x && omax->x > max.x ))
 		return true;
 	else
 		return false;
@@ -153,7 +228,8 @@ bool Block3D::collide_x(Vector3f* omax, Vector3f* omin)
 bool Block3D::collide_y(Vector3f* omax, Vector3f* omin)
 {
 	if ((omax->y > min.y && omax->y < max.y ) ||
-		 (omin->y > min.y && omin->y < max.y ))
+		 (omin->y > min.y && omin->y < max.y ) ||
+		 (omin->y < min.y && omax->y > max.y ))
 		return true;
 	else
 		return false;
@@ -162,8 +238,16 @@ bool Block3D::collide_y(Vector3f* omax, Vector3f* omin)
 bool Block3D::collide_z(Vector3f* omax, Vector3f* omin)
 {
 	if ((omax->z > min.z && omax->z < max.z ) ||
-		 (omin->z > min.z && omin->z < max.z ))
+		 (omin->z > min.z && omin->z < max.z ) ||
+		 (omin->z < min.z && omax->z > max.z ))
 		return true;
 	else
 		return false;
+}
+
+void Block3D::add_child(Block3D* child)
+{
+	child->pos = pos;
+	child->dir = dir;
+	children.push_back(child);
 }

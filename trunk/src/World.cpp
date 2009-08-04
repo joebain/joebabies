@@ -37,6 +37,10 @@ World::World(Display *d, lua_State *l)
 	time.get_time();
 	
 	mixer = new AudioMixer();
+	
+	Block3D test;
+	Block3DImaginary imag(Vector3f(1,1,1));
+	test.add_child(&imag);
 }
 
 World::~World()

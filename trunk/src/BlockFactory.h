@@ -5,6 +5,7 @@
 #include "Block2D.h"
 #include "Block3D.h"
 #include "Block2DText.h"
+#include "Block3DImaginary.h"
 #include "Sky.h"
 #include "Floor.h"
 #include "Texture.h"
@@ -18,6 +19,7 @@ private:
 	list<Block3D> blocks3d;
 	list<Block2D> blocks2d;
 	list<Block2DText> blocks2dtext;
+	list<Block3DImaginary> blocks3dimag;
 	Floor floor;
 	Sky sky;
 	Display* d;
@@ -31,6 +33,9 @@ public:
 	Block2DText* new_blockText(Vector2f pos, Vector2f size, string text, string font);
 	Floor* new_floor(string height_map, string texture, float scale);
 	Sky* new_sky(string texture);
+	Block3DImaginary* new_imaginary_block(Vector3f size);
+	void remove_blockText(Block2DText* text);
+	void remove_blockHUD(Block2D* hud);
 
 };
 

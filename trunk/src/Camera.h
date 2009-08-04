@@ -15,6 +15,7 @@ public:
 	void move(float delta);
 	float distance;
 	float height;
+	float min_snap;
 private:
 	bool is_following;
 	Vector3f pos;

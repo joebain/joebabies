@@ -15,6 +15,7 @@ public:
 	void set_text(string text);
 	string get_text();
 	Vector2f get_tcs(char c);
+	bool operator==(const Block2DText& rhs);
 };
 
 #endif
