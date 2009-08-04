@@ -17,9 +17,9 @@
 Obj::Obj()
 {
 	name = "unamed";
-	offset = *(new Vector3f());
+	//offset = *(new Vector3f());
 	clear = false;
-	rotation.init(0,0,0);
+	//rotation.init(0,0,0);
 	float maxfloat = numeric_limits<float>::max();
 	float minfloat = numeric_limits<float>::min();
 	min.init(maxfloat,maxfloat,maxfloat);
@@ -31,7 +31,7 @@ Obj::~Obj()
 }
 
 Obj::Obj(const Obj& o)
-{
+{	
 	v_poss = o.v_poss;
 	v_norms = o.v_norms;
 	v_texts = o.v_texts;
@@ -45,6 +45,29 @@ Obj::Obj(const Obj& o)
 	clear = o.clear;
 	max = o.max;
 	min = o.min;
+	
+}
+
+Obj& Obj::operator=(const Obj& o)
+{
+	if (this == &o)
+		return *this;
+	
+	v_poss = o.v_poss;
+	v_norms = o.v_norms;
+	v_texts = o.v_texts;
+	vertices = o.vertices;
+	faces = o.faces;
+	texture = o.texture;
+	face_count = o.face_count;
+	offset = o.offset;
+	rotation = o.rotation;
+	name = o.name;
+	clear = o.clear;
+	max = o.max;
+	min = o.min;
+	
+	return *this;
 }
 
 void Obj::load(string filename)

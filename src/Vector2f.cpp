@@ -24,6 +24,14 @@ Vector2f::~Vector2f()
 {
 }
 
+bool Vector2f::operator==(const Vector2f& rhs)
+{
+	if (rhs.x == x && rhs.y == y)
+		return true;
+	else
+		return false;
+}
+
 Vector2f& Vector2f::operator=(const Vector2f &rhs) {
     
     if (this == &rhs)

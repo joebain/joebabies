@@ -18,6 +18,7 @@ public:
 	Obj();
 	virtual ~Obj();
 	Obj(const Obj& o);
+	Obj& operator=(const Obj& o);
 	bool operator==(const Obj& obj);
 	void load(string filename);
 	void display();

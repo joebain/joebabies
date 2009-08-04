@@ -9,10 +9,13 @@ class Buttons
 {
 public:
 	Buttons();
+	
 	bool up;
 	bool down;
 	bool left;
 	bool right;
+	bool space;
+	
 	bool req_quit;
 	void clear();
 	void handle_keydown(SDL_keysym *key);

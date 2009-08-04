@@ -2,6 +2,7 @@
 #define BLOCK3D_H_
 
 #include <string>
+#include <list>
 
 #include "Vector3f.h"
 #include "Obj.h"
@@ -26,6 +27,9 @@ protected:
 	bool collide_x(Vector3f* omin, Vector3f* omax);
 	bool collide_y(Vector3f* omin, Vector3f* omax);
 	bool collide_z(Vector3f* omin, Vector3f* omax);
+	list<Block3D*> children;
+	void update_bb();
+	bool changed;
 public:
 	Block3D();
 	virtual ~Block3D();
@@ -33,7 +37,7 @@ public:
 	void set_obj(Obj *object);
 	void set_tex(Texture *texture);
 	void set_pos(Vector3f pos);
-	void set_dir(Vector3f dir) {this->dir = dir;}
+	void set_dir(Vector3f dir);
 	void change_dir(Vector3f plus_dir);
 	Obj* get_obj();
 	Vector3f get_pos();
@@ -48,6 +52,7 @@ public:
 	void display();
 	void set_driven();
 	bool collide(Block3D* other);
+	void add_child(Block3D* child);
 };
 
 #endif /*BLOCK_H_*/

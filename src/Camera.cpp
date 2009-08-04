@@ -16,8 +16,9 @@ Camera::Camera()
 	height = 0.3;
 	distance = 15.0;
 	
-	pos.init(0,0,0);
-	dir.init(0,0,0);
+	min_snap = 2.0;
+	
+	pos.init(0,200,0);
 	
 	is_following = false;
 }
@@ -76,7 +77,7 @@ void Camera::move(float delta)
 			
 			float mag = move.magnitude();
 			//cout << "mag is " << mag << endl;
-			if (mag > delta  * 5.0) {
+			if (mag > delta  * min_snap) {
 				move *= delta * 2.0;
 			}
 			

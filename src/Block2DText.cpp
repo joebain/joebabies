@@ -16,9 +16,9 @@ void Block2DText::display()
 {
 	glPushMatrix();
 	
-	glTranslatef(pos.x, pos.y, 1);
+	glTranslatef(pos.x, pos.y, pos.z);
 		
-	glRotatef(rot,0,0,1);
+	glRotatef(rot.z,0,0,1);
 	
 	if (is_masked) {
 		glDisable(GL_DEPTH_TEST);
@@ -99,6 +99,14 @@ void Block2DText::display()
 	
 	glPopMatrix();
 	
+}
+
+bool Block2DText::operator==(const Block2DText& rhs)
+{
+	if (pos == rhs.pos && size == rhs.size && (*texture) == (*rhs.texture) && text == rhs.text)
+		return true;
+	else
+		return false;
 }
 
 Vector2f Block2DText::get_tcs(char c)

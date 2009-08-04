@@ -25,6 +25,7 @@ public:
 	Vector3f angle_to();
 	void operator+=(Vector3f rhs);
 	void operator-=(Vector3f rhs);
+	bool operator==(const Vector3f& rhs);
 	Vector3f operator+(Vector3f rhs);
 	Vector3f operator-(Vector3f rhs);
 	Vector3f operator-();

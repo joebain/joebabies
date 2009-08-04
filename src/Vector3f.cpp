@@ -88,6 +88,14 @@ Vector3f::Vector3f(const Vector3f& v)
 	z = v.z;
 }
 
+bool Vector3f::operator==(const Vector3f& rhs)
+{
+	if (rhs.x == x && rhs.y == y && rhs.z == z)
+		return true;
+	else
+		return false;
+}
+
 Vector3f& Vector3f::operator=(const Vector3f &rhs) {
     
     if (this == &rhs)

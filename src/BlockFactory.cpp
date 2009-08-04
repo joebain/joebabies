@@ -38,7 +38,6 @@ Block2D* BlockFactory::new_blockHUD(Vector2f size, string texture)
 	blocks2d.back().set_tex(new_texture(texture));
 	
 	blocks2d.back().set_size(size);
-	//blocks2d.back().set_depth(1);
 	
 	d->hud_blocks.push_back(&(blocks2d.back()));
 
@@ -51,8 +50,7 @@ Block2DText* BlockFactory::new_blockText(Vector2f pos, Vector2f size, string tex
 	
 	blocks2dtext.push_back(new_block);
 	
-	blocks2dtext.back().set_pos(Vector2f(pos.x,pos.y));
-	//blocks2dtext.back().set_mask(false);
+	blocks2dtext.back().set_pos(pos);
 	blocks2dtext.back().set_text(text);
 	blocks2dtext.back().set_size(size);
 	
@@ -87,6 +85,13 @@ Sky* BlockFactory::new_sky(string texture)
 	d->sky = &sky;
 	
 	return &sky;
+}
+
+Block3DImaginary* BlockFactory::new_imaginary_block(Vector3f size)
+{
+	blocks3dimag.push_back(Block3DImaginary(size));
+	d->blocks.push_back(&blocks3dimag.back());
+	return &blocks3dimag.back();
 }
 
 Texture* BlockFactory::new_texture(string file)
@@ -142,4 +147,16 @@ Obj* BlockFactory::new_obj(string file)
 	}
 	
 	return ret_obj;
+}
+
+void BlockFactory::remove_blockText(Block2DText* text)
+{
+	d->hud_blocks.remove(text);
+	blocks2dtext.remove(*text);
+}
+
+void BlockFactory::remove_blockHUD(Block2D* hud)
+{
+	d->hud_blocks.remove(hud);
+	blocks2d.remove(*hud);
 }
