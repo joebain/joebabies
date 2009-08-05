@@ -15,6 +15,8 @@ public:
 	bool left;
 	bool right;
 	bool space;
+	bool s;
+	bool a;
 	
 	bool req_quit;
 	void clear();

@@ -54,19 +54,28 @@ void Display::update(float delta)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluPerspective(45,win_ratio,near_vp,far_vp*100);
+	gluPerspective(45,win_ratio,near_vp,far_vp*1000);
     
 	//cout << "doing camera" << endl;
 	camera->move(delta);
 	camera->position();
 	
+	glEnable(GL_LIGHTING);
+	
+	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
+	
 	if (sky != NULL) sky->display();
+	
+	list<Block*>::iterator iter;
+	for( iter = distance_blocks.begin(); iter != distance_blocks.end(); iter++ ) {
+		(*iter)->display();
+	}
 	
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	camera->position();
 	
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 	
 	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
 	
@@ -83,10 +92,12 @@ void Display::update(float delta)
     	
     }
     else {
-    	//cout << "drawing " << blocks.size() << " blocks" << endl;
 		if (floor != NULL) floor->display();
-		list<Block*>::iterator iter;
+    	//cout << "drawing " << blocks.size() << " blocks" << endl;
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
+			(*iter)->display();
+		}
+		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
 			(*iter)->display();
 		}
     	
@@ -109,7 +120,6 @@ void Display::update(float delta)
 	
 	glDisable(GL_DEPTH_TEST);
 	
-	list<Block*>::iterator iter;
 	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
 		(*iter)->display();
 	}

@@ -12,6 +12,8 @@ void Buttons::clear()
 	left = false;
 	right = false;
 	space = false;
+	a = false;
+	s = false;
 	
 	req_quit = false;
 }
@@ -36,8 +38,15 @@ void Buttons::handle_keydown(SDL_keysym *key)
 		break;
 		case SDLK_ESCAPE:
 		req_quit = true;
+		break;
 		case SDLK_SPACE:
 		space = true;
+		break;
+		case SDLK_s:
+		s = true;
+		break;
+		case SDLK_a:
+		a = true;
 		break;
 		default:
 		//do nothing
@@ -62,6 +71,12 @@ void Buttons::handle_keyup(SDL_keysym *key)
 		break;
 		case SDLK_SPACE:
 		space = false;
+		break;
+		case SDLK_s:
+		s = false;
+		break;
+		case SDLK_a:
+		a = false;
 		break;
 		default:
 		//do nothing
