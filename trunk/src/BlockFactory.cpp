@@ -103,7 +103,10 @@ Floor* BlockFactory::new_floor(string height_map, string texture, float scale)
 	floor.set_size(size);
 	floor.set_perm_obj(new_obj);
 	
-	floor.set_tex(new_texture(texture));
+	Texture new_tex;
+	new_tex.load("img/" + texture);
+	
+	floor.set_perm_tex(new_tex);
 	
 	d->floor = &floor;
 	
@@ -112,7 +115,10 @@ Floor* BlockFactory::new_floor(string height_map, string texture, float scale)
 
 Sky* BlockFactory::new_sky(string texture)
 {
-	sky.set_tex(new_texture(texture));
+	Texture new_tex;
+	new_tex.load("img/" + texture);
+	
+	sky.set_perm_tex(new_tex);
 	
 	d->sky = &sky;
 	
@@ -204,15 +210,9 @@ void BlockFactory::clear_all()
 	blocks3dimag.clear();
 	blocks3dflat.clear();
 	
-	//delete(d->floor);
-	//delete(d->sky);
-	
 	d->blocks.clear();
 	d->distance_blocks.clear();
 	d->hud_blocks.clear();
 	d->transparent_blocks.clear();
-	
-	//delete(floor);
-	//delete(sky);
 	
 }

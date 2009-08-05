@@ -59,6 +59,31 @@ Texture::Texture(const Texture& t)
 	}
 }
 
+Texture& Texture::operator=(const Texture& t)
+{
+	if (this == &t)
+		return *this;
+	
+	sizeX = t.sizeX;
+    sizeY = t.sizeY;
+    tex_num = t.tex_num;
+	mask_num = t.mask_num;
+	transparent = t.transparent;
+	name = t.name;
+	has_mask = t.has_mask;
+	if (t.data == NULL) {
+		data = NULL;
+	} else {
+		int size = sizeX * sizeY * 3; //as below
+		data = (char*) malloc(size);
+		memcpy(data,t.data,size);
+		if (data==NULL)
+			cout << "oh no, couldnt allocate memory fo texture" << endl;
+	}
+	
+	return *this;
+}
+
 bool Texture::operator==(const Texture& tex)
 {
 	return name == tex.name;

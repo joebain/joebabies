@@ -26,6 +26,7 @@ public:
 	Texture();
 	~Texture();
 	Texture(const Texture& t);
+	Texture& operator=(const Texture& t);
 	int load(string filename_s);
 	void set_name(string name);
 	int make_mask();
