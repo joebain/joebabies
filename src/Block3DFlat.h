@@ -19,8 +19,9 @@ protected:
 	float tex_coords[4][2];
 	Vector3f rot;
 	bool is_driven;
-	bool is_masked;
 	bool is_2d;
+	float transparency;
+	enum {MASKED, TRANSPARENT, NEITHER} shown;
 public:
 	Block3DFlat();
 	~Block3DFlat();
@@ -28,6 +29,7 @@ public:
 	bool operator==(const Block3DFlat& b);
 	void set_tex(Texture *texture);
 	void set_mask(bool t);
+	void set_transparency(float t);
 	void set_pos(Vector3f pos);
 	void set_size(Vector2f size);
 	Vector3f get_pos();

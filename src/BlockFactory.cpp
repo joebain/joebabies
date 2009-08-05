@@ -29,17 +29,19 @@ Block3D* BlockFactory::new_block3d(string object, string texture)
 
 }
 
-Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size)
+Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool transparent)
 {
 	Block3DFlat new_block;
 	
 	blocks3dflat.push_back(new_block);
 	
+	if (!transparent) blocks3dflat.back().set_mask(false);
 	blocks3dflat.back().set_tex(new_texture(texture));
 	
 	blocks3dflat.back().set_size(size);
 	
-	d->transparent_blocks.push_back(&(blocks3dflat.back()));
+	if (transparent) d->transparent_blocks.push_back(&(blocks3dflat.back()));
+	else d->blocks.push_back(&(blocks3dflat.back()));
 
 	return &(blocks3dflat.back());
 

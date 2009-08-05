@@ -35,7 +35,7 @@ public:
 	Floor* new_floor(string height_map, string texture, float scale);
 	Sky* new_sky(string texture);
 	Block3DImaginary* new_imaginary_block(Vector3f size);
-	Block3DFlat* new_flat_block(string texture, Vector2f size);
+	Block3DFlat* new_flat_block(string texture, Vector2f size, bool transparent);
 	Block3DFlat* new_distance_block(string texture, Vector2f size);
 	void remove_blockText(Block2DText* text);
 	void remove_blockHUD(Block2D* hud);
