@@ -20,7 +20,7 @@ void Block2DText::display()
 		
 	glRotatef(rot.z,0,0,1);
 	
-	if (is_masked) {
+	if (shown == MASKED) {
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		
@@ -92,7 +92,7 @@ void Block2DText::display()
 
 	glEnd();
 		
-	if (is_masked) {
+	if (shown == MASKED) {
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}

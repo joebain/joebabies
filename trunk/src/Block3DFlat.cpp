@@ -13,9 +13,9 @@ Block3DFlat::Block3DFlat()
 {
 	is_driven = false;
 	
-	is_masked = true;
-	
 	is_2d = false;
+	
+	shown = MASKED;
 	
 	tex_coords[0][0] = 0;
 	tex_coords[0][1] = 0;
@@ -33,7 +33,7 @@ Block3DFlat::~Block3DFlat()
 
 Block3DFlat::Block3DFlat(const Block3DFlat& b)
 {
-	is_masked = b.is_masked;
+	shown = b.shown;
 	pos = b.pos;
 	size = b.size;
 	rot = b.rot;
@@ -91,6 +91,15 @@ void Block3DFlat::scale(float s)
 	this->size *= s;
 }
 
+void Block3DFlat::set_transparency(float t)
+{
+	transparency = t;
+	if (t == 0.0)
+		shown = NEITHER;
+	else
+		shown = TRANSPARENT;
+}
+
 void Block3DFlat::display()
 {
 	glPushMatrix();
@@ -101,7 +110,7 @@ void Block3DFlat::display()
 	glRotatef(rot.y,0,1,0);
 	glRotatef(rot.x,1,0,0);
 	
-	if (is_masked) {
+	if (shown == MASKED) {
 		
 		glDepthMask(GL_FALSE);
 		glEnable(GL_BLEND);
@@ -133,7 +142,16 @@ void Block3DFlat::display()
 		glEnd();
 		
 		glBlendFunc(GL_ONE, GL_ONE);
-		if (!is_2d) glEnable(GL_LIGHTING);
+		if (!is_2d)	glEnable(GL_LIGHTING);
+		
+	} else if (shown == TRANSPARENT) {
+		
+		//glDepthMask(GL_FALSE);
+		glEnable (GL_BLEND);
+		glColor4f(1.0,1.0,1.0,transparency);
+		glBlendFunc (GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		
+		//glBlendFunc(GL_DST_COLOR,GL_ONE_MINUS_DST_ALPHA);
 	}
 	
 	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
@@ -157,9 +175,11 @@ void Block3DFlat::display()
 	glVertex3f(size.x,0,0);
 
 	glEnd();
-		
-	if (is_masked) {
+	
+	if (shown == MASKED) {
 		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	} else if (shown == TRANSPARENT) {
 		glDisable(GL_BLEND);
 	}
 	
@@ -168,7 +188,10 @@ void Block3DFlat::display()
 
 void Block3DFlat::set_mask(bool t)
 {
-	is_masked = t;
+	if (t)
+		shown = MASKED;
+	else
+		shown = NEITHER;
 }
 
 Vector3f Block3DFlat::get_pos()
@@ -183,7 +206,7 @@ Vector3f Block3DFlat::get_rot()
 
 void Block3DFlat::set_tex(Texture *texture)
 {
-	if (is_masked) texture->make_mask();
+	if (shown == MASKED) texture->make_mask();
 	this->texture = texture;
 }
 

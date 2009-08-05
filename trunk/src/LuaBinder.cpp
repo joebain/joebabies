@@ -75,6 +75,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("set_depth", &Block3DFlat::set_pos)
 			.def("set_tex_size", &Block3DFlat::set_tex_size)
 			.def("get_pos", &Block3DFlat::get_pos)
+			.def("set_transparency", &Block3DFlat::set_transparency)
 	];
 	
 	luabind::module(l) [
