@@ -8,8 +8,8 @@
 
 Display::Display()
 {	
-	win_width = 640;
-	win_height = 480;
+	win_width = 1024;
+	win_height = 768;
 
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	

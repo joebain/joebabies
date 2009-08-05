@@ -87,7 +87,7 @@ void World::main_loop()
 
 void World::quit()
 {
-	//SDL_Quit();
+	SDL_Quit();
 	
 	done = true;
 }
