@@ -20,6 +20,7 @@ private:
 	bool is_following;
 	Vector3f pos;
 	Vector3f dir;
+	Vector3f target_pos;
 	void set_distance(float distance) {this->distance = distance;}
 	void set_height(float height) {this->height = height;}
 	Block* subject;

@@ -24,7 +24,9 @@ class Display
 {
 public:
 	list<Block*> blocks;
+	list<Block*> transparent_blocks;
 	list<Block*> hud_blocks;
+	list<Block*> distance_blocks;
 	Floor* floor;
 	Sky* sky;
 	Display();

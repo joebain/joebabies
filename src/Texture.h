@@ -21,6 +21,7 @@ private:
 	string name;
 	bool transparent;
 	GLuint mask_num;
+	bool has_mask;
 public:
 	Texture();
 	~Texture();

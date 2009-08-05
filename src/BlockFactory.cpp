@@ -29,6 +29,38 @@ Block3D* BlockFactory::new_block3d(string object, string texture)
 
 }
 
+Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size)
+{
+	Block3DFlat new_block;
+	
+	blocks3dflat.push_back(new_block);
+	
+	blocks3dflat.back().set_tex(new_texture(texture));
+	
+	blocks3dflat.back().set_size(size);
+	
+	d->transparent_blocks.push_back(&(blocks3dflat.back()));
+
+	return &(blocks3dflat.back());
+
+}
+
+Block3DFlat* BlockFactory::new_distance_block(string texture, Vector2f size)
+{
+	Block3DFlat new_block;
+	
+	blocks3dflat.push_back(new_block);
+
+	blocks3dflat.back().set_tex(new_texture(texture));
+
+	blocks3dflat.back().set_size(size);
+
+	d->distance_blocks.push_back(&(blocks3dflat.back()));
+
+	return &(blocks3dflat.back());
+
+}
+
 Block2D* BlockFactory::new_blockHUD(Vector2f size, string texture)
 {
 	Block2D new_block;
@@ -159,4 +191,28 @@ void BlockFactory::remove_blockHUD(Block2D* hud)
 {
 	d->hud_blocks.remove(hud);
 	blocks2d.remove(*hud);
+}
+
+void BlockFactory::clear_all()
+{
+	
+	textures.clear();
+	objects.clear();
+	blocks3d.clear();
+	blocks2d.clear();
+	blocks2dtext.clear();
+	blocks3dimag.clear();
+	blocks3dflat.clear();
+	
+	//delete(d->floor);
+	//delete(d->sky);
+	
+	d->blocks.clear();
+	d->distance_blocks.clear();
+	d->hud_blocks.clear();
+	d->transparent_blocks.clear();
+	
+	//delete(floor);
+	//delete(sky);
+	
 }

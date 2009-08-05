@@ -69,6 +69,15 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
+		luabind::class_<Block3DFlat>("Block3DFlat")
+			.def("move", &Block3DFlat::move)
+			.def("rotate", &Block3DFlat::rotate)
+			.def("set_depth", &Block3DFlat::set_pos)
+			.def("set_tex_size", &Block3DFlat::set_tex_size)
+			.def("get_pos", &Block3DFlat::get_pos)
+	];
+	
+	luabind::module(l) [
 		luabind::class_<Block2D>("Block2D")
 			.def("move", &Block2D::move)
 			.def("rotate", &Block2D::rotate)
@@ -99,8 +108,11 @@ void LuaBinder::bind(lua_State *l)
 			.def("new_floor", &BlockFactory::new_floor)
 			.def("new_sky", &BlockFactory::new_sky)
 			.def("new_imaginary_block", &BlockFactory::new_imaginary_block)
+			.def("new_flat_block", &BlockFactory::new_flat_block)
 			.def("remove_blockText", &BlockFactory::remove_blockText)
 			.def("remove_blockHUD", &BlockFactory::remove_blockHUD)
+			.def("new_distance_block", &BlockFactory::new_distance_block)
+			.def("clear_all", &BlockFactory::clear_all)
 	];
 	
 	luabind::module(l) [
@@ -127,6 +139,8 @@ void LuaBinder::bind(lua_State *l)
 			.def_readonly("right", &Buttons::right)
 			.def_readonly("left", &Buttons::left)
 			.def_readonly("space", &Buttons::space)
+			.def_readonly("a", &Buttons::a)
+			.def_readonly("s", &Buttons::s)
 	];
 	
 	luabind::module(l) [

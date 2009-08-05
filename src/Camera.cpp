@@ -35,8 +35,7 @@ void Camera::position()
 {
 	if (is_following) {
 		if (follow_type == FOLLOW_TYPE_3D) {
-			Vector3f p = ((Block3D*)subject)->get_pos();
-			gluLookAt(pos.x,pos.y,pos.z,p.x,p.y,p.z,0,1,0);
+			gluLookAt(pos.x,pos.y,pos.z,target_pos.x,target_pos.y,target_pos.z,0,1,0);
 		}
 	}
 }
@@ -82,6 +81,15 @@ void Camera::move(float delta)
 			}
 			
 			pos += move;
+			
+			move = p - target_pos;
+			
+			mag = move.magnitude();
+			if (mag > delta  * min_snap) {
+				move *= delta * 2.0;
+			}
+			
+			target_pos += move;
 			
 			//pos = aim;
 			

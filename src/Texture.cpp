@@ -20,6 +20,7 @@ Texture::Texture()
 	data = (char*) malloc(1);
 	
 	tex_num = 0;
+	has_mask = false;
 
 	stringstream out;
 	int* num = (int*) malloc(1);
@@ -46,6 +47,7 @@ Texture::Texture(const Texture& t)
 	mask_num = t.mask_num;
 	transparent = t.transparent;
 	name = t.name;
+	has_mask = t.has_mask;
 	if (t.data == NULL) {
 		data = NULL;
 	} else {
@@ -71,6 +73,8 @@ GLuint Texture::get_mask_num() {
 }
 
 int Texture::make_mask() {
+	
+	if (has_mask) return 1;
 	
 	if (tex_num != 0) {
 				
@@ -100,6 +104,8 @@ int Texture::make_mask() {
 		glTexImage2D(GL_TEXTURE_2D, 0, 3, sizeX, sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, mask_data);
 		
 		free(mask_data);
+
+		has_mask = true;
 
 		return 1;
 	} else {
