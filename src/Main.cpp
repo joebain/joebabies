@@ -35,7 +35,7 @@ int main (int argc, char** argv)
 		LuaBinder lb;
 		lb.bind(l);
 	
-		luaL_dofile(l,"lua/grind.lua");
+		luaL_dofile(l,"lua/main.lua");
 		
 		luabind::call_function<void>(l, "start",w);
 	

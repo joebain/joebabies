@@ -16,6 +16,13 @@ void Floor::set_perm_obj(Obj obj)
 	object->name = "floor";
 }
 
+void Floor::set_perm_tex(Texture tex)
+{
+	perm_tex = tex;
+	texture = &perm_tex;
+	texture->set_name("floor");
+}
+
 float Floor::get_height(Vector2f pos)
 {
 	float fx = pos.x/scale;// + ((float)size.x)/2.0f;
