@@ -1,5 +1,4 @@
-f = nil
-s = nil
+
 ts = {}
 block = nil
 scale = 100
@@ -12,14 +11,11 @@ z_u_bound = 150
 
 
 function intro_setup()
-	s = bf:new_sky("sky.bmp")
-	s:set_scale(200)
-	f = bf:new_floor("misc/intro_hmap","grass.bmp",5)
 	
 	v = Vector2f(200,100)
 	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
 	
-	character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
+	character.main = bf:new_character("gorilla.obj","gorilla.bmp")
 	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	character.main:set_pos(v)
@@ -114,6 +110,11 @@ function intro_setup()
 	sound = w:new_audio_file("hello", false);
 	--music:play();
 	--sound:play();
+	
+	water = bf:new_flat_block("water.bmp",Vector2f(10,10))
+	water:move(Vector3f(60,0,60))
+	water:rotate(Vector3f(90,0,0))
+	water:set_transparency(0.9)
 end
 
 

@@ -5,6 +5,9 @@ bf = nil
 bs = nil
 c = nil
 
+f = nil
+s = nil
+
 functions = {}
 character = {}
 scenery = {}
@@ -22,6 +25,10 @@ function start (world)
 		
 	display = w:get_display()
 	c = display:get_camera()
+	
+	s = bf:new_sky("sky.bmp")
+	s:set_scale(200)
+	f = bf:new_floor("misc/intro_hmap","grass.bmp",5)
 	
 	functions.load = intro_setup
 	functions.step = intro_step
