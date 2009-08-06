@@ -21,7 +21,7 @@ protected:
 	bool is_driven;
 	bool is_2d;
 	float transparency;
-	enum {MASKED, TRANSPARENT, NEITHER} shown;
+	enum {MASKED, TRANSP, NEITHER} shown;
 public:
 	Block3DFlat();
 	~Block3DFlat();

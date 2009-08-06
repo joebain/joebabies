@@ -45,6 +45,9 @@ Display::Display()
 	
 	camera = new Camera();
 	
+	sky = NULL;
+	floor = NULL;
+
 	init();
 }
 
