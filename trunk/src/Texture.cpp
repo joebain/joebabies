@@ -121,8 +121,8 @@ int Texture::make_mask() {
 		glGenTextures(1, &mask_num);
 		glBindTexture(GL_TEXTURE_2D, mask_num);   // 2d texture (x and y size)
 
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST); // scale linearly when image bigger than texture
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST); // scale linearly when image smalled than texture
 
 		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
 		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
