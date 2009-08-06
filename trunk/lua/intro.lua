@@ -4,16 +4,14 @@ block = nil
 scale = 100
 
 
-x_l_bound = 00
-z_l_bound = 00
+x_l_bound = 50
+z_l_bound = 50
 x_u_bound = 150
 z_u_bound = 150
 
 
 function intro_setup()
 
-	
-	
 	v = Vector2f(200,100)
 	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
 	
@@ -45,43 +43,13 @@ function intro_setup()
 	--~ wall:set_dir(Vector3f(0,90,0))
 	--~ table.insert(scenery,wall)
 	
-	--lower x
-	fence1 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2),true)
-	fence1:move(Vector3f(x_l_bound-1,0,z_l_bound-1))
-	fence1:set_tex_size(Vector2f(-0.9,20))
-	--lower z
-	fence2 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2),true)
-	fence2:move(Vector3f(x_l_bound-1,0,z_u_bound+1))
-	fence2:set_tex_size(Vector2f(1,20))
-	fence2:rotate(Vector3f(0,90,0))
-	--upper x
-	fence3 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2),true)
-	fence3:move(Vector3f(x_u_bound+1,0,z_u_bound+1))
-	fence3:set_tex_size(Vector2f(1,20))
-	fence3:rotate(Vector3f(0,90,0))
-	--upper z
-	fence4 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2),true)
-	fence4:move(Vector3f(x_l_bound-1,0,z_u_bound+1))
-	fence4:set_tex_size(Vector2f(1,20))
+	level.width = x_u_bound - x_l_bound
+	level.height = z_u_bound - z_l_bound
+	level.off_x = x_l_bound
+	level.off_y = z_l_bound
 	
-	--lower x
-	mountains1 = bf:new_distance_block("mountains.bmp",Vector2f(400,30))
-	mountains1:move(Vector3f(-90,-10,-90))
-	mountains1:set_tex_size(Vector2f(1,4))
-	--lower z
-	mountains2 = bf:new_distance_block("mountains.bmp",Vector2f(400,30))
-	mountains2:move(Vector3f(-90,-10,-90))
-	mountains2:rotate(Vector3f(0,-90,0))
-	mountains2:set_tex_size(Vector2f(1,4))
-	--upper x
-	mountains3 = bf:new_distance_block("mountains.bmp",Vector2f(400,30))
-	mountains3:move(Vector3f(290,-10,290))
-	mountains3:rotate(Vector3f(0,90,0))
-	mountains3:set_tex_size(Vector2f(1,4))
-	--upper z
-	mountains4 = bf:new_distance_block("mountains.bmp",Vector2f(400,30))
-	mountains4:move(Vector3f(-90,-10,290))
-	mountains4:set_tex_size(Vector2f(1,4))
+	do_border_fences()
+	do_mountains()
 	
 	for i = 1,30 do
 		cloud = bf:new_distance_block("cloud.bmp",Vector2f(20,15))
@@ -100,7 +68,7 @@ function intro_setup()
 		table.insert(ts,b2)
 	end
 	
-	block = bf:new_block3d("block.obj","red_block.bmp")
+	block = bf:new_block3d("box.obj","box.bmp")
 	v = Vector3f(x_l_bound+20,0,z_l_bound+20)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	block:move(v)

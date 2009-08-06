@@ -9,9 +9,15 @@ c = nil
 functions = {}
 character = {}
 scenery = {}
+level = {}
+animals = {}
 
 require "lua/dialogue"
 require "lua/movement"
+require "lua/level_util"
+require "lua/level_control"
+require "lua/animal_control"
+
 require "lua/intro"
 require "lua/level1"
 
@@ -26,7 +32,7 @@ function start (world)
 	
 	s = bf:new_sky("sky.bmp")
 	s:set_scale(200)
-	f = bf:new_floor("misc/intro_hmap","grass.bmp",5)
+	f = bf:new_floor("misc/intro_hmap.csv","grass-pixel.bmp",5)
 	
 	functions.load = intro_setup
 	functions.step = intro_step
@@ -36,18 +42,18 @@ function start (world)
 	functions.down = move_down
 	functions.space = remove_text
 	functions.a_key = gotolevel1
-  
-  s = bf:new_sky("sky.bmp")
-	s:set_scale(200)
-	f = bf:new_floor("misc/intro_hmap","grass-pixel.bmp",5)
 	
 	functions.load()
-	
 	
 end
 
 function restart()
 	bf:clear_all()
+	
+	character = {}
+	scenery = {}
+	level = {}
+	animals = {}
 	
 	functions.load()
 end
@@ -74,7 +80,7 @@ function gotolevel1 (delta)
 	--functions.up = nil
 	--functions.down = nil
 	functions.space = nil
-	functions.a = nil
+	functions.a_key = nil
 	
 	restart()
 end
