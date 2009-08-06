@@ -98,7 +98,7 @@ void Block3DFlat::set_transparency(float t)
 	if (t == 0.0)
 		shown = NEITHER;
 	else
-		shown = TRANSPARENT;
+		shown = TRANSP;
 }
 
 void Block3DFlat::display()
@@ -167,7 +167,7 @@ void Block3DFlat::display()
 		glBlendFunc(GL_ONE, GL_ONE);
 		if (!is_2d)	glEnable(GL_LIGHTING);
 		
-	} else if (shown == TRANSPARENT) {
+	} else if (shown == TRANSP) {
 		
 		//glDepthMask(GL_FALSE);
 		glEnable (GL_BLEND);
@@ -202,7 +202,7 @@ void Block3DFlat::display()
 	if (shown == MASKED) {
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
-	} else if (shown == TRANSPARENT) {
+	} else if (shown == TRANSP) {
 		glDisable(GL_BLEND);
 	}
 	

@@ -1,6 +1,11 @@
 #ifndef OBJ_H_
 #define OBJ_H_
 
+#ifdef WIN32
+#define NOMINMAX
+#include <windows.h>
+#endif
+
 #include <string>
 
 #include "Vertex.h"
