@@ -4,8 +4,8 @@ block = nil
 scale = 100
 
 
-x_l_bound = 50
-z_l_bound = 50
+x_l_bound = 00
+z_l_bound = 00
 x_u_bound = 150
 z_u_bound = 150
 
@@ -113,10 +113,11 @@ function intro_setup()
 	--music:play();
 	--sound:play();
 	
-	water = bf:new_flat_block("water.bmp",Vector2f(10,10))
-	water:move(Vector3f(60,0,60))
+	water = bf:new_flat_block("water.bmp",Vector2f(200,200), true)
+	water:move(Vector3f(0,-0.3,0))
 	water:rotate(Vector3f(90,0,0))
 	water:set_transparency(0.9)
+	water:set_tex_size(Vector2f(100,100))
 end
 
 
