@@ -11,6 +11,8 @@ z_u_bound = 150
 
 
 function intro_setup()
+
+	
 	
 	v = Vector2f(200,100)
 	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
@@ -44,21 +46,21 @@ function intro_setup()
 	--~ table.insert(scenery,wall)
 	
 	--lower x
-	fence1 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2))
+	fence1 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2),true)
 	fence1:move(Vector3f(x_l_bound-1,0,z_l_bound-1))
 	fence1:set_tex_size(Vector2f(-0.9,20))
 	--lower z
-	fence2 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2))
+	fence2 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2),true)
 	fence2:move(Vector3f(x_l_bound-1,0,z_u_bound+1))
 	fence2:set_tex_size(Vector2f(1,20))
 	fence2:rotate(Vector3f(0,90,0))
 	--upper x
-	fence3 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2))
+	fence3 = bf:new_flat_block("fence.bmp",Vector2f(x_u_bound-x_l_bound+2,2),true)
 	fence3:move(Vector3f(x_u_bound+1,0,z_u_bound+1))
 	fence3:set_tex_size(Vector2f(1,20))
 	fence3:rotate(Vector3f(0,90,0))
 	--upper z
-	fence4 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2))
+	fence4 = bf:new_flat_block("fence.bmp",Vector2f(z_u_bound-z_l_bound+2,2),true)
 	fence4:move(Vector3f(x_l_bound-1,0,z_u_bound+1))
 	fence4:set_tex_size(Vector2f(1,20))
 	
@@ -88,7 +90,7 @@ function intro_setup()
 	end
 	
 	
-	for i=1,60 do
+	for i=1,50 do
 		b2 = bf:new_character("turtle.obj","turtle.bmp")
 		v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
 		v.y = f:get_height(Vector2f(v.x,v.z))
