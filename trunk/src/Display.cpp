@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "Block3DFlat.h"
+
 Display::Display()
 {	
 	win_width = 1024;
@@ -97,6 +99,8 @@ void Display::update(float delta)
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
 			(*iter)->display();
 		}
+		
+		transparent_blocks.sort(Display::depth_sort);
 		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
 			(*iter)->display();
 		}
@@ -137,6 +141,14 @@ void Display::update(float delta)
 	
 	SDL_GL_SwapBuffers( );
 	
+}
+
+bool Display::depth_sort(Block* one, Block* two)
+{
+	if (one->get_z_depth() < two->get_z_depth())
+		return true;
+	else
+		return false;
 }
 
 Camera* Display::get_camera()

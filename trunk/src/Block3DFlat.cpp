@@ -5,6 +5,7 @@
 #endif
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "Vector2f.h"
 #include "Texture.h"
@@ -109,6 +110,28 @@ void Block3DFlat::display()
 	glRotatef(rot.z,0,0,1);
 	glRotatef(rot.y,0,1,0);
 	glRotatef(rot.x,1,0,0);
+	
+	//grab the z pos
+	if (shown != NEITHER) {
+		float new_t[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, new_t);
+		
+		//Vector3f np;
+		//np.init(new_t[12],new_t[13],new_t[14]);
+		
+		float z_depth1 = new_t[14];
+		
+		glPushMatrix();
+		
+		glTranslatef(size.x, size.y, 0);
+		glGetFloatv(GL_MODELVIEW_MATRIX, new_t);
+		
+		float z_depth2 = new_t[14];
+		
+		glPopMatrix();
+		
+		z_depth += (min(z_depth1,z_depth2));
+	}
 	
 	if (shown == MASKED) {
 		

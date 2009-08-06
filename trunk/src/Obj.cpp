@@ -131,6 +131,16 @@ void Obj::display()
 		
 		glBegin(GL_TRIANGLE_FAN);
 		
+		/*
+		Vector3f flat_normal;
+		
+		for (i = 0; i < faces[f].vertex_count ; i++) {
+			flat_normal += *faces[f].vertices[i].normal;
+		}
+		flat_normal.normalise();
+		glNormal3f(flat_normal.x,flat_normal.y,flat_normal.z);
+		*/
+		
 		for (i = 0; i < faces[f].vertex_count ; i++) {
 			//cout << faces[f].vertices[i].text->x << " " << faces[f].vertices[i].text->y << endl;
 			glTexCoord2f(faces[f].vertices[i].text->x,faces[f].vertices[i].text->y);

@@ -52,6 +52,7 @@ private:
 	bool pick_flag, mouse_down;
 	bool is_fullscreen;
 	GLuint getClosestHit(GLuint* selectBuf, GLint hits);
+	static bool depth_sort(Block* one, Block* two);
 };
 
 #endif /*DISPLAY_H_*/
