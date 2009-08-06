@@ -9,9 +9,11 @@ public:
 	Block3DImaginary(Vector3f size);
 	Block3DImaginary(const Block3DImaginary& b);
 	void display();
+	void toggle_debug();
 private:
 	Vector3f perm_bb_min;
 	Vector3f perm_bb_max;
+	bool in_debug;
 };
 
 #endif

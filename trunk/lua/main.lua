@@ -5,8 +5,6 @@ bf = nil
 bs = nil
 c = nil
 
-f = nil
-s = nil
 
 functions = {}
 character = {}
@@ -38,8 +36,14 @@ function start (world)
 	functions.down = move_down
 	functions.space = remove_text
 	functions.a_key = gotolevel1
+  
+  s = bf:new_sky("sky.bmp")
+	s:set_scale(200)
+	f = bf:new_floor("misc/intro_hmap","grass-pixel.bmp",5)
 	
 	functions.load()
+	
+	
 end
 
 function restart()
@@ -65,10 +69,10 @@ end
 function gotolevel1 (delta)
 	functions.load = level1_setup
 	functions.step = level1_step
-	functions.right = nil
-	functions.left = nil
-	functions.up = nil
-	functions.down = nil
+	--functions.right = nil
+	--functions.left = nil
+	--functions.up = nil
+	--functions.down = nil
 	functions.space = nil
 	functions.a = nil
 	

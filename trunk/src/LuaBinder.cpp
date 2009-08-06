@@ -66,6 +66,7 @@ void LuaBinder::bind(lua_State *l)
 	
 	luabind::module(l) [
 		luabind::class_<Block3DImaginary, Block3D>("Block3DImaginary")
+		  .def("toggle_debug", &Block3DImaginary::toggle_debug)
 	];
 	
 	luabind::module(l) [
