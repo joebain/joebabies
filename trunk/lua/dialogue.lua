@@ -1,3 +1,4 @@
+
 dialogue = {}
 dialogue.text_up = false
 dialogue.text = {}
@@ -23,19 +24,19 @@ function put_dialogue(text,character)
 	
 	text_size = Vector2f(20,20)
 	
-	line_length = ((display:get_width()-100)/text_size.x)-4
+	line_length = ((display:get_width()-250)/text_size.x)-4
 	
 	height = math.ceil(length/line_length)
 	length = line_length
 		
-	backing_size = Vector2f((length+3)*text_size.x,(height+1.5)*text_size.y*1.2)
+	backing_size = Vector2f((length+5)*text_size.x,(height+3)*text_size.y*1.2)
 	
-	backing_pos = Vector2f((display:get_width()/2) - (backing_size.x/2) + 50,text_size.y*2)
+	backing_pos = Vector2f((display:get_width()/2) - (backing_size.x/2) + 50,120)
 	
 	dialogue.backing = bf:new_blockHUD(backing_size,"dialogue.bmp")
 	dialogue.backing:move(backing_pos)
 	
-	text_pos = Vector2f(backing_pos.x + text_size.x*2,(backing_pos.y + backing_size.y) - text_size.y*2)
+	text_pos = Vector2f(backing_pos.x + text_size.x*3,(backing_pos.y + backing_size.y) - text_size.y*3)
 	
 	for i = 1,height do
 		line = text:sub(length*(i-1)+1,length*i)
@@ -46,8 +47,8 @@ function put_dialogue(text,character)
 		text_pos.y = text_pos.y - text_size.y*1.2
 	end
 	
-	v = Vector2f(200,100)
-	hud = bf:new_blockHUD(v,character .. "_hud.bmp")
+	--v = Vector2f(200,100)
+	--hud = bf:new_blockHUD(v,character .. "_hud.bmp")
 	
 	dialogue.text_up = true
 	

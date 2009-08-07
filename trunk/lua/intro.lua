@@ -12,10 +12,10 @@ z_u_bound = 150
 
 function intro_setup()
 
-	v = Vector2f(200,100)
+	v = Vector2f(300,300)
 	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
 	
-	character.main = bf:new_character("gorilla.obj","gorilla.bmp")
+	character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
 	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	character.main:set_pos(v)
@@ -57,7 +57,7 @@ function intro_setup()
 		cloud:rotate(Vector3f(0,math.random(0,360),0))
 	end
 	
-	
+		
 	for i=1,50 do
 		b2 = bf:new_character("turtle.obj","turtle.bmp")
 		v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
@@ -69,7 +69,7 @@ function intro_setup()
 	end
 	
 	block = bf:new_block3d("box.obj","box.bmp")
-	v = Vector3f(x_l_bound+20,0,z_l_bound+20)
+	v = Vector3f(x_l_bound+40,0,z_l_bound+40)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	block:move(v)
 
