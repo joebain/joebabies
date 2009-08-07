@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLMain.lib lua.release.lib luabind.release.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLMain.lib SDL_mixer.lib lua.release.lib luabind.release.lib"
 				OutputFile="$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="References/lua/msvc-9.0-sp1/lib-x86;References/luabind/msvc-9.0-sp1/lib-x86"
