@@ -12,26 +12,38 @@ scenery = {}
 level = {}
 animals = {}
 
-require "lua/dialogue"
-require "lua/movement"
-require "lua/level_util"
-require "lua/level_control"
-require "lua/animal_control"
+--require "lua/dialogue"
+--require "lua/movement.lua"
+--require "lua/level_util"
+--require "lua/level_control"
+--require "lua/animal_control"
 
-require "lua/intro"
-require "lua/level1"
+--require "lua/intro"
+--require "lua/level1"
+
+dofile "lua/dialogue.lua"
+dofile "lua/movement.lua"
+dofile "lua/level_util.lua"
+dofile "lua/level_control.lua"
+dofile "lua/animal_control.lua"
+
+dofile "lua/intro.lua"
+dofile "lua/level1.lua"
 
 function start (world)
 
 	w = world
+	
+	
 	bf = w:get_block_factory()
 	bs = w:get_buttons()
-		
+	
 	display = w:get_display()
 	c = display:get_camera()
 	
 	s = bf:new_sky("sky.bmp")
 	s:set_scale(200)
+	
 	f = bf:new_floor("misc/intro_hmap.csv","grass-pixel.bmp",5)
 	
 	functions.load = intro_setup
