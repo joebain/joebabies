@@ -243,10 +243,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\lua\grind.lua"
-				>
-			</File>
-			<File
 				RelativePath=".\src\LuaBinder.cpp"
 				>
 			</File>
