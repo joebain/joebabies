@@ -1,22 +1,22 @@
 function do_border_fences ()
 
 	--lower x
-	fence1 = bf:new_flat_block("fence.bmp",Vector2f(level.width+2,2),true)
-	fence1:move(Vector3f(level.off_x-1,0,level.off_y-1))
+	fence1 = bf:new_flat_block("fence.bmp",Vector2f(level.width*level.size+2,2),true)
+	fence1:move(Vector3f(level.off_x*level.size-1,0,level.off_y*level.size-1))
 	fence1:set_tex_size(Vector2f(1,20))
 	--lower z
-	fence2 = bf:new_flat_block("fence.bmp",Vector2f(level.height+2,2),true)
-	fence2:move(Vector3f(level.off_x -1,0,level.height + level.off_y +1))
+	fence2 = bf:new_flat_block("fence.bmp",Vector2f(level.height*level.size+2,2),true)
+	fence2:move(Vector3f(level.off_x*level.size -1,0,(level.height + level.off_y)*level.size +1))
 	fence2:set_tex_size(Vector2f(1,20))
 	fence2:rotate(Vector3f(0,90,0))
 	--upper x
-	fence3 = bf:new_flat_block("fence.bmp",Vector2f(level.width+2,2),true)
-	fence3:move(Vector3f(level.off_x + level.width +1,0,level.off_y + level.height+1))
+	fence3 = bf:new_flat_block("fence.bmp",Vector2f(level.width*level.size+2,2),true)
+	fence3:move(Vector3f((level.off_x + level.width)*level.size +1,0,(level.off_y + level.height)*level.size+1))
 	fence3:set_tex_size(Vector2f(1,20))
 	fence3:rotate(Vector3f(0,90,0))
 	--upper z
-	fence4 = bf:new_flat_block("fence.bmp",Vector2f(level.height+2,2),true)
-	fence4:move(Vector3f(level.off_x-1,0,level.off_y  +level.height+1))
+	fence4 = bf:new_flat_block("fence.bmp",Vector2f(level.height*level.size+2,2),true)
+	fence4:move(Vector3f(level.off_x*level.size-1,0,(level.off_y  +level.height)*level.size+1))
 	fence4:set_tex_size(Vector2f(1,20))
 
 end
@@ -47,9 +47,6 @@ end
 
 function act_to_grid(x,y)
 
-	--x = ((level.cage.width - x) + level.off_x + level.cage.x)*level.size
-	--y = (y + level.off_y + level.cage.y)*level.size
-	
 	x = level.off_x + level.cage.x + level.cage.width - math.floor(x/level.size + 0.5)
 	y = math.floor(y/level.size + 0.5) - (level.off_y + level.cage.y)
 
@@ -64,4 +61,8 @@ function grid_to_act(x,y)
 
 	return x,y
 
+end
+
+function in_cage(x,y)
+	return x < level.cage.width and x > 0 and y < level.cage.height and y > 0
 end

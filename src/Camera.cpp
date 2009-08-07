@@ -13,12 +13,12 @@
 
 Camera::Camera()
 {
-	height = 0.3;
-	distance = 15.0;
+	height = 10;
+	distance = 20.0;
 	
 	min_snap = 2.0;
 	
-	pos.init(0,200,0);
+	pos.init(0,50,0);
 	
 	is_following = false;
 }
@@ -53,45 +53,64 @@ void Camera::move(float delta)
 			
 			p.y += 2; //look above/ahead
 			
-			r.y -= 45; //why? i don't know but it works
+			aim_target_pos = p;
+			
+			//r.y -= 45; //why? i don't know but it works
+			
+			glPushMatrix();
 			
 			//where the camera wants to be
-			Vector3f aim;
+					
+			float new_t[16];
 			
-			aim.x = (cos(r.y*D2R) + sin(r.y*D2R));
-			aim.z = (-sin(r.y*D2R) + cos(r.y*D2R));
-			aim.y = height;
+			glLoadIdentity();
 			
-			aim.normalise();
-			aim *= distance;
+			glTranslatef(p.x, p.y, p.z);
+			glRotatef(r.z,0,0,1);
+			glRotatef(r.y,0,1,0);
+			glRotatef(r.x,1,0,0);
+			glTranslatef(0,height,-distance);
 			
-			aim.x = p.x - aim.x;
-			aim.z = p.z - aim.z;
-			aim.y = p.y + aim.y;
+			glGetFloatv(GL_PROJECTION_MATRIX, new_t);
+			
+			aim_pos.x = new_t[12];
+			aim_pos.y = new_t[13];
+			aim_pos.z = new_t[14];
+			
+			glPopMatrix();
+			
+			//cout << "aim is " << aim_pos << endl;
+			
+			//~ aim.x = (cos(r.y*D2R) + sin(r.y*D2R));
+			//~ aim.z = (-sin(r.y*D2R) + cos(r.y*D2R));
+			//~ aim.y = height;
+			
+			
+			 
+			//~ aim.normalise();
+			//~ aim *= distance;
+			
+			//~ aim.x = p.x - aim.x;
+			//~ aim.z = p.z - aim.z;
+			//~ aim.y = p.y + aim.y;
 			
 			Vector3f move;
 			
-			move = aim - pos;
-			
-			
+			//float aim pos
+			move = aim_pos - pos;
 			float mag = move.magnitude();
-			//cout << "mag is " << mag << endl;
 			if (mag > delta  * min_snap) {
 				move *= delta * 2.0;
 			}
-			
 			pos += move;
 			
-			move = p - target_pos;
-			
+			//float aim focus
+			move = aim_target_pos - target_pos;
 			mag = move.magnitude();
 			if (mag > delta  * min_snap) {
 				move *= delta * 2.0;
 			}
-			
 			target_pos += move;
-			
-			//pos = aim;
 			
 		}
 	}

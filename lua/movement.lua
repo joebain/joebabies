@@ -31,6 +31,20 @@ function position_character(delta)
 		--~ end
 	end
 	
+	in_cam_triggers = false
+	for i,thing in ipairs(camera_triggers) do
+		if (character.main:collide(thing)) then
+			c:follow(high_cam_obj)
+			--c:set_height(-1)
+			in_cam_triggers = true
+		break;
+		end
+	end
+	if (in_cam_triggers == false) then
+		c:follow(character.main)
+		--c:set_height(0.3)
+	end
+	
 	if character.main:get_pos().x < x_l_bound then
 		m = Vector3f(x_l_bound,0,character.main:get_pos().z)
 		character.main:set_pos(m)

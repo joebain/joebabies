@@ -174,8 +174,7 @@ void Obj::rotate(Vector3f r)
 
 Vector2i Obj::load_heightmap(string file_name, float scale)
 {
-	cout << "reading heightmap" << endl;
-
+	
 	int width = 0, height = 0;
 	
 	string line;
@@ -199,7 +198,7 @@ Vector2i Obj::load_heightmap(string file_name, float scale)
 	} else {
 		cerr << "could not open file " << file_name << endl;
 	}
-	cout << "hmap is " << width  << " * " << height << endl;
+	
 	int size = width*height;
 	vertices = new Vertex[size];
 	v_poss = new Vector3f[size];

@@ -130,7 +130,7 @@ void Block3DFlat::display()
 		
 		glPopMatrix();
 		
-		z_depth += (min(z_depth1,z_depth2));
+		z_depth += (max(z_depth1,z_depth2));
 	}
 	
 	if (shown == MASKED) {
