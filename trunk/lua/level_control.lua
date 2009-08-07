@@ -9,6 +9,7 @@ function load_level(filename)
 		for w in string.gmatch(line, "[-%d%l]") do
 			level.map[i][j] = {}
 			level.map[i][j].symbol = w
+			level.map[i][j].thing = "empty"
 			j = j + 1
 		end
 		if j < max_j then j = max_j end
@@ -46,23 +47,16 @@ function place_model(symbol,x,y)
 
 	if (symbol ~= '0') then
 
-		print("placing " .. symbol .. " at " .. x .. "," .. y)
+		i = x
+		j = y
 
 		x,y = grid_to_act(x,y)
-		--x = ((level.cage.width - x) + level.off_x + level.cage.x)*level.size
-		--y = (y + level.off_y + level.cage.y)*level.size
-		
-		print("actual " .. symbol .. " at " .. x .. "," .. y)
-		
-		i,j = act_to_grid(x,y)
-		
-		print("checking " .. symbol .. " at " .. i .. "," .. j)
 		
 		if (symbol == 'g') then
 			
 			g = bf:new_character("gorilla.obj","gorilla.bmp")
 			v = Vector3f(x,0,y)
-			v.y = f:get_height(Vector2f(v.x,v.z))
+			--v.y = f:get_height(Vector2f(v.x,v.z))
 			g:move(v)
 			
 			animal_g = {}
@@ -71,11 +65,17 @@ function place_model(symbol,x,y)
 			animal_g.direction.x = 0
 			animal_g.direction.y = 0
 			animal_g.moving = false
-			animal_g.speed = 3
+			animal_g.speed = 6
+			animal_g.name = "gorilla"
+			animal_g.symbol = "g"
+			animal_g.target = {}
+			animal_g.target.x = x
+			animal_g.target.y = y
 			
 			table.insert(animals,animal_g)
 			
-			level.map[i][j] = nil
+			level.map[i][j].thing = "gorilla"
+			level.map[i][j].symbol = "g"
 			
 		elseif (symbol == 'b') then
 			
@@ -88,28 +88,31 @@ function place_model(symbol,x,y)
 			
 			item_b = {}
 			item_b.block = b
-			item_b.type = "block"
+			item_b.thing = "block"
+			item_b.symbol = "b"
 			
 			level.map[i][j] = item_b
 			
 		elseif (symbol == 'r') then
 		
-		  b = bf:new_block3d("rock.obj","rock.bmp")
-		  v = Vector3f(x,0,y)
-		  v.y = f:get_height(Vector2f(v.x,v.z))
-		  b:move(v)
-		  v = Vector3f(math.random(-20,20),math.random(-20,20),math.random(-20,20))
-		  b:change_dir(v)
-		  
-		  item_b = {}
-		  item_b.block = b
-		  item_b.type = "rock"
-		  
-		  level.map[i][j] = item_b
+			b = bf:new_block3d("rock.obj","rock.bmp")
+			v = Vector3f(x,0,y)
+			v.y = f:get_height(Vector2f(v.x,v.z))
+			b:move(v)
+			v = Vector3f(math.random(-20,20),math.random(-20,20),math.random(-20,20))
+			b:change_dir(v)
+
+			item_b = {}
+			item_b.block = b
+			item_b.thing = "rock"
+			item_b.symbol = "r"
+
+			level.map[i][j] = item_b
 			
 		else
 		
-		  level.map[i][j] = nil
+			level.map[i][j].thing = "empty"
+			level.map[i][j].symbol = "0"
 		
 		end
 	
@@ -135,6 +138,10 @@ function put_cage()
 	cage1ff:move(Vector3f(lx,0,uy-1))
 	--cage1ff:toggle_debug()
 	table.insert(scenery, cage1ff)
+	cage1ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
+	cage1ft:move(Vector3f(lx,0,uy))
+	--cage1ft:toggle_debug()
+	table.insert(camera_triggers, cage1ft)
 	
 	
 	-- sw
@@ -145,6 +152,10 @@ function put_cage()
 	cage2ff:move(Vector3f(lx,0,ly))
 	--cage2ff:toggle_debug()
 	table.insert(scenery, cage2ff)
+	cage2ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
+	cage2ft:move(Vector3f(lx,0,ly-level.size))
+	--cage2ft:toggle_debug()
+	table.insert(camera_triggers, cage2ft)
 	
 	-- se
 	cage3 = bf:new_flat_block("cage.bmp",Vector2f(wy,8),true)
@@ -156,6 +167,11 @@ function put_cage()
 	cage3ff:change_dir(Vector3f(0,90,0))
 	--cage3ff:toggle_debug()
 	table.insert(scenery, cage3ff)
+	cage3ft = bf:new_imaginary_block(Vector3f(wy,8,level.size))
+	cage3ft:move(Vector3f(lx-level.size,0,uy))
+	cage3ft:change_dir(Vector3f(0,90,0))
+	--cage3ft:toggle_debug()
+	table.insert(camera_triggers, cage3ft)
 	
 	-- nw
 	cage4 = bf:new_flat_block("bricks.bmp",Vector2f(wy,8),false)
@@ -167,6 +183,11 @@ function put_cage()
 	cage4ff:change_dir(Vector3f(0,90,0))
 	--cage4ff:toggle_debug()
 	table.insert(scenery, cage4ff)
+	cage4ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
+	cage4ft:move(Vector3f(ux,0,uy))
+	cage4ft:change_dir(Vector3f(0,90,0))
+	--cage4ft:toggle_debug()
+	table.insert(camera_triggers, cage4ft)
 
 end
 

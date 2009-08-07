@@ -4,22 +4,15 @@ display = nil
 bf = nil
 bs = nil
 c = nil
-
+high_cam_obj = nil
 
 functions = {}
 character = {}
 scenery = {}
 level = {}
 animals = {}
-
---require "lua/dialogue"
---require "lua/movement.lua"
---require "lua/level_util"
---require "lua/level_control"
---require "lua/animal_control"
-
---require "lua/intro"
---require "lua/level1"
+camera_triggers = {}
+character = {}
 
 dofile "lua/dialogue.lua"
 dofile "lua/movement.lua"
@@ -53,19 +46,25 @@ function start (world)
 	functions.up = move_up
 	functions.down = move_down
 	functions.space = remove_text
-	--functions.a_key = gotolevel1
+	functions.a_key = gotolevel1
 	
-	functions.load()
+	gotolevel1 ()
+	
+	--functions.load()
 	
 end
 
 function restart()
 	bf:clear_all()
 	
+	high_cam_obj = nil
+
 	character = {}
 	scenery = {}
 	level = {}
 	animals = {}
+	camera_triggers = {}
+	character = {}
 	
 	functions.load()
 end
@@ -73,7 +72,7 @@ end
 function step (delta)
 	
 	functions.step(delta)
-	
+	--~ 
 	if (bs.up) then functions.up(delta) end
 	if (bs.down) then functions.down(delta) end
 	if (bs.left) then functions.left(delta) end
@@ -81,6 +80,8 @@ function step (delta)
 	if (bs.space) then functions.space(delta) end
 	if (bs.a) then functions.a_key(delta) end
 	if (bs.s) then functions.s_key(delta) end
+	if (bs.d) then functions.d_key(delta) end
+	if (bs.w) then functions.w_key(delta) end
 	
 end
 
@@ -91,8 +92,11 @@ function gotolevel1 (delta)
 	--functions.left = nil
 	--functions.up = nil
 	--functions.down = nil
-	functions.space = nil
-	functions.a_key = nil
+	functions.space = call_animal
+	functions.a_key = send_west
+	functions.d_key = send_east
+	functions.s_key = send_south
+	functions.w_key = send_north
 	
 	restart()
 end

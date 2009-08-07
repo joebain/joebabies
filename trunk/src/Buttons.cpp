@@ -14,6 +14,8 @@ void Buttons::clear()
 	space = false;
 	a = false;
 	s = false;
+	w = false;
+	d = false;
 	
 	req_quit = false;
 }
@@ -34,7 +36,7 @@ void Buttons::handle_keydown(SDL_keysym *key)
 		left = true;
 		break;
 		case SDLK_f:
-		d->set_fullscreen();
+		display->set_fullscreen();
 		break;
 		case SDLK_ESCAPE:
 		req_quit = true;
@@ -47,6 +49,12 @@ void Buttons::handle_keydown(SDL_keysym *key)
 		break;
 		case SDLK_a:
 		a = true;
+		break;
+		case SDLK_d:
+		d = true;
+		break;
+		case SDLK_w:
+		w = true;
 		break;
 		default:
 		//do nothing
@@ -78,6 +86,12 @@ void Buttons::handle_keyup(SDL_keysym *key)
 		case SDLK_a:
 		a = false;
 		break;
+		case SDLK_d:
+		d = false;
+		break;
+		case SDLK_w:
+		w = false;
+		break;
 		default:
 		//do nothing
 		break;
@@ -86,5 +100,5 @@ void Buttons::handle_keyup(SDL_keysym *key)
 
 void Buttons::set_display(Display * d)
 {
-	this->d = d;
+	this->display = d;
 }

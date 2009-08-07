@@ -29,6 +29,8 @@ void LuaBinder::bind(lua_State *l)
 			.def_readwrite("x", &Vector3f::x)
 			.def_readwrite("y", &Vector3f::y)
 			.def_readwrite("z", &Vector3f::z)
+			.def("normalise", &Vector3f::normalise)
+			.def("magnitude", &Vector3f::magnitude)
 	];
 	
 	luabind::module(l) [
@@ -53,6 +55,8 @@ void LuaBinder::bind(lua_State *l)
 		luabind::class_<Block3D>("Block3D")
 			.def("move", &Block3D::move)
 			.def("rotate", &Block3D::rotate)
+			.def("get_rot", &Block3D::get_rot)
+			.def("set_rot", &Block3D::set_rot)
 			.def("get_pos", &Block3D::get_pos)
 			.def("set_pos", &Block3D::set_pos)
 			.def("get_dir", &Block3D::get_dir)
@@ -120,6 +124,7 @@ void LuaBinder::bind(lua_State *l)
 	luabind::module(l) [
 		luabind::class_<Camera>("Camera")
 			.def("follow", &Camera::follow)
+			.def("set_height", &Camera::set_height)
 	];
 	
 	luabind::module(l) [
@@ -143,6 +148,8 @@ void LuaBinder::bind(lua_State *l)
 			.def_readonly("space", &Buttons::space)
 			.def_readonly("a", &Buttons::a)
 			.def_readonly("s", &Buttons::s)
+			.def_readonly("w", &Buttons::w)
+			.def_readonly("d", &Buttons::d)
 	];
 	
 	luabind::module(l) [

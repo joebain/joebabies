@@ -43,10 +43,12 @@ function intro_setup()
 	--~ wall:set_dir(Vector3f(0,90,0))
 	--~ table.insert(scenery,wall)
 	
-	level.width = x_u_bound - x_l_bound
-	level.height = z_u_bound - z_l_bound
-	level.off_x = x_l_bound
-	level.off_y = z_l_bound
+	level.size = 5
+	
+	level.width = (x_u_bound - x_l_bound)/5
+	level.height = (z_u_bound - z_l_bound)/5
+	level.off_x = x_l_bound/5
+	level.off_y = z_l_bound/5
 	
 	do_border_fences()
 	do_mountains()

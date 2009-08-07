@@ -42,6 +42,7 @@ public:
 	Obj* get_obj();
 	Vector3f get_pos();
 	Vector3f get_rot();
+	void set_rot(Vector3f rot) {this->rot = rot;}
 	Vector3f get_dir() {return dir;}
 	void set_offset(Vector3f offset) {this->offset = offset;}
 	Vector3f get_bb_min();

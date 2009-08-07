@@ -17,6 +17,8 @@ public:
 	bool space;
 	bool s;
 	bool a;
+	bool d;
+	bool w;
 	
 	bool req_quit;
 	void clear();
@@ -24,7 +26,7 @@ public:
 	void handle_keyup(SDL_keysym *key);
 	void set_display(Display * d);
 private:
-	Display* d;
+	Display* display;
 
 };
 

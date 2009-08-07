@@ -1,7 +1,7 @@
 
 
 function level1_setup()
-  character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
+  	character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
 	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	character.main:set_pos(v)
@@ -12,7 +12,7 @@ function level1_setup()
 	character.whisker_l = bf:new_imaginary_block(Vector3f(whisker_size,whisker_size,whisker_size))
 	character.whisker_l:nudge(Vector3f(0.2,1,-0.5))
 	character.main:add_child(character.whisker_l)
-	
+	--~ 
 	v = Vector3f(0,45,0)
 	character.main:set_dir(v)
 	
@@ -32,15 +32,27 @@ function level1_setup()
 	load_level("misc/level1.csv")
 	
 	set_level_size(5)
-	set_level_offset(x_l_bound/5,z_l_bound/5)
+	set_level_offset(x_l_bound/level.size,z_l_bound/level.size)
 	set_cage_offset(2,2)
+	level.width = (x_u_bound - x_l_bound) / level.size
+	level.height = (z_u_bound - z_l_bound) / level.size
+	level.off_x = x_l_bound/level.size
+	level.off_y = z_l_bound/level.size
 	
 	model_level()
 	put_cage()
 	
-	for i,animal in ipairs(animals) do
-		animal_send(animal,"n")
-	end
+	do_border_fences()
+	--do_city()
+	
+	high_cam_obj = bf:new_imaginary_block(Vector3f(1,1,1))
+	high_cam_obj:move(Vector3f(level.size*(level.width/4 + level.off_x + level.cage.x),
+								27,
+								level.size*(level.off_y + level.cage.y - 1)))
+	high_cam_obj:set_dir(Vector3f(20,0,0))
+	--~ for i,animal in ipairs(animals) do
+		--~ send_animal(animal,8,7)
+	--~ end
 	
 end
 
