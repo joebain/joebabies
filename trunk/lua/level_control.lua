@@ -35,30 +35,30 @@ function set_cage_offset(x,y)
 end
 
 function model_level()
-	for i,row in pairs(level.map) do
-		for j,col in pairs(row) do
-			place_model(col,i,j)
+	for i=1,#level.map do
+		for j=1,#level.map[i] do
+			place_model(level.map[i][j].symbol,i,j)
 		end
 	end
 end
 
-function place_model(item,x,y)
+function place_model(symbol,x,y)
 
-	if (item.symbol ~= '0') then
+	if (symbol ~= '0') then
 
-		print("placing " .. item.symbol .. " at " .. x .. "," .. y)
+		print("placing " .. symbol .. " at " .. x .. "," .. y)
 
 		x,y = grid_to_act(x,y)
 		--x = ((level.cage.width - x) + level.off_x + level.cage.x)*level.size
 		--y = (y + level.off_y + level.cage.y)*level.size
 		
-		print("actual " .. item.symbol .. " at " .. x .. "," .. y)
+		print("actual " .. symbol .. " at " .. x .. "," .. y)
 		
 		i,j = act_to_grid(x,y)
 		
-		print("checking " .. item.symbol .. " at " .. i .. "," .. j)
+		print("checking " .. symbol .. " at " .. i .. "," .. j)
 		
-		if (item.symbol == 'g') then
+		if (symbol == 'g') then
 			
 			g = bf:new_character("gorilla.obj","gorilla.bmp")
 			v = Vector3f(x,0,y)
@@ -71,11 +71,13 @@ function place_model(item,x,y)
 			animal_g.direction.x = 0
 			animal_g.direction.y = 0
 			animal_g.moving = false
-			animal_g.speed = 1
+			animal_g.speed = 3
 			
 			table.insert(animals,animal_g)
 			
-		elseif (item.symbol == 'b') then
+			level.map[i][j] = nil
+			
+		elseif (symbol == 'b') then
 			
 			b = bf:new_block3d("box.obj","box.bmp")
 			v = Vector3f(x,0,y)
@@ -88,8 +90,27 @@ function place_model(item,x,y)
 			item_b.block = b
 			item_b.type = "block"
 			
-			item.item = item_b
-						
+			level.map[i][j] = item_b
+			
+		elseif (symbol == 'r') then
+		
+		  b = bf:new_block3d("rock.obj","rock.bmp")
+		  v = Vector3f(x,0,y)
+		  v.y = f:get_height(Vector2f(v.x,v.z))
+		  b:move(v)
+		  v = Vector3f(math.random(-20,20),math.random(-20,20),math.random(-20,20))
+		  b:change_dir(v)
+		  
+		  item_b = {}
+		  item_b.block = b
+		  item_b.type = "rock"
+		  
+		  level.map[i][j] = item_b
+			
+		else
+		
+		  level.map[i][j] = nil
+		
 		end
 	
 	end
@@ -117,7 +138,7 @@ function put_cage()
 	
 	
 	-- sw
-	cage2 = bf:new_flat_block("cage.bmp",Vector2f(wx,8),true)
+	cage2 = bf:new_flat_block("bricks.bmp",Vector2f(wx,8),false)
 	cage2:move(Vector3f(lx,0,ly))
 	cage2:set_tex_size(Vector2f(1,5))
 	cage2ff = bf:new_imaginary_block(Vector3f(wx,8,1))
@@ -137,7 +158,7 @@ function put_cage()
 	table.insert(scenery, cage3ff)
 	
 	-- nw
-	cage4 = bf:new_flat_block("cage.bmp",Vector2f(wy,8),true)
+	cage4 = bf:new_flat_block("bricks.bmp",Vector2f(wy,8),false)
 	cage4:move(Vector3f(ux,0,uy))
 	cage4:set_tex_size(Vector2f(1,5))
 	cage4:rotate(Vector3f(0,90,0))
