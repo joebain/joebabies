@@ -53,7 +53,7 @@ function start (world)
 	functions.up = move_up
 	functions.down = move_down
 	functions.space = remove_text
-	functions.a_key = gotolevel1
+	--functions.a_key = gotolevel1
 	
 	functions.load()
 	
