@@ -42,7 +42,6 @@ function level1_setup()
 		animal_send(animal,"n")
 	end
 	
-	
 end
 
 function level1_step(delta)
