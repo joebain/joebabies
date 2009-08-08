@@ -90,7 +90,7 @@ function place_model(symbol,x,y)
 			
 			item_b = {}
 			item_b.block = b
-			item_b.thing = "block"
+			item_b.thing = "box"
 			item_b.symbol = "b"
 			
 			level.map[i][j] = item_b
@@ -111,6 +111,23 @@ function place_model(symbol,x,y)
 
 			level.map[i][j] = item_b
 			
+		elseif (symbol == 'i') then
+		
+			b = bf:new_block3d("internet.obj","internet.bmp")
+			v = Vector3f(x,0,y)
+			v.y = f:get_height(Vector2f(v.x,v.z))
+			b:move(v)
+			v = Vector3f(math.random(-20,20),math.random(-20,20),math.random(-20,20))
+			b:change_dir(v)
+
+			item_b = {}
+			item_b.block = b
+			item_b.thing = "internet"
+			item_b.symbol = "i"
+
+			level.map[i][j] = item_b
+			table.insert(internets,item_b)
+		
 		else
 		
 			level.map[i][j].thing = "empty"

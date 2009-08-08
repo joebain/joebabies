@@ -22,6 +22,7 @@ public:
 	float get_height(Vector2f pos);
 	void set_scale(float scale) {this->scale = scale;}
 	void set_size(Vector2i size) {this->size = size;}
+	Vector2i get_size() {return size;}
 };
 
 #endif

@@ -2,7 +2,7 @@
 player_turn_speed = 40.0
 player_travel_speed = 10.0
 player_wobble_counter = 0.0
-player_wobble_factor = 0.5
+player_wobble_factor = 0.001
 player_bounce_factor = 5.0
 
 in_cam_triggers = false
@@ -85,9 +85,9 @@ function position_character(delta)
 	character.main:set_pos(v)
 	
 	wobble = math.sin(player_wobble_counter)
-	r = Vector3f(0,100*delta*(wobble/player_wobble_factor),0)
+	r = Vector3f(0,delta*(wobble/player_wobble_factor),0)
 	player_wobble_counter = player_wobble_counter + delta*15
-	character.main:rotate(r)
+	character.main:set_rot(r)
 	
 	v = Vector3f(0,math.abs(wobble/player_bounce_factor),0)
 	character.main:set_offset(v)
@@ -147,7 +147,7 @@ end
 
 function light_up_trigger(trigger)
 	if (trigger.light_count <= 0) then
-		light = bf:new_flat_block("outline-red.bmp",Vector2f(level.size,level.size), true)
+		light = bf:new_flat_block("outline-yellow.bmp",Vector2f(level.size,level.size), true)
 		light:move(Vector3f(trigger.block:get_pos().x,0.1,trigger.block:get_pos().z))
 		light:rotate(Vector3f(90,0,0))
 		--light:set_transparency(0.99)
@@ -173,7 +173,7 @@ function step_trigger(trigger,delta)
 end
 
 function make_character()
-	character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
+	character.main = bf:new_character("techie.obj","techie.bmp")
 	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	character.main:set_pos(v)
