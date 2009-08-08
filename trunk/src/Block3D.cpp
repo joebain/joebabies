@@ -77,13 +77,17 @@ void Block3D::rotate(Vector3f plus_rot)
 
 void Block3D::change_dir(Vector3f plus_dir)
 {
+	//cout << "changing dir" << endl;
+	//cout << "old dir was " << dir << endl;
 	dir += plus_dir;
 	
 	changed = true;
 	
 	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		//cout << "old off was " << (*it)->offset << endl;
 		(*it)->change_dir(plus_dir);
 		(*it)->offset.rotate(-plus_dir);
+		//cout << "new off is " << (*it)->offset << endl;
 	}
 }
 
@@ -118,14 +122,22 @@ void Block3D::update_bb()
 
 void Block3D::set_dir(Vector3f dir)
 {
+	//cout << "setting dir" << endl;
+	
+	Vector3f tmp_dir = this->dir;
 	this->dir = dir;
 	
 	changed = true;
 	
+	//cout << "old dir was " << tmp_dir << endl;
+	/* all broken, no time to fix
 	for (list<Block3D*>::iterator it = children.begin(); it != children.end() ; it++)  {
+		cout << "old off was " << (*it)->offset << endl;
 		(*it)->set_dir(dir);
-		(*it)->offset.rotate(dir);
+		(*it)->offset.rotate(tmp_dir*0.5);
+		cout << "new off is " << (*it)->offset << endl;
 	}
+	*/
 }
 
 void Block3D::set_pos(Vector3f pos)

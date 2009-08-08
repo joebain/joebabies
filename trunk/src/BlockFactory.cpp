@@ -201,6 +201,15 @@ void BlockFactory::remove_blockHUD(Block2D* hud)
 	blocks2d.remove(*hud);
 }
 
+void BlockFactory::remove_flat_block(Block3DFlat* block)
+{
+	if (block->is_transparent())
+		d->transparent_blocks.remove(block);
+	else
+		d->blocks.remove(block);
+	blocks3dflat.remove(*block);
+}
+
 void BlockFactory::clear_all()
 {
 	

@@ -101,6 +101,14 @@ void Block3DFlat::set_transparency(float t)
 		shown = TRANSP;
 }
 
+bool Block3DFlat::is_transparent()
+{
+	if (shown == NEITHER)
+		return false;
+	else 
+		return true;
+}
+
 void Block3DFlat::display()
 {
 	glPushMatrix();

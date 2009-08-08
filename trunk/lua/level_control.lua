@@ -1,23 +1,25 @@
 function load_level(filename)
 
 	level.map = {}
-	i = 0
+	i = 1
 	max_j = 0
 	for line in io.lines(filename) do
 		level.map[i] = {}
-		j = 0
+		j = 1
 		for w in string.gmatch(line, "[-%d%l]") do
 			level.map[i][j] = {}
 			level.map[i][j].symbol = w
 			level.map[i][j].thing = "empty"
+			--io.write(i,",",j,": ",w,", ")
 			j = j + 1
 		end
 		if j < max_j then j = max_j end
 		i = i + 1
+		--print()
 	end
 	level.cage = {}
-	level.cage.width = j
-	level.cage.height = i
+	level.cage.width = i
+	level.cage.height = j
 	
 end
 
@@ -121,16 +123,18 @@ end
 
 function put_cage()
 
-	lx = (level.cage.x + level.off_x)*level.size
-	ly = (level.cage.y + level.off_y)*level.size
+	lx = (level.cage.x + level.off_x + 1)*level.size
+	ly = (level.cage.y + level.off_y + 1)*level.size
 	ux = (level.cage.x + level.cage.width + level.off_x)*level.size
 	uy = (level.cage.y + level.cage.height + level.off_y)*level.size
-	wx = level.cage.width*level.size
-	wy = level.cage.height*level.size
+	wx = (level.cage.width-1)*level.size
+	wy = (level.cage.height-1)*level.size
 
+	startx = level.cage.x + level.off_x
+	starty = level.cage.y + level.off_y
 	--print (lx .. "," .. ly .. "," .. ux .. "," .. uy .. "," .. wx .. "," .. wy)
 
-	-- ne
+	-- north
 	cage1 = bf:new_flat_block("cage.bmp",Vector2f(wx,8),true)
 	cage1:move(Vector3f(lx,0,uy))
 	cage1:set_tex_size(Vector2f(1,5))
@@ -138,13 +142,18 @@ function put_cage()
 	cage1ff:move(Vector3f(lx,0,uy-1))
 	--cage1ff:toggle_debug()
 	table.insert(scenery, cage1ff)
-	cage1ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
-	cage1ft:move(Vector3f(lx,0,uy))
-	--cage1ft:toggle_debug()
-	table.insert(camera_triggers, cage1ft)
 	
+	for i = 0,level.cage.width do
+		cage1ft = bf:new_imaginary_block(Vector3f(level.size,8,level.size))
+		cage1ft:move(Vector3f((startx + i)*level.size,0,uy))
+		--cage1ft:toggle_debug()
+		ct = {}
+		ct.light_count = 0
+		ct.block = cage1ft
+		table.insert(camera_triggers, ct)
+	end
 	
-	-- sw
+	-- south
 	cage2 = bf:new_flat_block("bricks.bmp",Vector2f(wx,8),false)
 	cage2:move(Vector3f(lx,0,ly))
 	cage2:set_tex_size(Vector2f(1,5))
@@ -152,12 +161,22 @@ function put_cage()
 	cage2ff:move(Vector3f(lx,0,ly))
 	--cage2ff:toggle_debug()
 	table.insert(scenery, cage2ff)
-	cage2ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
-	cage2ft:move(Vector3f(lx,0,ly-level.size))
-	--cage2ft:toggle_debug()
-	table.insert(camera_triggers, cage2ft)
+	--~ cage2ft = bf:new_imaginary_block(Vector3f(wx+level.size*2,8,level.size))
+	--~ cage2ft:move(Vector3f(lx-level.size,0,ly-level.size))
+	--~ --cage2ft:toggle_debug()
+	--~ table.insert(camera_triggers, cage2ft)
 	
-	-- se
+	for i = 0,level.cage.width do
+		cage1ft = bf:new_imaginary_block(Vector3f(level.size,8,level.size))
+		cage1ft:move(Vector3f((startx + i)*level.size,0,ly-level.size))
+		--cage1ft:toggle_debug()
+		ct = {}
+		ct.light_count = 0
+		ct.block = cage1ft
+		table.insert(camera_triggers, ct)
+	end
+	
+	-- east
 	cage3 = bf:new_flat_block("cage.bmp",Vector2f(wy,8),true)
 	cage3:move(Vector3f(lx,0,uy))
 	cage3:set_tex_size(Vector2f(1,5))
@@ -167,13 +186,24 @@ function put_cage()
 	cage3ff:change_dir(Vector3f(0,90,0))
 	--cage3ff:toggle_debug()
 	table.insert(scenery, cage3ff)
-	cage3ft = bf:new_imaginary_block(Vector3f(wy,8,level.size))
-	cage3ft:move(Vector3f(lx-level.size,0,uy))
-	cage3ft:change_dir(Vector3f(0,90,0))
-	--cage3ft:toggle_debug()
-	table.insert(camera_triggers, cage3ft)
+	--~ cage3ft = bf:new_imaginary_block(Vector3f(wy+level.size*2,8,level.size))
+	--~ cage3ft:move(Vector3f(lx-level.size,0,uy+level.size))
+	--~ cage3ft:change_dir(Vector3f(0,90,0))
+	--~ --cage3ft:toggle_debug()
+	--~ table.insert(camera_triggers, cage3ft)
 	
-	-- nw
+	for i = 1,level.cage.height-1 do
+		cage1ft = bf:new_imaginary_block(Vector3f(level.size,8,level.size))
+		cage1ft:move(Vector3f(lx-level.size,0,(starty + i)*level.size))
+		--cage1ft:change_dir(Vector3f(0,90,0))
+		--cage1ft:toggle_debug()
+		ct = {}
+		ct.light_count = 0
+		ct.block = cage1ft
+		table.insert(camera_triggers, ct)
+	end
+	
+	-- west
 	cage4 = bf:new_flat_block("bricks.bmp",Vector2f(wy,8),false)
 	cage4:move(Vector3f(ux,0,uy))
 	cage4:set_tex_size(Vector2f(1,5))
@@ -183,11 +213,22 @@ function put_cage()
 	cage4ff:change_dir(Vector3f(0,90,0))
 	--cage4ff:toggle_debug()
 	table.insert(scenery, cage4ff)
-	cage4ft = bf:new_imaginary_block(Vector3f(wx,8,level.size))
-	cage4ft:move(Vector3f(ux,0,uy))
-	cage4ft:change_dir(Vector3f(0,90,0))
-	--cage4ft:toggle_debug()
-	table.insert(camera_triggers, cage4ft)
+	--~ cage4ft = bf:new_imaginary_block(Vector3f(wx+level.size*2,8,level.size))
+	--~ cage4ft:move(Vector3f(ux,0,uy+level.size))
+	--~ cage4ft:change_dir(Vector3f(0,90,0))
+	--~ --cage4ft:toggle_debug()
+	--~ table.insert(camera_triggers, cage4ft)
+	
+	for i = 1,level.cage.height-1 do
+		cage1ft = bf:new_imaginary_block(Vector3f(level.size,8,level.size))
+		cage1ft:move(Vector3f(ux,0,(starty + i)*level.size))
+		--cage1ft:change_dir(Vector3f(0,90,0))
+		--cage1ft:toggle_debug()
+		ct = {}
+		ct.light_count = 0
+		ct.block = cage1ft
+		table.insert(camera_triggers, ct)
+	end
 
 end
 

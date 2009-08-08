@@ -39,6 +39,7 @@ public:
 	Block3DFlat* new_distance_block(string texture, Vector2f size);
 	void remove_blockText(Block2DText* text);
 	void remove_blockHUD(Block2D* hud);
+	void remove_flat_block(Block3DFlat* block);
 	void clear_all();
 
 };

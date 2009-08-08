@@ -47,8 +47,8 @@ end
 
 function act_to_grid(x,y)
 
-	x = level.off_x + level.cage.x + level.cage.width - math.floor(x/level.size + 0.5)
-	y = math.floor(y/level.size + 0.5) - (level.off_y + level.cage.y)
+	x = level.off_x + level.cage.x + level.cage.width - math.floor((x-0.5)/level.size)
+	y = math.floor((y-0.5)/level.size) - (level.off_y + level.cage.y)
 
 	return x,y
 
@@ -56,8 +56,8 @@ end
 
 function grid_to_act(x,y)
 
-	x = ((level.cage.width - x) + level.off_x + level.cage.x)*level.size
-	y = (y + level.off_y + level.cage.y)*level.size
+	x = ((level.cage.width - x) + level.off_x + level.cage.x + 0.5)*level.size
+	y = (y + level.off_y + level.cage.y + 0.5)*level.size
 
 	return x,y
 

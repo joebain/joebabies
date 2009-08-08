@@ -30,6 +30,7 @@ public:
 	void set_tex(Texture *texture);
 	void set_mask(bool t);
 	void set_transparency(float t);
+	bool is_transparent();
 	void set_pos(Vector3f pos);
 	void set_size(Vector2f size);
 	Vector3f get_pos();
