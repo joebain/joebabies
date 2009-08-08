@@ -5,12 +5,12 @@ function animal_send(animal, direction)
 	
 	if (direction == "n") then
 		animal.direction.x = 0
-		animal.direction.y = -1
-		animal.facing = 180
-	elseif (direction == "s") then
-		animal.direction.x = 0
 		animal.direction.y = 1
 		animal.facing = 0
+	elseif (direction == "s") then
+		animal.direction.x = 0
+		animal.direction.y = -1
+		animal.facing = 180
 	elseif (direction == "e") then
 		animal.direction.x = 1
 		animal.direction.y = 0
@@ -84,20 +84,23 @@ function call_animal()
 	cx,cy = act_to_grid(cpos.x,cpos.z)
 
 	for i,animal in ipairs(animals) do
-		apos = animal.block:get_pos()
-		ax,ay = act_to_grid(apos.x,apos.z)
 	
-		if (ax == cx) then
-			if (ay > cy) then
-				animal_send(animal,'n')
-			else
-				animal_send(animal,'s')
-			end
-		elseif (ay == cy) then
-			if (ax > cx) then
-				animal_send(animal,'w')
-			else
-				animal_send(animal,'e')
+		if not animal.moving then
+			apos = animal.block:get_pos()
+			ax,ay = act_to_grid(apos.x,apos.z)
+		
+			if (ax == cx) then
+				if (ay > cy) then
+					animal_send(animal,'s')
+				else
+					animal_send(animal,'n')
+				end
+			elseif (ay == cy) then
+				if (ax > cx) then
+					animal_send(animal,'w')
+				else
+					animal_send(animal,'e')
+				end
 			end
 		end
 	
@@ -112,69 +115,7 @@ function animal_get_facing(animal)
 	
 	return rot.y%360
 end
---[[
-function animal_next_square(animal)
-	
-	pos = animal.block:get_pos()
-	
-	pos.x = pos.x - (level.size/2)*animal.direction.x
-	pos.z = pos.z - (level.size/2)*animal.direction.y
-	
-	x,y = act_to_grid(pos.x,pos.z)
-	
-	print("at " .. x .. "," .. y)
-	
-	x = x + animal.direction.x
-	y = y + animal.direction.y
-	
-	print("going " .. x .. "," .. y)
-	
-	--~ if x > level.cage.width or x < 0 or y > level.cage.height or y < 0 then
-		--~ return nil
-	--~ end
 
-	return level.map[x][y]
-end
-
-function animal_cur_square(animal)
-	
-	pos = animal.block:get_pos()
-	
-	pos.x = pos.x - (level.size/2)*animal.direction.x
-	pos.z = pos.z - (level.size/2)*animal.direction.y
-	
-	x,y = act_to_grid(pos.x,pos.z)
-	
-	--~ if x > level.cage.width or x < 0 or y > level.cage.height or y < 0 then
-		--~ return nil
-	--~ end
-	
-	level.map[x][y].type = animal.name
-	level.map[x][y].symbol = animal.symbol
-	
-	return level.map[x][y]
-end
-
-function animal_prev_square(animal)
-	
-	pos = animal.block:get_pos()
-	
-	pos.x = pos.x - (level.size/2)*animal.direction.x
-	pos.z = pos.z - (level.size/2)*animal.direction.y
-
-	x,y = act_to_grid(pos.x,pos.z)
-
-	x = x - animal.direction.x
-	y = y - animal.direction.y
-	
-	
-	--~ if x > level.cage.width or x < 0 or y > level.cage.height or y < 0 then
-		--~ return nil
-	--~ end
-	
-	return level.map[x][y]
-end
---]]
 function animals_update(delta)
 
 	--~ print("level:")
@@ -252,8 +193,10 @@ function animals_update(delta)
 						elseif (thing == "box") then
 							--what?
 						elseif (thing == "rock") then
-							--can't go
+							animal.moving = false
 						end
+					else
+						animal.moving = false
 					end
 				end
 				

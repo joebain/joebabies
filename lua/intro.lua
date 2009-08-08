@@ -15,17 +15,7 @@ function intro_setup()
 	v = Vector2f(300,300)
 	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
 	
-	character.main = bf:new_character("hedgehog.obj","hedgehog.bmp")
-	v = Vector3f(x_l_bound+2,0,z_l_bound+2)
-	v.y = f:get_height(Vector2f(v.x,v.z))
-	character.main:set_pos(v)
-	whisker_size = 0.5
-	character.whisker_r = bf:new_imaginary_block(Vector3f(whisker_size,whisker_size,whisker_size))
-	character.whisker_r:nudge(Vector3f(0.2,1,0.5))
-	character.main:add_child(character.whisker_r)
-	character.whisker_l = bf:new_imaginary_block(Vector3f(whisker_size,whisker_size,whisker_size))
-	character.whisker_l:nudge(Vector3f(0.2,1,-0.5))
-	character.main:add_child(character.whisker_l)
+	make_character()
 	
 	v = Vector3f(0,45,0)
 	character.main:set_dir(v)

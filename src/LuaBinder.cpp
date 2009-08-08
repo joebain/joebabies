@@ -117,6 +117,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("new_flat_block", &BlockFactory::new_flat_block)
 			.def("remove_blockText", &BlockFactory::remove_blockText)
 			.def("remove_blockHUD", &BlockFactory::remove_blockHUD)
+			.def("remove_flat_block", &BlockFactory::remove_flat_block)
 			.def("new_distance_block", &BlockFactory::new_distance_block)
 			.def("clear_all", &BlockFactory::clear_all)
 	];
