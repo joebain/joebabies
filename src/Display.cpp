@@ -259,7 +259,7 @@ void Display::init()
 	dif_light[0] = 1.0;
 	dif_light[1] = 1.0;
 	dif_light[2] = 1.0;
-	dif_light[3] = 0.5;
+	dif_light[3] = 1.0;
 	pos_light[0] = 17.0;
 	pos_light[1] = 10.0;
 	pos_light[2] = 10.0;

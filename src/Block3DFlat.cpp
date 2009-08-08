@@ -18,6 +18,8 @@ Block3DFlat::Block3DFlat()
 	
 	shown = MASKED;
 	
+	rel_centre = true;
+	
 	tex_coords[0][0] = 0;
 	tex_coords[0][1] = 0;
 	tex_coords[1][0] = 0;
@@ -41,6 +43,7 @@ Block3DFlat::Block3DFlat(const Block3DFlat& b)
 	texture = b.texture;
 	is_driven = b.is_driven;
 	is_2d = b.is_2d;
+	rel_centre = b.rel_centre;
 	
 	for (int i = 0; i < 4 ; i++) {
 		tex_coords[i][0] = b.tex_coords[i][0];
@@ -112,12 +115,18 @@ bool Block3DFlat::is_transparent()
 void Block3DFlat::display()
 {
 	glPushMatrix();
-	
-	glTranslatef(pos.x, pos.y, pos.z);
 		
+	if (rel_centre) {
+		glTranslatef(pos.x, pos.y, pos.z);
+	}
+	
 	glRotatef(rot.z,0,0,1);
 	glRotatef(rot.y,0,1,0);
 	glRotatef(rot.x,1,0,0);
+	
+	if (!rel_centre) {
+		glTranslatef(pos.x, pos.y, pos.z);
+	}
 	
 	//grab the z pos
 	if (shown != NEITHER) {
@@ -215,6 +224,11 @@ void Block3DFlat::display()
 	}
 	
 	glPopMatrix();
+}
+
+void Block3DFlat::change_size(float s)
+{
+	size *= s;
 }
 
 void Block3DFlat::set_mask(bool t)

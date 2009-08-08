@@ -21,6 +21,7 @@ protected:
 	bool is_driven;
 	bool is_2d;
 	float transparency;
+	bool rel_centre;
 	enum {MASKED, TRANSP, NEITHER} shown;
 public:
 	Block3DFlat();
@@ -33,6 +34,7 @@ public:
 	bool is_transparent();
 	void set_pos(Vector3f pos);
 	void set_size(Vector2f size);
+	void change_size(float s);
 	Vector3f get_pos();
 	Vector3f get_rot();
 	void move(Vector3f move);
@@ -42,6 +44,7 @@ public:
 	void display();
 	void set_driven();
 	void set_tex_size(Vector2f s);
+	void set_rel_centre(bool t) {rel_centre = t;}
 };
 
 #endif

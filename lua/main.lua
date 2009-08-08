@@ -6,6 +6,8 @@ bs = nil
 c = nil
 high_cam_obj = nil
 
+internets = {}
+
 functions = {}
 character = {}
 scenery = {}
@@ -13,11 +15,13 @@ level = {}
 animals = {}
 camera_triggers = {}
 character = {}
+particles = {}
 
 dofile "lua/dialogue.lua"
 dofile "lua/movement.lua"
 dofile "lua/level_util.lua"
 dofile "lua/level_control.lua"
+dofile "lua/particles.lua"
 dofile "lua/animal_control.lua"
 
 dofile "lua/intro.lua"
@@ -65,6 +69,7 @@ function restart()
 	animals = {}
 	camera_triggers = {}
 	character = {}
+	internets = {}
 	
 	functions.load()
 end

@@ -41,16 +41,23 @@ function level1_setup()
 								40,
 								level.size*(level.off_y + level.cage.y + 2)))
 	high_cam_obj:set_dir(Vector3f(40,0,0))
-	--~ for i,animal in ipairs(animals) do
-		--~ send_animal(animal,8,7)
-	--~ end
+	
+	--new_smoke(Vector3f(level.size*(level.off_x + 2),1,level.size*(level.off_y + 2)))
 	
 end
 
 function level1_step(delta)
 	animals_update(delta)
 	
+	for i,thing in ipairs(internets) do
+		thing.block:rotate(Vector3f(0,delta*50,0))
+	end
+	
 	for i,thing in ipairs(camera_triggers) do
 		step_trigger(thing,delta)
+	end
+	
+	for i,thing in ipairs(particles) do
+		particle_step(i,thing,delta)
 	end
 end

@@ -31,6 +31,8 @@ void LuaBinder::bind(lua_State *l)
 			.def_readwrite("z", &Vector3f::z)
 			.def("normalise", &Vector3f::normalise)
 			.def("magnitude", &Vector3f::magnitude)
+			/*.def(luabind::self + Vector3f())
+			.def(luabind::self * float())*/
 	];
 	
 	luabind::module(l) [
@@ -81,6 +83,8 @@ void LuaBinder::bind(lua_State *l)
 			.def("set_tex_size", &Block3DFlat::set_tex_size)
 			.def("get_pos", &Block3DFlat::get_pos)
 			.def("set_transparency", &Block3DFlat::set_transparency)
+			.def("change_size", &Block3DFlat::change_size)
+			.def("set_rel_centre", &Block3DFlat::set_rel_centre)
 	];
 	
 	luabind::module(l) [
@@ -98,6 +102,7 @@ void LuaBinder::bind(lua_State *l)
 	luabind::module(l) [
 		luabind::class_<Floor>("Floor")
 			.def("get_height", &Floor::get_height)
+			.def("get_size", &Floor::get_size)
 	];
 	
 	luabind::module(l) [

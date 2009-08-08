@@ -135,10 +135,10 @@ function animals_update(delta)
 			actual_rot = animal_get_facing(animal)
 			desire_rot = animal.facing
 			--print ("rot " .. actual_rot .. " aim " .. desire_rot)
-			diff_rot = math.abs(actual_rot - desire_rot)%360
-			rot_amount = delta*animal.speed*20
+			diff_rot = (360 + actual_rot - desire_rot)%360
+			rot_amount = delta*animal.speed*40
 			if (diff_rot > rot_amount*2) then
-				if (diff_rot < 180 or diff_rot > -180) then
+				if (diff_rot < 180) then
 					animal.block:rotate(Vector3f(0,-rot_amount,0))
 				else
 					animal.block:rotate(Vector3f(0,rot_amount,0))
@@ -191,9 +191,25 @@ function animals_update(delta)
 						if (thing == "empty") then
 							send_animal(animal,a_gridx,a_gridy)
 						elseif (thing == "box") then
-							--what?
+							if (animal.name == "gorilla") then
+								level.map[a_gridx][a_gridy].block:move(Vector3f(0,-2,0))
+								level.map[a_gridx][a_gridy].block:rotate(Vector3f(45,0,0))
+								level.map[a_gridx][a_gridy].symbol = '0'
+								level.map[a_gridx][a_gridy].thing = 'empty'
+								rx,ry = grid_to_act(a_gridx,a_gridy)
+								new_smoke(Vector3f(rx-level.size/1.5,1,ry+level.size/3))
+								new_smoke(Vector3f(rx-level.size/3,1,ry+level.size/1.5))
+							else
+								animal.moving = false
+							end
 						elseif (thing == "rock") then
 							animal.moving = false
+						elseif (thing == "internet") then
+							animal.block:add_child(level.map[a_gridx][a_gridy].block)
+							level.map[a_gridx][a_gridy].block:nudge(Vector3f(0,4,0))
+							level.map[a_gridx][a_gridy].thing = "empty"
+							level.map[a_gridx][a_gridy].symbol = "0"
+							animal.has_internet = true
 						end
 					else
 						animal.moving = false
