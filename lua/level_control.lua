@@ -20,7 +20,7 @@ function load_level(filename)
 	level.cage = {}
 	level.cage.width = i-1
 	level.cage.height = j-1
-	
+
 end
 
 function set_level_size(s)

@@ -1,7 +1,6 @@
 
-
 function level1_setup()
-  	
+
 	make_character()
 	
 	v = Vector3f(0,45,0)
@@ -21,6 +20,17 @@ function level1_setup()
 	
 		
 	load_level("misc/level1.csv")
+    level.map = world_gen(12,12,5)
+    level.cage = {}
+    level.cage.width = 12
+    level.cage.height = 12
+    io.write("\n\nFinal Map:\n")
+    for i=1,level.cage.width do
+      for j=1,level.cage.height do
+        io.write(level.map[i][j].symbol, " ")
+      end
+      io.write("\n")
+    end
 	
 	set_level_size(5)
 	set_level_offset(x_l_bound/level.size,z_l_bound/level.size)

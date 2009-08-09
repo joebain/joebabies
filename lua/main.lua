@@ -23,6 +23,7 @@ dofile "lua/level_util.lua"
 dofile "lua/level_control.lua"
 dofile "lua/particles.lua"
 dofile "lua/animal_control.lua"
+dofile "lua/worldgen.lua"
 
 dofile "lua/intro.lua"
 dofile "lua/level1.lua"
