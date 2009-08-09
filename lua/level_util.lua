@@ -23,24 +23,26 @@ end
 
 function do_mountains ()
 
+	size = f:get_size()
+	--xsize = 
 	--lower x
-	mountains1 = bf:new_distance_block("bg_mountains.bmp",Vector2f(400,300))
-	mountains1:move(Vector3f(-90,-10,-90))
-	mountains1:set_tex_size(Vector2f(1,4))
+	mountains1 = bf:new_distance_block("bg_mountains.bmp",Vector2f(((size.y -1) * level.size),((size.y -1) * level.size)))
+	mountains1:move(Vector3f(0,0,0))
+	mountains1:set_tex_size(Vector2f(1,1))
 	--lower z
-	mountains2 = bf:new_distance_block("bg_trees.bmp",Vector2f(400,300))
-	mountains2:move(Vector3f(-90,-10,-90))
+	mountains2 = bf:new_distance_block("bg_mountains2.bmp",Vector2f(((size.x -1) * level.size),((size.x -1) * level.size)))
+	mountains2:move(Vector3f(0,0,0))
 	mountains2:rotate(Vector3f(0,-90,0))
-	mountains2:set_tex_size(Vector2f(1,4))
+	mountains2:set_tex_size(Vector2f(1,1))
 	--upper x
-	mountains3 = bf:new_distance_block("bg_trees.bmp",Vector2f(400,300))
-	mountains3:move(Vector3f(290,-10,290))
+	mountains3 = bf:new_distance_block("bg_mountains2.bmp",Vector2f(((size.x -1) * level.size),((size.x -1) * level.size)))
+	mountains3:move(Vector3f((size.y -1) * level.size,0,(size.x -1) * level.size))
 	mountains3:rotate(Vector3f(0,90,0))
-	mountains3:set_tex_size(Vector2f(1,4))
+	mountains3:set_tex_size(Vector2f(1,1))
 	--upper z
-	mountains4 = bf:new_distance_block("bg_trees.bmp",Vector2f(400,300))
-	mountains4:move(Vector3f(-90,-10,290))
-	mountains4:set_tex_size(Vector2f(1,4))
+	mountains4 = bf:new_distance_block("bg_trees.bmp",Vector2f(((size.y -1) * level.size),((size.y -1) * level.size)))
+	mountains4:move(Vector3f(0,0,(size.x -1) * level.size))
+	mountains4:set_tex_size(Vector2f(1,1))
 
 end
 
