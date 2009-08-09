@@ -1,5 +1,5 @@
 
-function level1_setup()
+function level1_setup(difficulty)
 
 	make_character()
 	
@@ -19,14 +19,26 @@ function level1_setup()
 	--~ end
 	
 		
-	load_level("misc/level1.csv")
+	--load_level("misc/level1.csv")
     level.map = nil
+    ts = 0
+    td = 0
+    if (difficulty == 1) then
+      ts = 6
+      td = 3
+    elseif (difficulty == 2) then
+      ts = 8
+      td = 5
+    else 
+      ts = 10
+      td = 7
+    end
     while (level.map == nil) do
-      level.map = world_gen(10,10,7)
+      level.map = world_gen(ts,ts,td)
     end
     level.cage = {}
-    level.cage.width = 10
-    level.cage.height = 10
+    level.cage.width = ts
+    level.cage.height = ts
     io.write("==========\n")
     io.write("Final Map:\n")
     io.write("==========\n")
