@@ -44,7 +44,7 @@ function world_gen(sizex, sizey, difficulty)
           stillok = false 
         end
         if stillok then
-          if (y ~= 1) then place(x,y-1,"r") end
+          if (y ~= 1 and readplace(x,y-1) == "0") then place(x,y-1,"r") end
           y = y + distance
         end
       end
@@ -59,7 +59,7 @@ function world_gen(sizex, sizey, difficulty)
           stillok = false 
         end
         if stillok then
-          if (x ~= 1) then place(x-1,y,"r") end
+          if (x ~= 1 and readplace(x-1,y) == "0") then place(x-1,y,"r") end
           x = x + distance
         end
       end
@@ -74,7 +74,7 @@ function world_gen(sizex, sizey, difficulty)
           stillok = false 
         end
         if stillok then
-          if (y ~= sizey) then place(x,y+1,"r") end
+          if (y ~= sizey and readplace(x,y+1) == "0") then place(x,y+1,"r") end
           y = y - distance
         end
       end
@@ -89,7 +89,7 @@ function world_gen(sizex, sizey, difficulty)
           stillok = false 
         end
         if stillok then
-          if (x ~= sizex) then place(x+1,y,"r") end
+          if (x ~= sizex and readplace(x+1,y) == "0") then place(x+1,y,"r") end
           x = x - distance
         end
       end
