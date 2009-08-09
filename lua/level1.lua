@@ -37,9 +37,9 @@ function level1_setup()
 	--do_city()
 	
 	high_cam_obj = bf:new_imaginary_block(Vector3f(1,1,1))
-	high_cam_obj:move(Vector3f(level.size*(level.width/4 + level.off_x + level.cage.x + 1),
+	high_cam_obj:move(Vector3f(level.size*(level.cage.width/2 + level.off_x + level.cage.x),
 								40,
-								level.size*(level.off_y + level.cage.y + 2)))
+								level.size*(level.off_y + level.cage.y + 1.5)))
 	high_cam_obj:set_dir(Vector3f(40,0,0))
 	
 	--new_smoke(Vector3f(level.size*(level.off_x + 2),1,level.size*(level.off_y + 2)))

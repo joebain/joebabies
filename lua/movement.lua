@@ -155,20 +155,24 @@ function light_up_trigger(trigger)
 		trigger.light = light
 	end
 	trigger.light_count = 1
+	trigger.light_switch = true
 	--print("setting to 1")
 end
 
 function step_trigger(trigger,delta)
-	if trigger.light_count > 0 then
-		if character.main:collide(trigger.block) then
-			trigger.light_count = 1
-		else
-			trigger.light_count = trigger.light_count - delta*2
-			--trigger.light:set_transparency(trigger.light_count)
+	if trigger.light_switch == true then
+		if trigger.light_count > 0 then
+			if character.main:collide(trigger.block) then
+				trigger.light_count = 1
+			else
+				trigger.light_count = trigger.light_count - delta*2
+				--trigger.light:set_transparency(trigger.light_count)
+			end
+		elseif trigger.light_count <= 0 then
+			trigger.light_count = 0
+			trigger.light_switch = false
+			bf:remove_flat_block(trigger.light)
 		end
-	elseif trigger.light_count < 0 then
-		trigger.light_count = 0
-		bf:remove_flat_block(trigger.light)
 	end
 end
 
