@@ -42,6 +42,8 @@ int main (int argc, char** argv)
 	} catch(const std::exception &TheError) {
 		cerr << TheError.what() << endl;
 		cerr << lua_tostring(l, -1) << endl;
+        cerr << "(There's probably a problem in your lua script, ya mong.)" << endl;
+        return 0;
 	}
   
 	w->main_loop();
