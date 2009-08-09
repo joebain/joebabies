@@ -209,8 +209,17 @@ function animals_update(delta)
                                 else
                                   w.audio.boxsmash2:play() 
                                 end
-								level.map[a_gridx][a_gridy].block:move(Vector3f(0,-2,0))
-								level.map[a_gridx][a_gridy].block:rotate(Vector3f(45,0,0))
+								level.map[a_gridx][a_gridy].block:move(Vector3f(0,-5,0))
+								coords = level.map[a_gridx][a_gridy].block:get_pos()
+								rot = level.map[a_gridx][a_gridy].block:get_dir()
+								
+								
+								b = bf:new_block3d("broken_box.obj","broken_box.bmp")
+								v = Vector3f(coords.x,0,coords.z)
+								v.y = f:get_height(Vector2f(v.x,v.z))
+								b:move(v)
+								b:change_dir(rot)
+
 								level.map[a_gridx][a_gridy].symbol = '0'
 								level.map[a_gridx][a_gridy].thing = 'empty'
 								rx,ry = grid_to_act(a_gridx,a_gridy)
