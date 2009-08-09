@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -c -Wall -g
+CFLAGS = -c -Wall -g -O4
 INCLUDE = -I/usr/X11R6/include/ -I/usr/include/lua5.1 -I/usr/local/include/luabind
 
 LDFLAGS = -L/usr/X11R6/lib64/ -L/lua-5.1/lib/ -L/usr/lib/ -L/usr/local/lib/
