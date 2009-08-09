@@ -1,3 +1,4 @@
+last_time_call_pressed = 0
 
 function animal_send(animal, direction)
 	
@@ -88,7 +89,11 @@ function call_animal()
 		if not animal.moving then
 			apos = animal.block:get_pos()
 			ax,ay = act_to_grid(apos.x,apos.z)
-		
+            time_call_pressed = os.time()
+            if (time_call_pressed - last_time_call_pressed > 0) then
+		      w.audio.wolfwhistle:play()
+              last_time_call_pressed = time_call_pressed
+            end
 			if (ax == cx) then
 				if (ay > cy) then
 					animal_send(animal,'s')
@@ -192,6 +197,12 @@ function animals_update(delta)
 							send_animal(animal,a_gridx,a_gridy)
 						elseif (thing == "box") then
 							if (animal.name == "gorilla") then
+                                t = math.random(1,2)
+                                if (t == 1) then
+                                  w.audio.boxsmash1:play()
+                                else
+                                  w.audio.boxsmash2:play() 
+                                end
 								level.map[a_gridx][a_gridy].block:move(Vector3f(0,-2,0))
 								level.map[a_gridx][a_gridy].block:rotate(Vector3f(45,0,0))
 								level.map[a_gridx][a_gridy].symbol = '0'
@@ -205,6 +216,7 @@ function animals_update(delta)
 						elseif (thing == "rock") then
 							animal.moving = false
 						elseif (thing == "internet") then
+                            w.audio.puzzleget:play()
 							animal.block:add_child(level.map[a_gridx][a_gridy].block)
 							level.map[a_gridx][a_gridy].block:nudge(Vector3f(0,4,0))
 							level.map[a_gridx][a_gridy].thing = "empty"

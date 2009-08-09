@@ -88,10 +88,7 @@ function intro_setup()
 	
 	c:follow(character.main)
 	
-	music = w:new_audio_file("music", true);
 	sound = w:new_audio_file("hello", false);
-	music:play();
-	--sound:play();
 	
 	water = bf:new_flat_block("water.bmp",Vector2f(200,200), true)
 	water:move(Vector3f(0,-0.3,0))
@@ -136,6 +133,7 @@ function intro_step(delta)
 			character.main:add_child(turtle)
 			table.remove(ts,i)
 			table.insert(turtle_ring,turtle)
+            w.audio.turtleget:play()
 			
 		
 		else
@@ -148,6 +146,7 @@ function intro_step(delta)
 				turtle:move(m)
 				r = Vector3f(0,45.0,0)
 				turtle:change_dir(r)
+                
 			end
 			height = f:get_height(Vector2f(turtle:get_pos().x,turtle:get_pos().z))
 			v = Vector3f(turtle:get_pos().x,height,turtle:get_pos().z)

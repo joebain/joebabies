@@ -30,6 +30,8 @@ dofile "lua/level1.lua"
 
 function start (world)
 
+    math.randomseed( os.time() )
+
 	w = world
 	
 	
@@ -54,7 +56,16 @@ function start (world)
 	functions.down = move_down
 	functions.space = cycle_text
 	functions.a_key = gotolevel1
-	
+
+    w.music = w:new_audio_file("music",true)
+	w.music:play_loop(-1)
+    
+    w.audio = {}
+    w.audio.boxsmash1 = w:new_audio_file("quitegood-boxsmash",false)
+    w.audio.boxsmash2 = w:new_audio_file("othergood-boxsmash",false)
+    w.audio.puzzleget = w:new_audio_file("puzzlepiece",false)
+    w.audio.turtleget = w:new_audio_file("turtleget",false)
+    w.audio.wolfwhistle = w:new_audio_file("wolf_whistle",false)
 	--gotolevel1 ()
 	
 	functions.load()
