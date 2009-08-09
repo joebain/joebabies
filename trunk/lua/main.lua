@@ -50,7 +50,7 @@ function start (world)
 	functions.left = move_left
 	functions.up = move_up
 	functions.down = move_down
-	functions.space = remove_text
+	functions.space = cycle_text
 	functions.a_key = gotolevel1
 	
 	--gotolevel1 ()
