@@ -68,3 +68,13 @@ end
 function in_cage(x,y)
 	return x <= level.cage.width and x > 0 and y <= level.cage.height and y > 0
 end
+
+function read_facts(file)
+  facts = {}
+  local i = 1
+  for line in io.lines("misc/"..file..".txt") do
+    facts[i] = line
+    i = i + 1
+  end
+  return facts
+end

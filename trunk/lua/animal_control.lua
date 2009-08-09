@@ -44,10 +44,15 @@ function try_send(dir)
 	cpos = character.main:get_pos()
 	cx,cy = act_to_grid(cpos.x,cpos.z)
 
+    -- This assumes way too much.
+    if (not animals[1].moving) then
+      animal_send(animals[1],dir)
+    end
+    --[[
 	for i,animal in ipairs(animals) do
-		apos = animal.block:get_pos()
-		ax,ay = act_to_grid(apos.x,apos.z)
-	
+
+        ax,ay = act_to_grid(apos.x,apos.z)
+        apos = animal.block:get_pos()
 		if (ax == cx) then
 			if (ay-1 == cy) or (ay+1 == cy) then
 				animal_send(animal,dir)
@@ -59,8 +64,9 @@ function try_send(dir)
 				break;
 			end
 		end
-	
+  	
 	end
+    ]]--
 end
 
 function send_animal(animal,x,y)
