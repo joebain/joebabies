@@ -34,7 +34,6 @@ function start (world)
 
 	w = world
 	
-	
 	bf = w:get_block_factory()
 	bs = w:get_buttons()
 	
@@ -56,6 +55,8 @@ function start (world)
 	functions.down = move_down
 	functions.space = cycle_text
 	functions.a_key = gotolevel1
+
+    w.facts = read_facts("facts_gorilla")
 
     w.music = w:new_audio_file("music",true)
 	w.music:play_loop(-1)
