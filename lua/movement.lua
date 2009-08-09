@@ -2,7 +2,7 @@
 player_turn_speed = 40.0
 player_travel_speed = 10.0
 player_wobble_counter = 0.0
-player_wobble_factor = 0.001
+player_wobble_factor = 0.05
 player_bounce_factor = 5.0
 
 in_cam_triggers = false
@@ -85,7 +85,7 @@ function position_character(delta)
 	character.main:set_pos(v)
 	
 	wobble = math.sin(player_wobble_counter)
-	r = Vector3f(0,delta*(wobble/player_wobble_factor),0)
+	r = Vector3f(0,(wobble/player_wobble_factor),0)
 	player_wobble_counter = player_wobble_counter + delta*15
 	character.main:set_rot(r)
 	
