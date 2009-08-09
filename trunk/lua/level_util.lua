@@ -64,5 +64,5 @@ function grid_to_act(x,y)
 end
 
 function in_cage(x,y)
-	return x < level.cage.width and x > 0 and y < level.cage.height and y > 0
+	return x <= level.cage.width and x > 0 and y <= level.cage.height and y > 0
 end

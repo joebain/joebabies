@@ -455,6 +455,10 @@
 			RelativePath=".\lua\movement.lua"
 			>
 		</File>
+		<File
+			RelativePath=".\lua\particles.lua"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
