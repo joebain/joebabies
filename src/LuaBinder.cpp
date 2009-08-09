@@ -93,10 +93,12 @@ void LuaBinder::bind(lua_State *l)
 			.def("rotate", &Block2D::rotate)
 			.def("set_depth", &Block2D::set_depth)
 			.def("set_tex_size", &Block2D::set_tex_size)
+			.def("get_pos", &Block2D::get_pos)
+			.def("set_pos", &Block2D::set_pos)
 	];
 	
 	luabind::module(l) [
-		luabind::class_<Block2DText>("Block2DText")
+		luabind::class_<Block2DText, Block2D>("Block2DText")
 	];
 	
 	luabind::module(l) [
