@@ -97,11 +97,15 @@ void Display::update(float delta)
     	
     }
     else {
+		glEnable(GL_CULL_FACE);
+		
 		if (floor != NULL) floor->display();
     	//cout << "drawing " << blocks.size() << " blocks" << endl;
 		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
 			(*iter)->display();
 		}
+		
+		glDisable(GL_CULL_FACE);
 		
 		transparent_blocks.sort(Display::depth_sort);
 		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
