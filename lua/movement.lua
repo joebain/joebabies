@@ -184,10 +184,10 @@ function make_character()
 	whisker_size = 0.5
 	character.whisker_r = bf:new_imaginary_block(Vector3f(whisker_size/4,whisker_size,whisker_size))
 	character.whisker_r:nudge(Vector3f(-0.5,1,0))
-	character.whisker_r:toggle_debug()
+	--character.whisker_r:toggle_debug()
 	character.main:add_child(character.whisker_r)
 	character.whisker_l = bf:new_imaginary_block(Vector3f(whisker_size/4,whisker_size,whisker_size))
 	character.whisker_l:nudge(Vector3f(0.5,1,0))
-	character.whisker_l:toggle_debug()
+	--character.whisker_l:toggle_debug()
 	character.main:add_child(character.whisker_l)
 end

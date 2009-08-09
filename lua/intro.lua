@@ -14,10 +14,8 @@ x_u_bound = 150
 z_u_bound = 150
 
 
-function intro_setup()
 
-	v = Vector2f(300,300)
-	hud = bf:new_blockHUD(v,"hedgehog_hud.bmp")
+function intro_setup()
 	
 	make_character()
 	
@@ -137,13 +135,14 @@ function intro_step(delta)
 		end
 	end
 	
-	
+	update_dialogue(delta)
 	
 	if character.main:collide(block) then
-	--bf:clear_all()
-		if not dialogue.text_up then
-			put_dialogue("Hello, my name is Hedgey the Hedgehog. I like cheese and fast cars. Do you have a cracker for me?","hedgehog")
-		end
+		put_dialogue("Hello, my name is Hedgey the Hedgehog. I like cheese and fast cars. Do you have a cracker for me? One thing I really love is crackers. Did you know that one hedgehog like me can get through about 14 crackers in 30 minutes. It's pure madness.","hedgehog")
+	else
+		dialogue.big_trigger = false
 	end
 
 end
+
+
