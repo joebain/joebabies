@@ -10,6 +10,9 @@ dialogue.trigger_counter = 0
 dialogue.trigger = false
 dialogue.big_trigger = false
 
+
+menu = {}
+
 function remove_text ()
 	if (dialogue.text_up == true) then
 		len = math.min(dialogue.lines_removed + 5,dialogue.lines_shown)
@@ -152,4 +155,83 @@ function cycle_text ()
 		dialogue.trigger = true
 		dialogue.trigger_counter = 0.5
 	end
+end
+
+function put_menu(question,choices,character)
+
+	menu.text_size = Vector2f(20,20)
+	
+	menu.choices = choices
+	
+	menu.height = menu.text_size.y * (#menu.choices+5) * 1.3
+	menu.width = display:get_width()-200
+		
+	menu.text_pos = Vector2f((display:get_width()/2 - menu.width/2) + 120, menu.height-20)
+	
+	backing_size = Vector2f(menu.width*1.1,menu.height*1.1)
+	menu.backing = bf:new_blockHUD(backing_size,"dialogue.bmp")
+	v = Vector2f((display:get_width()/2 - menu.width/2) + 30, 80)
+	menu.backing:move(v)
+
+	v = Vector2f(300,300)
+	menu.character = bf:new_blockHUD(v,character .. "_hud.bmp")	
+	
+	menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-red.bmp")
+	
+	pos = Vector2f((display:get_width()/2 - menu.width/2) + 80,menu.height+20)
+	menu.question = bf:new_blockText(pos,Vector2f(20,20),question,"font_wbg.bmp")
+	
+	pos = Vector2f(menu.text_pos.x,menu.text_pos.y)
+	for i = 1,#menu.choices do
+		menu.choices[i].block = bf:new_blockText(pos,menu.text_size,menu.choices[i].text,"font_wbg.bmp")
+		pos.y = pos.y - menu.text_size.y*1.3
+	end
+	
+	menu.selected = 0
+	
+	update_menu()
+	
+	menu.old_up = functions.up
+	menu.old_down = functions.down
+	menu.old_space = functions.space 
+	
+	functions.up = menu_up
+	functions.down = menu_down
+	functions.space = menu_select
+	
+end
+
+function update_menu()
+	--print(menu.selected .. " is selected")
+	menu.selector:set_pos(menu.choices[menu.selected+1].block:get_pos())
+end
+
+function menu_up()
+	menu.selected = menu.selected - 1
+	menu.selected = menu.selected%(#menu.choices)
+	update_menu()
+end
+
+function menu_down()
+	menu.selected = menu.selected + 1
+	menu.selected = menu.selected%(#menu.choices)
+	update_menu()
+end
+
+function menu_select()
+	
+	menu.choices[menu.selected+1].cb_func()
+	
+	for i = 1,#menu.choices do
+		bf:remove_blockText(menu.choices[i].block)
+	end
+	
+	bf:remove_blockText(menu.question)
+	bf:remove_blockHUD(menu.selector)
+	bf:remove_blockHUD(menu.character)
+	bf:remove_blockHUD(menu.backing)
+	
+	functions.up = menu.old_up
+	functions.down = menu.old_down
+	functions.space = menu.old_space
 end

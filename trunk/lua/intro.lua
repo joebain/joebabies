@@ -13,6 +13,7 @@ z_l_bound = 50
 x_u_bound = 150
 z_u_bound = 150
 
+block2_collide = false
 
 
 function intro_setup()
@@ -31,7 +32,13 @@ function intro_setup()
 		until v.y >= 0
 		
 		b2:move(v)
-		table.insert(scenery,b2)
+		
+		bounder = bf:new_imaginary_block(Vector3f(2,8,2))
+		bounder:nudge(Vector3f(-1,0,-1))
+		--bounder:toggle_debug()
+		b2:add_child(bounder)
+		
+		table.insert(scenery,bounder)
 	end
 	
 	--~ wall = bf:new_block3d("wall.obj","wall.bmp")
@@ -72,13 +79,18 @@ function intro_setup()
 	v = Vector3f(x_l_bound+40,0,z_l_bound+40)
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	block:move(v)
+	
+	block2 = bf:new_block3d("box.obj","box.bmp")
+	v = Vector3f(x_l_bound+80,0,z_l_bound+40)
+	v.y = f:get_height(Vector2f(v.x,v.z))
+	block2:move(v)
 
 	
 	c:follow(character.main)
 	
-	music = w:new_audio_file("main", true);
+	music = w:new_audio_file("music", true);
 	sound = w:new_audio_file("hello", false);
-	--music:play();
+	music:play();
 	--sound:play();
 	
 	water = bf:new_flat_block("water.bmp",Vector2f(200,200), true)
@@ -86,8 +98,25 @@ function intro_setup()
 	water:rotate(Vector3f(90,0,0))
 	water:set_transparency(0.9)
 	water:set_tex_size(Vector2f(100,100))
+	
+	
 end
 
+function eat_pie()
+print("eat a pie")
+end
+
+function eat_sausage()
+print("eat a sausage")
+end
+
+function go_town()
+print("go to town")
+end
+
+function rape_kid()
+print("rape it like a polaroid picture")
+end 
 
 function intro_step(delta)
 
@@ -139,8 +168,33 @@ function intro_step(delta)
 	
 	if character.main:collide(block) then
 		put_dialogue("Hello, my name is Hedgey the Hedgehog. I like cheese and fast cars. Do you have a cracker for me? One thing I really love is crackers. Did you know that one hedgehog like me can get through about 14 crackers in 30 minutes. It's pure madness.","hedgehog")
+		--put_dialogue("12345678","hedgehog")
 	else
 		dialogue.big_trigger = false
+	end
+	
+	if character.main:collide(block2) then
+		if block2_collide == false then
+			choices = {}
+			choices[1] = {}
+			choices[1].text = "Eat a pie"
+			choices[1].cb_func = eat_pie
+			choices[2] = {}
+			choices[2].text = "Eat a sausage"
+			choices[2].cb_func = eat_sausage
+			
+			choices[3] = {}
+			choices[3].text = "Go to town"
+			choices[3].cb_func = go_town
+			choices[4] = {}
+			choices[4].text = "Rape a child"
+			choices[4].cb_func = rape_kid
+			
+			put_menu("What would you like to do?",choices,"hedgehog")
+			block2_collide = true
+		end
+	else
+		block2_collide = false
 	end
 
 end
