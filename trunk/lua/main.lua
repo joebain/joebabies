@@ -53,9 +53,9 @@ function start (world)
 	functions.space = remove_text
 	functions.a_key = gotolevel1
 	
-	gotolevel1 ()
+	--gotolevel1 ()
 	
-	--functions.load()
+	functions.load()
 	
 end
 
