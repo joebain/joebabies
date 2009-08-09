@@ -20,7 +20,7 @@ function level1_setup()
 	
 		
 	load_level("misc/level1.csv")
-    level.map = world_gen(12,12,5)
+    level.map = world_gen(12,12,10)
     level.cage = {}
     level.cage.width = 12
     level.cage.height = 12
