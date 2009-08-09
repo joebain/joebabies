@@ -20,11 +20,16 @@ function level1_setup()
 	
 		
 	load_level("misc/level1.csv")
-    level.map = world_gen(12,12,10)
+    level.map = nil
+    while (level.map == nil) do
+      level.map = world_gen(10,10,7)
+    end
     level.cage = {}
-    level.cage.width = 12
-    level.cage.height = 12
-    io.write("\n\nFinal Map:\n")
+    level.cage.width = 10
+    level.cage.height = 10
+    io.write("==========\n")
+    io.write("Final Map:\n")
+    io.write("==========\n")
     for i=1,level.cage.width do
       for j=1,level.cage.height do
         io.write(level.map[i][j].symbol, " ")
