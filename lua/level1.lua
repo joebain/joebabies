@@ -44,7 +44,7 @@ function level1_setup()
 	put_cage()
 	
 	do_border_fences()
-	--do_city()
+	do_mountains()
 	
 	high_cam_obj = bf:new_imaginary_block(Vector3f(1,1,1))
 	high_cam_obj:move(Vector3f(level.size*(level.cage.width/2 + level.off_x + level.cage.x),
