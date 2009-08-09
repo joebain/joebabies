@@ -17,8 +17,11 @@ Camera::Camera()
 	distance = 20.0;
 	
 	min_snap = 2.0;
-	
+#ifdef WIN32
 	pos.init(0,50,0);
+#else
+    pos.init(0,200,0);
+#endif
 	
 	is_following = false;
 }
