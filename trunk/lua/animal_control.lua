@@ -262,11 +262,11 @@ function animals_update(delta)
 						new_internet = bf:new_block3d("internet.obj","internet.bmp")
 						--internet:move(Vector3f(cpos.x, cpos.y + 5, cpos.z))
 						
-						character.main:add_child(internet) --give internet to techie
+						character.main:add_child(new_internet) --give internet to techie
 						new_internet:nudge(Vector3f(0,6,0))
 
 						animal.block:clear_children()
-						bf:remove_3d_block(internet)
+						--bf:remove_3d_block(internet)
 						
 						put_dialogue("Well done you man-baby. You solved the internet for today, but tomorrow I need some help defragmenting my C drive. Also did you know ... " .. w.gorilla_facts[math.random(1,#w.gorilla_facts)],"gorilla",go_again)
 
