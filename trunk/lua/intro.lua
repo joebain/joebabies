@@ -140,7 +140,7 @@ function intro_step(delta)
 	
 		--turtle:rotate(Vector3f(0,delta*10,0))
 		pos = (i/#turtle_ring)*math.pi*2 + turtle_ring_counter
-		turtle:set_offset(Vector3f((math.cos(pos))*turtle_ring_radius,2,((math.sin(pos)))*turtle_ring_radius))
+		turtle:set_offset(Vector3f((math.cos(pos))*turtle_ring_radius,4,((math.sin(pos)))*turtle_ring_radius))
 	
 	end
 	
