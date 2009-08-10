@@ -288,6 +288,9 @@ function go_again()
 	choices[2] = {}
 	choices[2].text = "No"
 	choices[2].cb_func = go_again_no
+	choices[3] = {}
+	choices[3].text = "I, uh, need to talk to Mortimer"
+	choices[3].cb_func = gotointro
 	
 	put_menu("Go again?",choices,"person")
 end
