@@ -25,6 +25,7 @@ dofile "lua/particles.lua"
 dofile "lua/animal_control.lua"
 dofile "lua/worldgen.lua"
 
+dofile "lua/title.lua"
 dofile "lua/intro.lua"
 dofile "lua/level1.lua"
 
@@ -43,23 +44,15 @@ function start (world)
 	s = bf:new_sky("grass-pixel.bmp")
 	s:set_scale(300)
 
-	
 	f = bf:new_floor("misc/intro_hmap.csv","grass-pixel.bmp",5)
 
-	
-	functions.load = intro_setup
-	functions.step = intro_step
-	functions.right = move_right
-	functions.left = move_left
-	functions.up = move_up
-	functions.down = move_down
-	functions.space = cycle_text
-	functions.a_key = gotolevel1
+	functions.load = title_setup
+    functions.step = title_step
+    functions.space = gotointro
 
     w.facts = read_facts("facts_gorilla")
 
     w.music = w:new_audio_file("music",true)
-	w.music:play_loop(-1)
     
     w.audio = {}
     w.audio.boxsmash1 = w:new_audio_file("quitegood-boxsmash",false)
@@ -103,6 +96,21 @@ function step (delta)
 	if (bs.d) then functions.d_key(delta) end
 	if (bs.w) then functions.w_key(delta) end
 	
+end
+
+function gotointro (delta)
+    w.music:play_loop(-1)
+
+  	functions.load = intro_setup
+	functions.step = intro_step
+	functions.right = move_right
+	functions.left = move_left
+	functions.up = move_up
+	functions.down = move_down
+	functions.space = cycle_text
+	functions.a_key = gotolevel1
+
+    restart()
 end
 
 function gotolevel1 (delta)
