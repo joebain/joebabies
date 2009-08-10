@@ -50,7 +50,8 @@ function start (world)
     functions.step = title_step
     functions.space = gotointro
 
-    w.facts = read_facts("facts_gorilla")
+    w.gorilla_facts = read_facts("facts_gorilla")
+	w.tortoise_facts = read_facts("facts_tortoise")
 
     w.music = w:new_audio_file("music",true)
     
@@ -86,15 +87,15 @@ function step (delta)
 	
 	functions.step(delta)
 	--~ 
-	if (bs.up) then functions.up(delta) end
-	if (bs.down) then functions.down(delta) end
-	if (bs.left) then functions.left(delta) end
-	if (bs.right) then functions.right(delta) end
-	if (bs.space) then functions.space(delta) end
-	if (bs.a) then functions.a_key(delta) end
-	if (bs.s) then functions.s_key(delta) end
-	if (bs.d) then functions.d_key(delta) end
-	if (bs.w) then functions.w_key(delta) end
+	if (bs.up) and functions.up ~= nil then functions.up(delta) end
+	if (bs.down) and functions.down ~= nil then functions.down(delta) end
+	if (bs.left) and functions.left ~= nil then functions.left(delta) end
+	if (bs.right) and functions.right ~= nil then functions.right(delta) end
+	if (bs.space) and functions.space ~= nil then functions.space(delta) end
+	if (bs.a) and functions.a_key ~= nil then functions.a_key(delta) end
+	if (bs.s) and functions.s_key ~= nil then functions.s_key(delta) end
+	if (bs.d) and functions.d_key ~= nil then functions.d_key(delta) end
+	if (bs.w) and functions.w_key ~= nil then functions.w_key(delta) end
 	
 end
 

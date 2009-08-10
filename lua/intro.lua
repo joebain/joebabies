@@ -89,17 +89,6 @@ function intro_setup()
 		table.insert(ts,b2)
 	end
 	
-	block = bf:new_block3d("box.obj","box.bmp")
-	v = Vector3f(x_l_bound+40,0,z_l_bound+40)
-	v.y = f:get_height(Vector2f(v.x,v.z))
-	block:move(v)
-	
-	block2 = bf:new_block3d("box.obj","box.bmp")
-	v = Vector3f(x_l_bound+80,0,z_l_bound+40)
-	v.y = f:get_height(Vector2f(v.x,v.z))
-	block2:move(v)
-
-	
 	c:follow(character.main)
 	
 	sound = w:new_audio_file("hello", false);
@@ -113,22 +102,6 @@ function intro_setup()
 	
 end
 
-function eat_pie()
-print("eat a pie")
-end
-
-function eat_sausage()
-print("eat a sausage")
-end
-
-function go_town()
-print("go to town")
-end
-
-function rape_kid()
-print("rape it like a polaroid picture")
-end 
-
 function start_tortoise_challenge()
 
 	turtle_challenge = true
@@ -138,8 +111,13 @@ end
 
 function refuse_tortoise_challenge()
 
-	put_dialogue("Fine, be like that!","tortoise",nil)
+	put_dialogue("Fine, be like that!","tortoise",return_control)
 
+end
+
+function return_control()
+	functions.up = move_up
+	functions.up = move_down
 end
 
 function tortoise_challenge_ask ()
@@ -169,7 +147,7 @@ function intro_step(delta)
 	if (character.main:collide(big_tortoise.block)) then
 		if (turtle_challenge == true) then
 			if big_tortoise.collide == false then
-				put_dialogue("Hey what a good job, you collected " .. #turtle_ring .. " of those little guys in only " .. (os.time()-turtle_challenge_start) .. " seconds. Well done indeed!","tortoise",nil)
+				put_dialogue("Hey what a good job, you collected " .. #turtle_ring .. " of those little guys in only " .. (os.time()-turtle_challenge_start) .. " seconds. Well done indeed! P.s. Did you know ..... " .. w.tortoise_facts[math.random(1,#w.tortoise_facts)],"tortoise",nil)
 			end
 			
 		
@@ -247,37 +225,6 @@ function intro_step(delta)
 	
 	update_dialogue(delta)
 	
-	if character.main:collide(block) then
-		put_dialogue("Hello, my name is Hedgey the Hedgehog. I like cheese and fast cars. Do you have a cracker for me? One thing I really love is crackers. Did you know that one hedgehog like me can get through about 14 crackers in 30 minutes. It's pure madness.","hedgehog")
-		--put_dialogue("12345678","hedgehog")
-	else
-		dialogue.big_trigger = false
-	end
-	
-	if character.main:collide(block2) then
-		if block2_collide == false then
-			choices = {}
-			choices[1] = {}
-			choices[1].text = "Eat a pie"
-			choices[1].cb_func = eat_pie
-			choices[2] = {}
-			choices[2].text = "Eat a sausage"
-			choices[2].cb_func = eat_sausage
-			
-			choices[3] = {}
-			choices[3].text = "Go to town"
-			choices[3].cb_func = go_town
-			choices[4] = {}
-			choices[4].text = "Rape a child"
-			choices[4].cb_func = rape_kid
-			
-			put_menu("What would you like to do?",choices,"hedgehog")
-			block2_collide = true
-		end
-	else
-		block2_collide = false
-	end
-
 end
 
 
