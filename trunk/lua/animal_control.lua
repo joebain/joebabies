@@ -266,7 +266,7 @@ function animals_update(delta)
 						new_internet:nudge(Vector3f(0,6,0))
 
 						animal.block:clear_children()
-						--bf:remove_3d_block(internet)
+						bf:remove_3d_block(internet.block)
 						
 						put_dialogue("Well done you man-baby. You solved the internet for today, but tomorrow I need some help defragmenting my C drive. Also did you know ... " .. w.gorilla_facts[math.random(1,#w.gorilla_facts)],"gorilla",go_again)
 
@@ -281,5 +281,21 @@ function animals_update(delta)
 end
 
 function go_again()
+	choices = {}
+	choices[1] = {}
+	choices[1].text = "Yes way"
+	choices[1].cb_func = go_again_yes
+	choices[2] = {}
+	choices[2].text = "No"
+	choices[2].cb_func = go_again_no
+	
+	put_menu("Go again?",choices,"person")
+end
+
+function go_again_yes()
 	gotolevel1(difficulty)
+end
+
+function go_again_no()
+	w:quit()
 end

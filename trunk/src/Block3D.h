@@ -57,6 +57,7 @@ public:
 	void set_driven();
 	bool collide(Block3D* other);
 	void add_child(Block3D* child);
+	void clear_children();
 };
 
 #endif /*BLOCK_H_*/
