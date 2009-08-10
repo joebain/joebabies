@@ -44,10 +44,15 @@ function try_send(dir)
 	cpos = character.main:get_pos()
 	cx,cy = act_to_grid(cpos.x,cpos.z)
 
+    -- This assumes way too much.
+    if (not animals[1].moving) then
+      animal_send(animals[1],dir)
+    end
+    --[[
 	for i,animal in ipairs(animals) do
-		apos = animal.block:get_pos()
-		ax,ay = act_to_grid(apos.x,apos.z)
-	
+
+        ax,ay = act_to_grid(apos.x,apos.z)
+        apos = animal.block:get_pos()
 		if (ax == cx) then
 			if (ay-1 == cy) or (ay+1 == cy) then
 				animal_send(animal,dir)
@@ -59,8 +64,10 @@ function try_send(dir)
 				break;
 			end
 		end
-	
+  	
 	end
+    ]]--
+    -- HI
 end
 
 function send_animal(animal,x,y)
@@ -112,8 +119,6 @@ function call_animal()
 	end
 
 end
-
-
 
 
 function animal_get_facing(animal)
@@ -238,33 +243,6 @@ function animals_update(delta)
 						animal.moving = false
 					end
 				end
-				
-			end
-		else
-			if (animal.has_internet) then
-					cpos = character.main:get_pos()
-					cx,cy = act_to_grid(cpos.x,cpos.z)
-					ax,ay = act_to_grid(animal_pos.x,animal_pos.z)
-					
-					if (cx == ax or cx == ax +1 or cx == ax -1) then
-						if (cy == ay or cy == ay +1 or cy == ay -1) then
-						w.audio.puzzleget:play()
-						animal.has_internet = false
-						
-						--need to remove old internet
-						
-						--create new internet
-						internet = bf:new_block3d("internet.obj","internet.bmp")
-						--internet:move(Vector3f(cpos.x, cpos.y + 5, cpos.z))
-						
-						character.main:add_child(internet) --give internet to techie
-						internet:nudge(Vector3f(0,6,0))
-						
-						--put_dialogue(#w.facts
-
-						end
-					end
-					
 				
 			end
 		end
