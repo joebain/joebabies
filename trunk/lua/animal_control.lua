@@ -265,7 +265,7 @@ function animals_update(delta)
 						character.main:add_child(internet) --give internet to techie
 						internet:nudge(Vector3f(0,6,0))
 						
-						--put_dialogue(#w.facts
+						put_dialogue("I AM GORILLA", "hedgehog", nil)
 
 						end
 					end
