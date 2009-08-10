@@ -193,7 +193,7 @@ function put_menu(question,choices,character)
 	v = Vector2f(300,300)
 	menu.character = bf:new_blockHUD(v,character .. "-big.bmp")	
 	
-	menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-red.bmp")
+	menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-dialogue.bmp")
 	
 	pos = Vector2f((display:get_width()/2 - menu.width/2) + 80,menu.height+20)
 	menu.question = bf:new_blockText(pos,Vector2f(20,20),question,"font_wbg.bmp")
