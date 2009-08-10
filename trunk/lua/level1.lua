@@ -97,8 +97,11 @@ function lvl1parrotchoice ()
 	choices[2].text = "Any more gorillas to help?"
 	choices[2].cb_func = fly_level1
 	choices[3] = {}
-	choices[3].text = "I'm going on break"
-	choices[3].cb_func = quit_game
+	choices[3].text = "Let's head back"
+	choices[3].cb_func = gotointro
+	choices[4] = {}
+	choices[4].text = "I'm going on break"
+	choices[4].cb_func = quit_game
 	
 	put_menu("U",choices,"parrot")
 end
