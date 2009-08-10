@@ -73,7 +73,7 @@ function read_facts(file)
   facts = {}
   local i = 1
   for line in io.lines("misc/"..file..".txt") do
-    facts[i] = line
+    facts[i] = line 
     i = i + 1
   end
   return facts
