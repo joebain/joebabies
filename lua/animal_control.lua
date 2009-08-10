@@ -240,9 +240,36 @@ function animals_update(delta)
 							animal.has_internet = true
 						end
 					else
-						animal.moving = false
+					animal.moving = false
 					end
 				end
+				
+			end
+		else
+			if (animal.has_internet) then
+					cpos = character.main:get_pos()
+					cx,cy = act_to_grid(cpos.x,cpos.z)
+					ax,ay = act_to_grid(animal_pos.x,animal_pos.z)
+					
+					if (cx == ax or cx == ax +1 or cx == ax -1) then
+						if (cy == ay or cy == ay +1 or cy == ay -1) then
+						w.audio.puzzleget:play()
+						animal.has_internet = false
+						
+						--need to remove old internet
+						
+						--create new internet
+						internet = bf:new_block3d("internet.obj","internet.bmp")
+						--internet:move(Vector3f(cpos.x, cpos.y + 5, cpos.z))
+						
+						character.main:add_child(internet) --give internet to techie
+						internet:nudge(Vector3f(0,6,0))
+						
+						--put_dialogue(#w.facts
+
+						end
+					end
+					
 				
 			end
 		end
