@@ -1,5 +1,7 @@
 
-function level1_setup(difficulty)
+function level1_setup(d)
+
+	difficulty = d
 
 	make_character()
 	
@@ -75,6 +77,8 @@ end
 
 function level1_step(delta)
 	animals_update(delta)
+	
+	--update_dialogue(delta)
 	
 	for i,thing in ipairs(internets) do
 		thing.block:rotate(Vector3f(0,delta*50,0))

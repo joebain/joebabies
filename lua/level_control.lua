@@ -1,3 +1,5 @@
+internet = nil
+
 function load_level(filename)
 
 	level.map = {}
@@ -73,6 +75,7 @@ function place_model(symbol,x,y)
 			animal_g.target = {}
 			animal_g.target.x = x
 			animal_g.target.y = y
+			animal_g.has_internet = false
 			
 			table.insert(animals,animal_g)
 			
@@ -126,7 +129,7 @@ function place_model(symbol,x,y)
 			item_b.symbol = "i"
 
 			level.map[i][j] = item_b
-			table.insert(internets,item_b)
+			internet = item_b
 		
 		else
 		

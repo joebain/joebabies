@@ -40,6 +40,7 @@ function remove_text ()
 			
 			functions.up = dialogue.old_up
 			functions.down = dialogue.old_down
+			functions.space = dialogue.old_space
 			
 			dialogue.cb_func()
 		else
@@ -56,10 +57,13 @@ function put_dialogue(text,character,cb_func)
 		functions.up = nil
 		dialogue.old_down = functions.down
 		functions.down = nil
+		dialogue.old_space = functions.space
+		functions.space = cycle_text
 		dialogue.cb_func = cb_func
 		dialogue.trigger_counter = 0.5
 		dialogue.trigger = true
 		dialogue.big_trigger = true
+		dialogue.time_start = os.time()
 	
 		--print("putting up text")
 	
@@ -160,14 +164,15 @@ function update_dialogue(delta)
 end
 
 function cycle_text ()
-	if (dialogue.trigger == false) then
+	if (os.time() - dialogue.time_start) > 0 then
 		remove_text()
-		dialogue.trigger = true
-		dialogue.trigger_counter = 0.5
+		dialogue.time_start = os.time()
 	end
 end
 
 function put_menu(question,choices,character)
+
+	menu.last_time = os.time()
 
 	menu.text_size = Vector2f(20,20)
 	
@@ -214,34 +219,40 @@ end
 function update_menu()
 	--print(menu.selected .. " is selected")
 	menu.selector:set_pos(menu.choices[menu.selected+1].block:get_pos())
+	menu.last_time = os.time()
 end
 
 function menu_up()
-	menu.selected = menu.selected - 1
-	menu.selected = menu.selected%(#menu.choices)
-	update_menu()
+	if (os.time()-menu.last_time) > 0 then
+		menu.selected = menu.selected - 1
+		menu.selected = menu.selected%(#menu.choices)
+		update_menu()
+	end
 end
 
 function menu_down()
-	menu.selected = menu.selected + 1
-	menu.selected = menu.selected%(#menu.choices)
-	update_menu()
+	if (os.time()-menu.last_time) > 0 then
+		menu.selected = menu.selected + 1
+		menu.selected = menu.selected%(#menu.choices)
+		update_menu()
+	end
 end
 
 function menu_select()
-	
-	menu.choices[menu.selected+1].cb_func()
-	
-	for i = 1,#menu.choices do
-		bf:remove_blockText(menu.choices[i].block)
+	if (os.time()-menu.last_time) > 0 then
+		menu.choices[menu.selected+1].cb_func()
+		
+		for i = 1,#menu.choices do
+			bf:remove_blockText(menu.choices[i].block)
+		end
+		
+		bf:remove_blockText(menu.question)
+		bf:remove_blockHUD(menu.selector)
+		bf:remove_blockHUD(menu.character)
+		bf:remove_blockHUD(menu.backing)
+		
+		functions.up = menu.old_up
+		functions.down = menu.old_down
+		functions.space = menu.old_space
 	end
-	
-	bf:remove_blockText(menu.question)
-	bf:remove_blockHUD(menu.selector)
-	bf:remove_blockHUD(menu.character)
-	bf:remove_blockHUD(menu.backing)
-	
-	functions.up = menu.old_up
-	functions.down = menu.old_down
-	functions.space = menu.old_space
 end

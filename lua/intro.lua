@@ -223,7 +223,7 @@ function intro_step(delta)
 		end
 	end
 	
-	update_dialogue(delta)
+	--update_dialogue(delta)
 	
 end
 

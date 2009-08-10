@@ -6,8 +6,6 @@ bs = nil
 c = nil
 high_cam_obj = nil
 
-internets = {}
-
 functions = {}
 character = {}
 scenery = {}
@@ -16,6 +14,8 @@ animals = {}
 camera_triggers = {}
 character = {}
 particles = {}
+
+difficulty = nil
 
 dofile "lua/dialogue.lua"
 dofile "lua/movement.lua"
