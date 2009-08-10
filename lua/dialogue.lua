@@ -69,7 +69,7 @@ function put_dialogue(text,character,cb_func)
 	
 		--print("putting up text")
 	
-		sound:play()
+		--sound:play()
 		
 		dialogue.text_size = Vector2f(20,20)
 		

@@ -6,6 +6,9 @@ bs = nil
 c = nil
 high_cam_obj = nil
 
+first_level1 = true
+first_intro = true
+
 functions = {}
 character = {}
 scenery = {}
