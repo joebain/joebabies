@@ -109,6 +109,10 @@ function intro_setup()
 	water:set_transparency(0.9)
 	water:set_tex_size(Vector2f(100,100))
 	
+	if (first_intro == true) then
+		put_dialogue("Hi how's it going? So I hear you got a job fixing IT for these dumb animals. (Press space to read more.) They're so stupid, most of 'em couldn't even write their own names if you asked 'em. Not that you should, they just go on and on and .. well you get the picture. Full of useless facts they are. So I hope you enjoy it here, I certainly don't.","hedgehog",nil)
+		first_intro = false
+	end
 	
 end
 
