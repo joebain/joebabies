@@ -52,6 +52,7 @@ function start (world)
 
     w.gorilla_facts = read_facts("facts_gorilla")
 	w.tortoise_facts = read_facts("facts_tortoise")
+	w.parrot_facts = read_facts("facts_parrot")
 
     w.music = w:new_audio_file("music",true)
     
