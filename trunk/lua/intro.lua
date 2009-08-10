@@ -15,7 +15,7 @@ big_tortoise = {}
 big_tortoise.collide = false
 big_gorilla = {}
 big_parrot = {}
-big_parrot.collide = true
+big_parrot.collide = false
 
 x_l_bound = 50
 z_l_bound = 50
@@ -62,7 +62,7 @@ function intro_setup()
 	
 	--add parrot
 	big_parrot.block = bf:new_character("parrot.obj","parrot.bmp")
-	big_parrot.block:set_scale(5)
+	big_parrot.block:set_scale(25)
 	v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
 	v.y = f:get_height(Vector2f(v.x,v.z))
 	big_parrot.block:move(v)
@@ -127,7 +127,7 @@ end
 
 function return_control()
 	functions.up = move_up
-	functions.up = move_down
+	functions.down = move_down
 end
 
 function tortoise_challenge_ask ()
@@ -150,27 +150,18 @@ function parrot_ask ()
 	choices[1].cb_func = fly_level1
 	choices[2] = {}
 	choices[2].text = "Later, man"
-	choices[2].cb_func = dont_fly
+	choices[2].cb_func = return_control
 	
 	put_menu("Um...",choices,"person")
 end
 
 function fly_level1 ()
-	put_dialogue("Here y'are", "parrot", actual_flight)
+	--put_dialogue("Here y'are", "parrot", actual_flight)
 	--return_control()
-	--gotolevel1(2)
-end
-
-function actual_flight ()
-	return_control()
 	gotolevel1()
 end
-	
 
-function dont_fly ()
-	return_control ()
-	big_parrot.collide = true
-end
+
 
 function intro_step(delta)
 
@@ -184,10 +175,14 @@ function intro_step(delta)
 	end
 	
 	if (character.main:collide(big_parrot.block)) then
-		if big_parrot.collide then
+		if big_parrot.collide == false then
+			big_parrot.collide = true
 			put_dialogue("Fly you off to the gorilla cage? Hear his internet's down...", "parrot", parrot_ask)
 		end
+	else
+	
 		big_parrot.collide = false
+		
 	end
 	
 	if (character.main:collide(big_tortoise.block)) then

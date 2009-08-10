@@ -118,10 +118,11 @@ end
 function gotolevel1 (delta)
 	functions.load = level1_setup
 	functions.step = level1_step
-	--functions.right = nil
-	--functions.left = nil
-	--functions.up = nil
-	--functions.down = nil
+	
+	functions.right = move_right
+	functions.left = move_left
+	functions.up = move_up
+	functions.down = move_down
 	functions.space = call_animal
 	functions.a_key = send_west
 	functions.d_key = send_east
