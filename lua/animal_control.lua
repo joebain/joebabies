@@ -253,7 +253,7 @@ function animals_update(delta)
 					
 					if (cx == ax or cx == ax +1 or cx == ax -1) then
 						if (cy == ay or cy == ay +1 or cy == ay -1) then
-						w.audio.puzzleget:play()
+						w.audio.victory:play()
 						animal.has_internet = false
 						
 						--need to remove old internet
