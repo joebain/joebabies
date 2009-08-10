@@ -1,6 +1,8 @@
 
 function level1_setup(d)
 
+
+	
 	difficulty = d
 
 	make_character()
@@ -20,6 +22,12 @@ function level1_setup(d)
 		--~ table.insert(ts,b2)
 	--~ end
 	
+	--add parrot
+	big_parrot.block = bf:new_character("parrot.obj","parrot.bmp")
+	big_parrot.block:set_scale(25)
+	v = Vector3f(x_u_bound - 2,0,z_u_bound - 2 )
+	v.y = f:get_height(Vector2f(v.x,v.z))
+	big_parrot.block:move(v)
 		
 	--load_level("misc/level1.csv")
     level.map = nil
@@ -75,10 +83,53 @@ function level1_setup(d)
 	
 end
 
+function parrot_ask_lvl1 ()
+	put_dialogue("Sure, where'dya wanna go?", "parrot", lvl1parrotchoice)
+end
+
+function lvl1parrotchoice ()
+	choices = {}
+	
+	choices[1] = {}
+	choices[1].text = "Actually, tell me something..."
+	choices[1].cb_func = a_parrot_fact
+	choices[2] = {}
+	choices[2].text = "Any more gorillas to help?"
+	choices[2].cb_func = fly_level1
+	choices[3] = {}
+	choices[3].text = "I'm going on break"
+	choices[3].cb_func = quit_game
+	
+	put_menu("U",choices,"parrot")
+end
+
+function quit_game()
+	w:quit()
+	
+end
+
+function a_parrot_fact()
+
+	put_dialogue(w.parrot_facts[math.random(1,#w.parrot_facts)], "parrot", lvl1parrotchoice)
+end
+
 function level1_step(delta)
 	animals_update(delta)
 	
 	--update_dialogue(delta)
+	
+		
+	if (character.main:collide(big_parrot.block)) then
+		if big_parrot.collide == false then
+			big_parrot.collide = true
+			put_dialogue("Hey man, can I hitch a lift?", "person", parrot_ask_lvl1)
+		end
+	else
+	
+		big_parrot.collide = false
+		
+	end
+
 	
 	for i,thing in ipairs(internets) do
 		thing.block:rotate(Vector3f(0,delta*50,0))
