@@ -81,6 +81,7 @@ function restart()
 	camera_triggers = {}
 	character = {}
 	internets = {}
+	ts = {}
 	
 	functions.load()
 end
