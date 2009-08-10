@@ -11,6 +11,7 @@ Block3D::Block3D()
 {
 	pos.init(0,0,0);
 	is_driven = false;
+	scale = 1;
 }
 
 Block3D::~Block3D()
@@ -30,6 +31,7 @@ Block3D::Block3D(const Block3D& b)
 	offset = b.offset;
 	max = b.max;
 	min = b.min;
+	scale = b.scale;
 	
 	children = b.children;
 	
@@ -75,6 +77,14 @@ void Block3D::rotate(Vector3f plus_rot)
 	changed = true;
 }
 
+bool Block3D::operator==(const Block3D& b)
+{
+	if (pos == b.pos && dir == b.dir && texture == b.texture && object == b.object && rot == b.rot && offset == b.offset)
+		return true;
+	else
+		return false;
+}
+
 void Block3D::change_dir(Vector3f plus_dir)
 {
 	//cout << "changing dir" << endl;
@@ -94,10 +104,12 @@ void Block3D::change_dir(Vector3f plus_dir)
 void Block3D::update_bb()
 {
 	min = (*bb_min);
+	min *= scale;
 	min.rotate(-dir);
 	min += pos + offset;
 	
 	max = (*bb_max);
+	max *= scale;
 	max.rotate(-dir);
 	max += pos + offset;
 	
@@ -155,6 +167,7 @@ void Block3D::set_pos(Vector3f pos)
 
 void Block3D::display()
 {
+	object->scale = scale;
 	object->translate(pos+offset);
 	object->rotate(rot+dir);
 	object->texture = texture;

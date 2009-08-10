@@ -7,6 +7,14 @@ turtle_stack = 0
 turtle_ring = {}
 turtle_ring_counter = 0
 turtle_ring_radius = 4
+turtle_challenge = false
+turlte_challenge_start = 0
+turtle_challenge_count = 0
+
+big_tortoise = {}
+big_tortoise.collide = false
+big_gorilla = {}
+big_parrot = {}
 
 x_l_bound = 50
 z_l_bound = 50
@@ -41,10 +49,16 @@ function intro_setup()
 		table.insert(scenery,bounder)
 	end
 	
-	--~ wall = bf:new_block3d("wall.obj","wall.bmp")
-	--~ wall:move(Vector3f(x_l_bound+50,0,z_l_bound+60))
-	--~ wall:set_dir(Vector3f(0,90,0))
-	--~ table.insert(scenery,wall)
+	----------------
+	---big things---
+	----------------
+	
+	big_tortoise.block = bf:new_character("tortoise.obj","tortoise.bmp")
+	big_tortoise.block:set_scale(5)
+	v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
+	v.y = f:get_height(Vector2f(v.x,v.z))
+	big_tortoise.block:move(v)
+	
 	
 	level.size = 5
 	
@@ -66,7 +80,7 @@ function intro_setup()
 	
 		
 	for i=1,50 do
-		b2 = bf:new_character("turtle.obj","turtle.bmp")
+		b2 = bf:new_character("tortoise.obj","tortoise.bmp")
 		v = Vector3f(math.random(x_l_bound,x_u_bound),0,math.random(z_l_bound,z_u_bound))
 		v.y = f:get_height(Vector2f(v.x,v.z))
 		b2:move(v)
@@ -115,6 +129,32 @@ function rape_kid()
 print("rape it like a polaroid picture")
 end 
 
+function start_tortoise_challenge()
+
+	turtle_challenge = true
+	turtle_challenge_start = os.time()
+
+end
+
+function refuse_tortoise_challenge()
+
+	put_dialogue("Fine, be like that!","tortoise",nil)
+
+end
+
+function tortoise_challenge_ask ()
+	choices = {}
+	choices[1] = {}
+	choices[1].text = "OK"
+	choices[1].cb_func = start_tortoise_challenge
+	choices[2] = {}
+	choices[2].text = "No way"
+	choices[2].cb_func = refuse_tortoise_challenge
+	
+	put_menu("Um...",choices,"person")
+	block2_collide = true
+end
+
 function intro_step(delta)
 
 	turtle_ring_counter = turtle_ring_counter + delta
@@ -125,9 +165,51 @@ function intro_step(delta)
 		turtle:set_offset(Vector3f((math.cos(pos))*turtle_ring_radius,2,((math.sin(pos)))*turtle_ring_radius))
 	
 	end
-
+	
+	if (character.main:collide(big_tortoise.block)) then
+		if (turtle_challenge == true) then
+			if big_tortoise.collide == false then
+				put_dialogue("Hey what a good job, you collected " .. #turtle_ring .. " of those little guys in only " .. (os.time()-turtle_challenge_start) .. " seconds. Well done indeed!","tortoise",nil)
+			end
+			
+		
+		else
+		
+			if big_tortoise.collide == false then
+				put_dialogue("Hello, I am Mortimer the big tortoise. All my friends make fun of me because I am so big, but it's not my fault. You see my mother always wanted a big tortoise for a son so she fed me 36 bowls of porridge every day. Tortoises really like lettuce, that's what I fancy. Actually, could I ask you a favour? Could you gather up as many of the small tortoises as you can and bring them to me? I think that's a fair challenge.","tortoise",tortoise_challenge_ask)
+			end
+		end
+		big_tortoise.collide = true
+	else
+		dialogue.big_trigger = false
+		big_tortoise.collide = false
+		---big turtle---
+		m = Vector3f(0,0,3.0*delta)
+		big_tortoise.block:move(m)
+		if (big_tortoise.block:get_pos().x < x_l_bound or big_tortoise.block:get_pos().z < z_l_bound or
+			big_tortoise.block:get_pos().x > x_u_bound or big_tortoise.block:get_pos().z > z_u_bound) then
+			m = Vector3f(0,0,-6.0*delta)
+			big_tortoise.block:move(m)
+			r = Vector3f(0,45.0,0)
+			big_tortoise.block:change_dir(r)
+		end
+		height = f:get_height(Vector2f(big_tortoise.block:get_pos().x,big_tortoise.block:get_pos().z))
+		v = Vector3f(big_tortoise.block:get_pos().x,height,big_tortoise.block:get_pos().z)
+		big_tortoise.block:set_pos(v)
+		rand = math.random(0,200)
+		if (rand == 1) then
+			r = Vector3f(0,45.0,0)
+			big_tortoise.block:change_dir(r)
+		elseif (rand == 2) then
+			r = Vector3f(0,-45.0,0)
+			big_tortoise.block:change_dir(r)
+		end
+		-------------
+	end
+	
+	
 	for i,turtle in ipairs(ts) do
-		if character.main:collide(turtle) then
+		if character.main:collide(turtle) and turtle_challenge == true then
 		
 			turtle:set_pos(Vector3f(0,0,0))
 			character.main:add_child(turtle)

@@ -37,16 +37,26 @@ function remove_text ()
 			dialogue.lines_shown = 0
 			dialogue.trigger_counter = 0
 			dialogue.trigger = false
+			
+			functions.up = dialogue.old_up
+			functions.down = dialogue.old_down
+			
+			dialogue.cb_func()
 		else
 			put_lines()
 		end
 	end
 end
 
-function put_dialogue(text,character)
+function put_dialogue(text,character,cb_func)
 	
 	if dialogue.text_up == false and dialogue.trigger == false and dialogue.big_trigger == false then
 	
+		dialogue.old_up = functions.up
+		functions.up = nil
+		dialogue.old_down = functions.down
+		functions.down = nil
+		dialogue.cb_func = cb_func
 		dialogue.trigger_counter = 0.5
 		dialogue.trigger = true
 		dialogue.big_trigger = true
@@ -73,7 +83,7 @@ function put_dialogue(text,character)
 		dialogue.text_pos = Vector2f(backing_pos.x + dialogue.text_size.x*3,(backing_pos.y + backing_size.y) - dialogue.text_size.y*3)
 		
 		v = Vector2f(300,300)
-		dialogue.character = bf:new_blockHUD(v,character .. "_hud.bmp")
+		dialogue.character = bf:new_blockHUD(v,character .. "-big.bmp")
 		
 		dialogue.text_up = true
 		
@@ -174,7 +184,7 @@ function put_menu(question,choices,character)
 	menu.backing:move(v)
 
 	v = Vector2f(300,300)
-	menu.character = bf:new_blockHUD(v,character .. "_hud.bmp")	
+	menu.character = bf:new_blockHUD(v,character .. "-big.bmp")	
 	
 	menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-red.bmp")
 	
