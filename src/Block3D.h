@@ -30,6 +30,7 @@ protected:
 	list<Block3D*> children;
 	void update_bb();
 	bool changed;
+	float scale;
 public:
 	Block3D();
 	virtual ~Block3D();
@@ -39,6 +40,8 @@ public:
 	void set_pos(Vector3f pos);
 	void set_dir(Vector3f dir);
 	void change_dir(Vector3f plus_dir);
+	void set_scale(float scale) {this->scale = scale;}
+	bool operator==(const Block3D& b);
 	Obj* get_obj();
 	Vector3f get_pos();
 	Vector3f get_rot();

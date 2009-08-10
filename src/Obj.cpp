@@ -21,6 +21,7 @@ Obj::Obj()
 	float minfloat = numeric_limits<float>::min();
 	min.init(maxfloat,maxfloat,maxfloat);
 	max.init(minfloat,minfloat,minfloat);
+	scale = 1;
 }
 
 Obj::~Obj()
@@ -42,6 +43,7 @@ Obj::Obj(const Obj& o)
 	clear = o.clear;
 	max = o.max;
 	min = o.min;
+	scale = o.scale;
 	
 }
 
@@ -63,6 +65,7 @@ Obj& Obj::operator=(const Obj& o)
 	clear = o.clear;
 	max = o.max;
 	min = o.min;
+	scale = o.scale;
 	
 	return *this;
 }
@@ -119,6 +122,8 @@ void Obj::display()
 	glRotatef(rotation.z,0,0,1);
 	glRotatef(rotation.y,0,1,0);
 	glRotatef(rotation.x,1,0,0);
+	
+	glScalef(scale,scale,scale);
 	
 	//cout << "rotated" << endl;
 	

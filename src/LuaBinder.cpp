@@ -68,6 +68,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("set_offset", &Block3D::set_offset)
 			.def("collide", &Block3D::collide)
 			.def("add_child", &Block3D::add_child)
+			.def("set_scale", &Block3D::set_scale)
 	];
 	
 	luabind::module(l) [
@@ -127,6 +128,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("remove_flat_block", &BlockFactory::remove_flat_block)
 			.def("new_distance_block", &BlockFactory::new_distance_block)
 			.def("clear_all", &BlockFactory::clear_all)
+			.def("remove_3d_block", &BlockFactory::remove_3d_block)
 	];
 	
 	luabind::module(l) [

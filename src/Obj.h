@@ -44,6 +44,7 @@ public:
 	Vector3f rotation;
 	Vector3f max;
 	Vector3f min;
+	float scale;
 };
 
 #endif /*OBJ_H_*/

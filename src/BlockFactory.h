@@ -40,6 +40,7 @@ public:
 	void remove_blockText(Block2DText* text);
 	void remove_blockHUD(Block2D* hud);
 	void remove_flat_block(Block3DFlat* block);
+	void remove_3d_block(Block3D* block);
 	void clear_all();
 
 };
