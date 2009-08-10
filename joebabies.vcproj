@@ -459,6 +459,14 @@
 			RelativePath=".\lua\particles.lua"
 			>
 		</File>
+		<File
+			RelativePath=".\lua\title.lua"
+			>
+		</File>
+		<File
+			RelativePath=".\lua\worldgen.lua"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

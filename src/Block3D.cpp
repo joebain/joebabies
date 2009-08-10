@@ -206,6 +206,11 @@ void Block3D::set_driven()
 	is_driven = true;
 }
 
+void Block3D::clear_children()
+{
+	children.clear();
+}
+
 Vector3f Block3D::get_bb_min() 
 {
 	if (changed) update_bb();

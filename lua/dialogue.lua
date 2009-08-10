@@ -38,6 +38,8 @@ function remove_text ()
 			dialogue.trigger_counter = 0
 			dialogue.trigger = false
 			
+			dialogue.big_trigger = false
+			
 			functions.up = dialogue.old_up
 			functions.down = dialogue.old_down
 			functions.space = dialogue.old_space

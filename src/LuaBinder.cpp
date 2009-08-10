@@ -69,6 +69,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("collide", &Block3D::collide)
 			.def("add_child", &Block3D::add_child)
 			.def("set_scale", &Block3D::set_scale)
+			.def("clear_children", &Block3D::clear_children)
 	];
 	
 	luabind::module(l) [
@@ -168,6 +169,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("get_block_factory", &World::get_block_factory)
 			.def("get_buttons", &World::get_buttons)
 			.def("new_audio_file", &World::new_audio_file)
+			.def("quit", &World::quit)
 	];
 	
 	luabind::module(l) [
