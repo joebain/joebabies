@@ -61,6 +61,7 @@ function start (world)
     w.audio.puzzleget = w:new_audio_file("puzzlepiece",false)
     w.audio.turtleget = w:new_audio_file("turtleget",false)
     w.audio.wolfwhistle = w:new_audio_file("wolf_whistle",false)
+    w.audio.victory = w:new_audio_file("victory",false)
 	--gotolevel1 ()
 	
 	functions.load()
