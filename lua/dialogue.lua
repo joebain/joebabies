@@ -241,9 +241,7 @@ function menu_down()
 end
 
 function menu_select()
-	if (os.time()-menu.last_time) > 0 then
-		menu.choices[menu.selected+1].cb_func()
-		
+	if (os.time()-menu.last_time) > 0 then		
 		for i = 1,#menu.choices do
 			bf:remove_blockText(menu.choices[i].block)
 		end
@@ -256,5 +254,7 @@ function menu_select()
 		functions.up = menu.old_up
 		functions.down = menu.old_down
 		functions.space = menu.old_space
+		
+		menu.choices[menu.selected+1].cb_func()
 	end
 end
