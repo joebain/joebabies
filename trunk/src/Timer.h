@@ -1,3 +1,6 @@
+/* Just wraps the different Unix and Windows ways to get the accurate time.
+ */
+
 #ifndef TIMER_H
 #define TIMER_H
 

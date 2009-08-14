@@ -1,3 +1,6 @@
+/* Sets up all the bindings for classes and methods that can be used in Lua
+ */
+
 #ifndef LUA_BINDER_H
 #define LUA_BINDER_H
 

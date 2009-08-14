@@ -1,3 +1,8 @@
+/* Controllers offer a way of getting Lua hooks into various bits of the
+ * engine. Though they are not used at the moment they would eventually
+ * be worked into character control.
+ */
+
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 

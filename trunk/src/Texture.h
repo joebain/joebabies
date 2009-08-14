@@ -1,3 +1,6 @@
+/* Holds texture data and loads in bmps too. The bmp loading code was
+ * taken from NEHE lesson ?? but it's pretty straightforward.
+ */
 #ifndef TEXTURE_H_
 #define TEXTURE_H_
 

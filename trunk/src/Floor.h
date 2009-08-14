@@ -1,3 +1,6 @@
+/* Lovely floor. Uses a heightmap to render axesome hills.
+ */
+
 #ifndef FLOOR_H
 #define FLOOR_H
 

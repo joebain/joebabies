@@ -1,3 +1,5 @@
+/* Not much here, just links vertices together
+ */
 #ifndef FACE_H_
 #define FACE_H_
 

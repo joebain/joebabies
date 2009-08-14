@@ -12,7 +12,7 @@ Controller::Controller(string function)
 
 Controller::~Controller()
 {
-	cout << "deleting the controller" << endl;
+	cout << "deleting the controller" << endl; //debugging was supposed to be better than this joe, what went wrong
 }
 
 void Controller::set_lua(lua_State *l)

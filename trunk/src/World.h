@@ -1,3 +1,7 @@
+/* Another pretty major class. This coordinates everything essentially.
+ * The main game loop runs here and nearly everything gets called from here.
+ */
+
 #ifndef WORLD_H_
 #define WORLD_H_
 

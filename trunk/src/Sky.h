@@ -1,3 +1,6 @@
+/* A pretty rubbish and slightly broken sky box, not much to say. Also
+ * hardcoded with OpenGL which is a bit poor.
+ */
 #ifndef SKY_H
 #define SKY_H
 

@@ -1,3 +1,6 @@
+/* This just wraps the SDL key capturing to make it easily accessible in Lua.
+ */
+
 #ifndef BUTTONS_H
 #define BUTTONS_H
 

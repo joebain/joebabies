@@ -1,3 +1,6 @@
+/* Holds all the info for a vertex in a 3d model, used by Obj objects but shouldn't
+ * be used on its own.
+ */
 #ifndef VERTEX_H_
 #define VERTEX_H_
 
