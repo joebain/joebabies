@@ -1,3 +1,7 @@
+/* This is a pretty h/c class. It manages displaying all the objects, doing
+ * transformations, lighting, display set up. It's probably gotten a bit
+ * too big and definately needs a clear out.
+ */
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 
@@ -23,15 +27,15 @@
 class Display
 {
 public:
-	list<Block*> blocks;
-	list<Block*> transparent_blocks;
-	list<Block*> hud_blocks;
-	list<Block*> distance_blocks;
+	list<Block*> blocks; //normal 3d objects
+	list<Block*> transparent_blocks; //stuff that needs to be depth sorted and drawn after normal stuff because it contains some transparency
+	list<Block*> hud_blocks; //stuff to appear on the hud
+	list<Block*> distance_blocks; //stuff to appear in the distance (scenery)
 	Floor* floor;
 	Sky* sky;
 	Display();
 	void update(float delta);
-	void pick();
+	void pick(); //not used, did offer some way to mouse pick in the past
 	void init();
 	void set_fullscreen();
 	Camera* get_camera();
@@ -51,8 +55,8 @@ private:
 	int mouse_x, mouse_y;
 	bool pick_flag, mouse_down;
 	bool is_fullscreen;
-	GLuint getClosestHit(GLuint* selectBuf, GLint hits);
-	static bool depth_sort(Block* one, Block* two);
+	GLuint getClosestHit(GLuint* selectBuf, GLint hits); //again to do with picking, not used atm
+	static bool depth_sort(Block* one, Block* two); //used to depth sort objects
 };
 
 #endif /*DISPLAY_H_*/

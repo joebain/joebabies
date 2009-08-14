@@ -1,3 +1,9 @@
+/* The block factory has a selection of methods for creating and deleting
+ * objects in the game world. It also keeps track of all the objects and
+ * textures so they are not multiply loaded. Most of these methods are
+ * designed just to be exported to lua to make it easier that end.
+ */
+
 #ifndef BLOCKFACTORY_H
 #define BLOCKFACTORY_H
 
@@ -28,15 +34,15 @@ private:
 	Obj* new_obj(string file);
 public:
 	void set_display(Display* d);
-	Block3D* new_block3d(string object, string texture);
-	Block3D* new_character(string object, string texture);
-	Block2D* new_blockHUD(Vector2f size, string texture);
-	Block2DText* new_blockText(Vector2f pos, Vector2f size, string text, string font);
-	Floor* new_floor(string height_map, string texture, float scale);
-	Sky* new_sky(string texture);
-	Block3DImaginary* new_imaginary_block(Vector3f size);
-	Block3DFlat* new_flat_block(string texture, Vector2f size, bool transparent);
-	Block3DFlat* new_distance_block(string texture, Vector2f size);
+	Block3D* new_block3d(string object, string texture); //standard 3d object
+	Block3D* new_character(string object, string texture); //driven 3d object, see Block3D.h
+	Block2D* new_blockHUD(Vector2f size, string texture); //2d block to appear as a hud item
+	Block2DText* new_blockText(Vector2f pos, Vector2f size, string text, string font); //text on the hud
+	Floor* new_floor(string height_map, string texture, float scale); //the floor
+	Sky* new_sky(string texture); //the sky box (broken)
+	Block3DImaginary* new_imaginary_block(Vector3f size); //collision box
+	Block3DFlat* new_flat_block(string texture, Vector2f size, bool transparent); //flat textured thing
+	Block3DFlat* new_distance_block(string texture, Vector2f size); //flat textured thing that lies in the distance but we always want to draw regardless of how far away it is
 	void remove_blockText(Block2DText* text);
 	void remove_blockHUD(Block2D* hud);
 	void remove_flat_block(Block3DFlat* block);

@@ -1,3 +1,7 @@
+/* Loads in the .obj model data and puts it all in an Obj for the blocks to use.
+ * This should probably be part of the Obj class, or else take the image loading
+ * out of Texture for symmetry.
+ */
 #ifndef MODELLOADER_H_
 #define MODELLOADER_H_
 

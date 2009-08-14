@@ -1,3 +1,6 @@
+/* Not much here, just sets a few things up before passing them to World
+ */
+
 #ifndef MAIN_H_
 #define MAIN_H_
 

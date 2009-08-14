@@ -1,3 +1,8 @@
+/* This type of Block is flat and usually textured. basically draws a
+ * rectangle and applies the texture to it. This kind of block also can
+ * have transparency and be masked (i.e have see through bits).
+ */
+
 #ifndef BLOCK3DFLAT_H_
 #define BLOCK3DFLAT_H_
 
@@ -43,8 +48,8 @@ public:
 	void rotate(Vector3f rot);
 	void display();
 	void set_driven();
-	void set_tex_size(Vector2f s);
-	void set_rel_centre(bool t) {rel_centre = t;}
+	void set_tex_size(Vector2f s); // This is porrly named and actually sets the number of times a texture will repeat over the block.
+	void set_rel_centre(bool t) {rel_centre = t;} // Whether the object should be rotated relatove to its own centre or the global (0,0,0).
 };
 
 #endif

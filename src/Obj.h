@@ -1,3 +1,8 @@
+/* Holds a 3d model and displays it using OpenGL. These should not be
+ * manipulated directly but through Block3D objects. Also can load in a
+ * heightmap for using with the floor.
+ */
+
 #ifndef OBJ_H_
 #define OBJ_H_
 

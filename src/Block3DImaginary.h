@@ -1,3 +1,5 @@
+/* An imaginary block, used to allow collision detection in arbitrary areas.
+ */
 #ifndef BLOCK_3D_IMAGINARY_H_
 #define BLOCK_3D_IMAGINARY_H_
 
@@ -11,7 +13,7 @@ public:
 	void display();
 	void toggle_debug();
 private:
-	Vector3f perm_bb_min;
+	Vector3f perm_bb_min; //usually the block3d just points to its object for the bb, as this has no object it must keep its bb values itself
 	Vector3f perm_bb_max;
 	bool in_debug;
 };
