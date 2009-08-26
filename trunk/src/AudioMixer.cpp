@@ -1,5 +1,7 @@
 #include "AudioMixer.h"
 
+#include <iostream>
+
 AudioMixer::AudioMixer()
 {
   // Here's your playback options
@@ -7,6 +9,10 @@ AudioMixer::AudioMixer()
   audio_format = AUDIO_S16SYS;
   audio_channels = 2;
   audio_buffers = 4096;
+  
+  //default to music and sfx on
+  music_on = true;
+  sfx_on = true;
   
   // Set up the mixer
   if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
@@ -47,6 +53,32 @@ AudioMixer::new_audio_file(string name, bool is_music)
 	    exit(1);
     }
   }
-  AudioFile *audiofile = new AudioFile(name, audio, is_music);
-  return audiofile; 
+  AudioFile* audiofile = new AudioFile(name, audio, is_music);
+  
+  if ((is_music && !music_on) || (!is_music && !sfx_on)) audiofile->toggle_mute();
+  
+  audio_files.push_back(audiofile);
+  return audio_files.back();
 }
+
+void AudioMixer::fade_out_all()
+{
+	cout << "fading out" << endl;
+	Mix_FadeOutChannel(-1, 500);
+	Mix_FadeOutMusic(500);
+	
+	sfx_on = false;
+	music_on = false;
+	
+	list<AudioFile*>::iterator iter;
+	for (iter = audio_files.begin() ; iter != audio_files.end() ; iter++) {
+		(*iter)->toggle_mute();
+	}
+}
+
+//~ void AudioMixer::fade_in_all()
+//~ {
+	//~ cout << "fading in" << endl;
+	//~ Mix_FadeInChannel(-1, 500);
+	//~ Mix_FadeInMusic(500);
+//~ }

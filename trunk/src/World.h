@@ -38,7 +38,7 @@ private:
 	lua_State *l;
 	BlockFactory bf;
 	Controller *left, *right, *up, *down;
-	Timer time;
+	Timer time, aux_time;
 	Buttons buttons;
 	bool done;
 	AudioMixer *mixer;
@@ -55,6 +55,8 @@ public:
 	void reg_key_down(Controller* c);
 	void reg_key_up(Controller* c);
 	AudioFile* new_audio_file(string name, bool is_music);
+	Timer* get_timer() {return &aux_time;}
+	AudioMixer* get_mixer() {return mixer;}
 };
 
 #endif /*WORLD_H_*/

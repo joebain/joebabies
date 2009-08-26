@@ -13,7 +13,7 @@
 
 Camera::Camera()
 {
-	height = 10;
+	height = 5;
 	distance = 20.0;
 	
 	min_snap = 2.0;

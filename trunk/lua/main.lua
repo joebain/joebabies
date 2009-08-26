@@ -57,6 +57,8 @@ function start (world)
 	w.tortoise_facts = read_facts("facts_tortoise")
 	w.parrot_facts = read_facts("facts_parrot")
 
+	w.mixer = w:get_mixer()
+
     w.music = w:new_audio_file("music",true)
     
     w.audio = {}
@@ -116,8 +118,13 @@ function gotointro (delta)
 	functions.down = move_down
 	functions.space = cycle_text
 	functions.a_key = gotolevel1
+	functions.s_key = fade_out_all
 
     restart()
+end
+
+function fade_out_all ()
+	w.mixer:fade_out_all()
 end
 
 function gotolevel1 (delta)

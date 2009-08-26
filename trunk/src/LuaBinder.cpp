@@ -17,6 +17,7 @@
 #include "Display.h"
 #include "Buttons.h"
 #include "AudioFile.h"
+#include "AudioMixer.h"
 
 void LuaBinder::bind(lua_State *l)
 {
@@ -47,6 +48,12 @@ void LuaBinder::bind(lua_State *l)
 			.def(luabind::constructor<int,int>())
 			.def_readwrite("x", &Vector2i::x)
 			.def_readwrite("y", &Vector2i::y)
+	];
+	
+	luabind::module(l) [
+		luabind::class_<Timer>("Timer")
+			.def("get_time", &Timer::get_time)
+			.def("time_since", &Timer::time_since)
 	];
 	
 	luabind::module(l) [
@@ -164,12 +171,8 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
-		luabind::class_<World>("World")
-			.def("get_display", &World::get_display)
-			.def("get_block_factory", &World::get_block_factory)
-			.def("get_buttons", &World::get_buttons)
-			.def("new_audio_file", &World::new_audio_file)
-			.def("quit", &World::quit)
+		luabind::class_<AudioMixer>("AudioMixer")
+			.def("fade_out_all", &AudioMixer::fade_out_all)
 	];
 	
 	luabind::module(l) [
@@ -178,4 +181,16 @@ void LuaBinder::bind(lua_State *l)
 			.def("play_loop", &AudioFile::play_loop)
 			.def("stop", &AudioFile::stop)
 	];
+	
+	luabind::module(l) [
+		luabind::class_<World>("World")
+			.def("get_display", &World::get_display)
+			.def("get_block_factory", &World::get_block_factory)
+			.def("get_buttons", &World::get_buttons)
+			.def("new_audio_file", &World::new_audio_file)
+			.def("quit", &World::quit)
+			.def("get_timer", &World::get_timer)
+			.def("get_mixer", &World::get_mixer)
+	];
+	
 }

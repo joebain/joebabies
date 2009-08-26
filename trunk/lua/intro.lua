@@ -110,7 +110,7 @@ function intro_setup()
 	water:set_tex_size(Vector2f(100,100))
 	
 	if (first_intro == true) then
-		put_dialogue("Hi how's it going? So I hear you got a job fixing IT for these dumb animals. (Press space to read more.) They're so stupid, most of 'em couldn't even write their own names if you asked 'em. Not that you should, they just go on and on and .. well you get the picture. Full of useless facts they are. So I hope you enjoy it here, I certainly don't.","hedgehog",nil)
+		new_dialogue().put("Hi how's it going? So I hear you got a job fixing IT for these dumb animals. (Press space to read more.) They're so stupid, most of 'em couldn't even write their own names if you asked 'em. Not that you should, they just go on and on and .. well you get the picture. Full of useless facts they are. So I hope you enjoy it here, I certainly don't.","hedgehog",nil)
 		first_intro = false
 	end
 	
@@ -125,13 +125,8 @@ end
 
 function refuse_tortoise_challenge()
 
-	put_dialogue("Fine, be like that!","tortoise",return_control)
+	new_dialogue().put("Fine, be like that!","tortoise",nil)
 
-end
-
-function return_control()
-	functions.up = move_up
-	functions.down = move_down
 end
 
 function tortoise_challenge_ask ()
@@ -143,7 +138,7 @@ function tortoise_challenge_ask ()
 	choices[2].text = "No way"
 	choices[2].cb_func = refuse_tortoise_challenge
 	
-	put_menu("Um...",choices,"person")
+	new_menu().put("Um...",choices,"person")
 	block2_collide = true
 end
 
@@ -154,9 +149,9 @@ function parrot_ask ()
 	choices[1].cb_func = fly_level1
 	choices[2] = {}
 	choices[2].text = "Later, man"
-	choices[2].cb_func = return_control
+	choices[2].cb_func = nil
 	
-	put_menu("Um...",choices,"person")
+	new_menu().put("Um...",choices,"person")
 end
 
 function fly_level1 ()
@@ -179,9 +174,9 @@ function intro_step(delta)
 	end
 	
 	if (character.main:collide(big_parrot.block)) then
-		if big_parrot.collide == false then
+		if big_parrot.collide == false and bs.space then
 			big_parrot.collide = true
-			put_dialogue("Fly you off to the gorilla cage? Hear his internet's down...", "parrot", parrot_ask)
+			new_dialogue().put("Fly you off to the gorilla cage? Hear his internet's down...", "parrot", parrot_ask)
 		end
 	else
 	
@@ -190,19 +185,21 @@ function intro_step(delta)
 	end
 	
 	if (character.main:collide(big_tortoise.block)) then
-		if (turtle_challenge == true) then
-			if big_tortoise.collide == false then
-				put_dialogue("Hey what a good job, you collected " .. #turtle_ring .. " of those little guys in only " .. (os.time()-turtle_challenge_start) .. " seconds. Well done indeed! P.s. Did you know ..... " .. w.tortoise_facts[math.random(1,#w.tortoise_facts)],"tortoise",nil)
-			end
+		if bs.space then
+			if (turtle_challenge == true) then
+				if big_tortoise.collide == false then
+					new_dialogue().put("Hey what a good job, you collected " .. #turtle_ring .. " of those little guys in only " .. (os.time()-turtle_challenge_start) .. " seconds. Well done indeed! P.s. Did you know ..... " .. w.tortoise_facts[math.random(1,#w.tortoise_facts)],"tortoise",nil)
+				end
+				
 			
-		
-		else
-		
-			if big_tortoise.collide == false then
-				put_dialogue("Hello, I am Mortimer the big tortoise. All my friends make fun of me because I am so big, but it's not my fault. You see my mother always wanted a big tortoise for a son so she fed me 36 bowls of porridge every day. Tortoises really like lettuce, that's what I fancy. Actually, could I ask you a favour? Could you gather up as many of the small tortoises as you can and bring them to me? I think that's a fair challenge.","tortoise",tortoise_challenge_ask)
+			else
+			
+				if big_tortoise.collide == false then
+					new_dialogue().put("Hello, I am Mortimer the big tortoise. All my friends make fun of me because I am so big, but it's not my fault. You see my mother always wanted a big tortoise for a son so she fed me 36 bowls of porridge every day. Tortoises really like lettuce, that's what I fancy. Actually, could I ask you a favour? Could you gather up as many of the small tortoises as you can and bring them to me? I think that's a fair challenge.","tortoise",tortoise_challenge_ask)
+				end
 			end
+			big_tortoise.collide = true
 		end
-		big_tortoise.collide = true
 	else
 		dialogue.big_trigger = false
 		big_tortoise.collide = false
@@ -267,8 +264,6 @@ function intro_step(delta)
 		
 		end
 	end
-	
-	--update_dialogue(delta)
 	
 end
 

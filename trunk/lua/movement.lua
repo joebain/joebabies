@@ -1,5 +1,5 @@
 
-player_turn_speed = 40.0
+player_turn_speed = 100.0
 player_travel_speed = 10.0
 player_wobble_counter = 0.0
 player_wobble_factor = 0.05
