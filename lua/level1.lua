@@ -79,8 +79,6 @@ function level1_setup(d)
 								level.size*(level.off_y + level.cage.y + 1.5)))
 	high_cam_obj:set_dir(Vector3f(40,0,0))
 	
-	--new_smoke(Vector3f(level.size*(level.off_x + 2),1,level.size*(level.off_y + 2)))
-	
 	if (first_level1) then
 		put_dialogue("Hey welcome to what happens when you put an infinite number of monkeys in a room with an infinite amount of rocks and boxes. Not quite Shakespeare, eh? Use the W A S D keys to move the gorilla and guide him to that piece of the internet. Get him to bring it back to you and go talk to the parrot in the corner if you're bored.","hedgehog",nil)
 		first_level1 = false

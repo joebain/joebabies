@@ -13,9 +13,12 @@ public:
   AudioFile(string name, void *file, bool is_music);
   ~AudioFile();
   
+  AudioFile(const AudioFile& audiofile);
+  
   void play();
   void play_loop(int times);
   void stop();
+  void toggle_mute() {mute = !mute;}
   
 private:
   void *file; // May be Mix_Music, or Mix_Chunk
@@ -23,6 +26,7 @@ private:
   bool is_music;
   bool is_playing;
   int channel;
+  bool mute;
 };
 
 #endif

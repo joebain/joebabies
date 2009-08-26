@@ -1,81 +1,98 @@
 
-dialogue = {}
-dialogue.text_up = false
-dialogue.text = {}
-dialogue.line_length = 0
-dialogue.blocks = {}
-dialogue.lines_removed = 0
-dialogue.lines_shown = 0
-dialogue.trigger_counter = 0
-dialogue.trigger = false
-dialogue.big_trigger = false
+display_list = {}
 
+function display_list_push(thing)
 
-menu = {}
+	functions.space = thing.space
+	functions.up = thing.up
+	functions.down = thing.down
+	
+	table.insert(display_list,thing)
+	--print(#display_list .. " items in display list")
 
-function remove_text ()
-	if (dialogue.text_up == true) then
-		len = math.min(dialogue.lines_removed + 5,dialogue.lines_shown)
-		--print("removing lines from " .. dialogue.lines_removed+1 .. " to " .. len)
-		for i = dialogue.lines_removed+1,len do
-			--print("line " .. i .. ": " .. dialogue.text[i])
-			bf:remove_blockText(dialogue.blocks[i])
-			dialogue.blocks[i] = nil
-		end
-		dialogue.lines_removed = len
-		--print("lines shown is " .. dialogue.lines_shown .. ", removed " .. dialogue.lines_removed)
-		--print("lines total is " .. #dialogue.text)
-		if (dialogue.lines_removed == #dialogue.text) then
-			dialogue.blocks = {}
-			bf:remove_blockHUD(dialogue.backing)
-			bf:remove_blockHUD(dialogue.character)
-			dialogue.backing = nil
-			dialogue.character = nil
-			dialogue.text_up = false
-			dialogue.text = {}
-			dialogue.lines_removed = 0
-			dialogue.lines_shown = 0
-			dialogue.trigger_counter = 0
-			dialogue.trigger = false
-			
-			dialogue.big_trigger = false
-			
-			functions.up = dialogue.old_up
-			functions.down = dialogue.old_down
-			functions.space = dialogue.old_space
-			
-			dialogue.cb_func()
-		else
-			put_lines()
-		end
+end
+
+function display_list_pop()
+	--remove this dialogue from the display list
+	table.remove(display_list,#display_list)
+	--print(#display_list .. " items in display list")
+	
+	--nothing on display list, return control
+	if (#display_list == 0) then
+		functions.up = move_up
+		functions.down = move_down
+		functions.space = nil
+	else
+	--pass control back to last item
+		functions.up = display_list[#display_list].up
+		functions.down = display_list[#display_list].down
+		functions.space = display_list[#display_list].space
 	end
 end
 
-function put_dialogue(text,character,cb_func)
+dialogue = {}
+
+menu = {}
+
+function new_dialogue()
+	local dialogue = {}
 	
-	if dialogue.text_up == false and dialogue.trigger == false and dialogue.big_trigger == false then
+	dialogue.text_up = false --is text being shown
+	dialogue.text = {} -- an array of the lines of dialogue
+	dialogue.line_length = 0 --max length of each line
+	dialogue.blocks = {} -- the block objects stored for later removal
+	dialogue.lines_removed = 0 --how many lines have been shown and also removed
+	dialogue.lines_shown = 0 -- how many lines have been shown
+	dialogue.trigger_counter = 0 --checks that enough time has passed before a page is turned
+	dialogue.trigger = false --flag to allow a page turn
 	
-		dialogue.old_up = functions.up
-		functions.up = nil
-		dialogue.old_down = functions.down
-		functions.down = nil
-		dialogue.old_space = functions.space
-		functions.space = cycle_text
+	--this updates or removes the text being shown and returns control at the end
+	dialogue.remove_text = function ()
+		--if there is dialogue being shown
+		if (dialogue.text_up == true) then
+			--len is the start of the next set of dialogue to be shown (may not be a multiple of 5)
+			len = math.min(dialogue.lines_removed + 5,dialogue.lines_shown)
+			--remov old lines
+			for i = dialogue.lines_removed+1,len do
+				bf:remove_blockText(dialogue.blocks[i])
+				dialogue.blocks[i] = nil
+			end
+			dialogue.lines_removed = len
+			
+			if (dialogue.lines_removed == #dialogue.text) then
+			--if we have removed all the lines
+				bf:remove_blockHUD(dialogue.backing)
+				bf:remove_blockHUD(dialogue.character)
+				
+				--what?
+				--init_dialogue()
+				
+				display_list_pop()
+				
+				--call the call back function if there is one
+				if (dialogue.cb_func ~= nil) then 
+					dialogue.cb_func()
+				end
+				
+			else
+			--otherwise put more lines
+				dialogue.put_lines()
+			end
+		end
+	end
+	
+	dialogue.put = function (text,character,cb_func)
+	
 		dialogue.cb_func = cb_func
 		dialogue.trigger_counter = 0.5
 		dialogue.trigger = true
-		dialogue.big_trigger = true
-		dialogue.time_start = os.time()
-	
-		--print("putting up text")
-	
-		--sound:play()
+		dialogue.time_start = w:get_timer():get_time()
 		
 		dialogue.text_size = Vector2f(20,20)
 		
 		dialogue.line_length = ((display:get_width()-250)/dialogue.text_size.x)-4
 		
-		split_lines(text)
+		dialogue.split_lines(text)
 		
 		height = math.min(#dialogue.text,5)
 		
@@ -93,168 +110,178 @@ function put_dialogue(text,character,cb_func)
 		
 		dialogue.text_up = true
 		
-		put_lines()
-	end
-end
-
-function put_lines()
-
-	text_pos = Vector2f(dialogue.text_pos.x,dialogue.text_pos.y)
-	--print("text pos is " .. text_pos.x .. "," .. text_pos.y)
-	--print("text size is " .. dialogue.text_size.x .. "," .. dialogue.text_size.y)
-	
-	len = math.min(dialogue.lines_shown+5,#dialogue.text)
-	for i = dialogue.lines_shown+1,len do
-		--print ("is is " .. i)
-		--print ("adding line " .. dialogue.text[i])
-		dialogue.blocks[i] = bf:new_blockText(text_pos,dialogue.text_size,dialogue.text[i],"font_wbg.bmp")
-		text_pos.y = text_pos.y - dialogue.text_size.y*1.2
-	end
-
-	dialogue.lines_shown = len
-
-end
-
-function split_lines(text)
-	
-	close_index = 1
-	far_index = dialogue.line_length + 1
-	repeat
+		dialogue.put_lines()
 		
-		a_line = text:sub(close_index,far_index)
-	
+		display_list_push(dialogue)
 		
-		if (a_line:sub(1,1) == " ") then
-			close_index = close_index + 1
-			far_index = far_index + 1
-			a_line = text:sub(close_index,far_index)
+	end
 	
+
+	dialogue.put_lines = function()
+
+		text_pos = Vector2f(dialogue.text_pos.x,dialogue.text_pos.y)
+		
+		len = math.min(dialogue.lines_shown+5,#dialogue.text)
+		for i = dialogue.lines_shown+1,len do
+			dialogue.blocks[i] = bf:new_blockText(text_pos,dialogue.text_size,dialogue.text[i],"font_wbg.bmp")
+			text_pos.y = text_pos.y - dialogue.text_size.y*1.2
 		end
-		line_end = 0
-		if (#a_line > dialogue.line_length) then
-			b_line = a_line:reverse()
-			line_end = b_line:find(" ")
+
+		dialogue.lines_shown = len
+
+	end
+
+	dialogue.split_lines = function (text)
 	
+		close_index = 1
+		far_index = dialogue.line_length + 1
+		repeat
 			
-			a_line = a_line:sub(0,-(line_end+1))
+			a_line = text:sub(close_index,far_index)
+		
+			
+			if (a_line:sub(1,1) == " ") then
+				close_index = close_index + 1
+				far_index = far_index + 1
+				a_line = text:sub(close_index,far_index)
+		
+			end
+			line_end = 0
+			if (#a_line > dialogue.line_length) then
+				b_line = a_line:reverse()
+				line_end = b_line:find(" ")
+		
+				
+				a_line = a_line:sub(0,-(line_end+1))
+			end
+			
+			far_index = close_index + #a_line + dialogue.line_length + 1
+			close_index = close_index + #a_line
+			
+			if (far_index > #text) then
+				far_index = #text
+			end
+			
+			table.insert(dialogue.text,a_line)
+			
+		until close_index >= #text
+
+	end
+
+	--this is what the user requests (ie a button press triggers it) it will check enough time
+	--has passed then update the text to the next line or remove the dialogue box completely
+	dialogue.cycle_text = function()
+		if w:get_timer():time_since(dialogue.time_start) > 0.5 then
+			dialogue.remove_text()
+			dialogue.time_start = w:get_timer():get_time()
 		end
-		
-		far_index = close_index + #a_line + dialogue.line_length + 1
-		close_index = close_index + #a_line
-		
-		if (far_index > #text) then
-			far_index = #text
-		end
-		
-		table.insert(dialogue.text,a_line)
-		
-		--print("added line at " .. #dialogue.text)
-		--print(a_line)
-		
-		
-	until close_index >= #text
-
-end
-
-function update_dialogue(delta)
-	if (dialogue.trigger_counter > 0) then
-		dialogue.trigger_counter = dialogue.trigger_counter - delta
-	else
-		dialogue.trigger_counter = 0
-		dialogue.trigger = false
 	end
+
+	--key press functions
+	dialogue.up = nil
+	dialogue.down = nil
+	dialogue.space = dialogue.cycle_text 
+
+	return dialogue
+
 end
 
-function cycle_text ()
-	if (os.time() - dialogue.time_start) > 0 then
-		remove_text()
-		dialogue.time_start = os.time()
-	end
-end
 
-function put_menu(question,choices,character)
 
-	menu.last_time = os.time()
 
-	menu.text_size = Vector2f(20,20)
-	
-	menu.choices = choices
-	
-	menu.height = menu.text_size.y * (#menu.choices+5) * 1.3
-	menu.width = display:get_width()-200
+function new_menu()
+
+	menu = {}
+
+	--put up a menu, choices should be a table with each of the elements having fields 'text' and 'cb_func'
+	--where text is the text to display and 'cb_func' is the name of the function to be called if that option
+	--is selected
+	menu.put = function(question,choices,character)
+
+		menu.last_time = w:get_timer():get_time()
+
+		menu.text_size = Vector2f(20,20)
 		
-	menu.text_pos = Vector2f((display:get_width()/2 - menu.width/2) + 120, menu.height-20)
-	
-	backing_size = Vector2f(menu.width*1.1,menu.height*1.1)
-	menu.backing = bf:new_blockHUD(backing_size,"dialogue.bmp")
-	v = Vector2f((display:get_width()/2 - menu.width/2) + 30, 80)
-	menu.backing:move(v)
+		menu.choices = choices
+		
+		menu.height = menu.text_size.y * (#menu.choices+5) * 1.3
+		menu.width = display:get_width()-200
+			
+		menu.text_pos = Vector2f((display:get_width()/2 - menu.width/2) + 120, menu.height-20)
+		
+		backing_size = Vector2f(menu.width*1.1,menu.height*1.1)
+		menu.backing = bf:new_blockHUD(backing_size,"dialogue.bmp")
+		v = Vector2f((display:get_width()/2 - menu.width/2) + 30, 80)
+		menu.backing:move(v)
 
-	v = Vector2f(300,300)
-	menu.character = bf:new_blockHUD(v,character .. "-big.bmp")	
-	
-	menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-dialogue.bmp")
-	
-	pos = Vector2f((display:get_width()/2 - menu.width/2) + 80,menu.height+20)
-	menu.question = bf:new_blockText(pos,Vector2f(20,20),question,"font_wbg.bmp")
-	
-	pos = Vector2f(menu.text_pos.x,menu.text_pos.y)
-	for i = 1,#menu.choices do
-		menu.choices[i].block = bf:new_blockText(pos,menu.text_size,menu.choices[i].text,"font_wbg.bmp")
-		pos.y = pos.y - menu.text_size.y*1.3
-	end
-	
-	menu.selected = 0
-	
-	update_menu()
-	
-	menu.old_up = functions.up
-	menu.old_down = functions.down
-	menu.old_space = functions.space 
-	
-	functions.up = menu_up
-	functions.down = menu_down
-	functions.space = menu_select
-	
-end
-
-function update_menu()
-	--print(menu.selected .. " is selected")
-	menu.selector:set_pos(menu.choices[menu.selected+1].block:get_pos())
-	menu.last_time = os.time()
-end
-
-function menu_up()
-	if (os.time()-menu.last_time) > 0 then
-		menu.selected = menu.selected - 1
-		menu.selected = menu.selected%(#menu.choices)
-		update_menu()
-	end
-end
-
-function menu_down()
-	if (os.time()-menu.last_time) > 0 then
-		menu.selected = menu.selected + 1
-		menu.selected = menu.selected%(#menu.choices)
-		update_menu()
-	end
-end
-
-function menu_select()
-	if (os.time()-menu.last_time) > 0 then		
+		v = Vector2f(300,300)
+		menu.character = bf:new_blockHUD(v,character .. "-big.bmp")	
+		
+		menu.selector = bf:new_blockHUD(Vector2f(menu.width-100,menu.text_size.y),"outline-dialogue.bmp")
+		
+		pos = Vector2f((display:get_width()/2 - menu.width/2) + 80,menu.height+20)
+		menu.question = bf:new_blockText(pos,Vector2f(20,20),question,"font_wbg.bmp")
+		
+		pos = Vector2f(menu.text_pos.x,menu.text_pos.y)
 		for i = 1,#menu.choices do
-			bf:remove_blockText(menu.choices[i].block)
+			menu.choices[i].block = bf:new_blockText(pos,menu.text_size,menu.choices[i].text,"font_wbg.bmp")
+			pos.y = pos.y - menu.text_size.y*1.3
 		end
 		
-		bf:remove_blockText(menu.question)
-		bf:remove_blockHUD(menu.selector)
-		bf:remove_blockHUD(menu.character)
-		bf:remove_blockHUD(menu.backing)
+		menu.selected = 0
 		
-		functions.up = menu.old_up
-		functions.down = menu.old_down
-		functions.space = menu.old_space
+		menu.update()
 		
-		menu.choices[menu.selected+1].cb_func()
+		display_list_push(menu)
 	end
+
+	menu.update = function()
+		menu.selector:set_pos(menu.choices[menu.selected+1].block:get_pos())
+		menu.last_time = w:get_timer():get_time()
+	end
+
+	menu.menu_up = function()
+		if w:get_timer():time_since(menu.last_time) > 0.5 then
+			menu.selected = menu.selected - 1
+			menu.selected = menu.selected%(#menu.choices)
+			menu.update()
+		end
+	end
+
+	menu.menu_down = function()
+		if w:get_timer():time_since(menu.last_time) > 0.5 then
+			menu.selected = menu.selected + 1
+			menu.selected = menu.selected%(#menu.choices)
+			menu.update()
+		end
+	end
+
+	menu.select = function()
+		if w:get_timer():time_since(menu.last_time) > 0.5 then		
+			
+			--remove graphics
+			for i = 1,#menu.choices do
+				bf:remove_blockText(menu.choices[i].block)
+			end
+			
+			bf:remove_blockText(menu.question)
+			bf:remove_blockHUD(menu.selector)
+			bf:remove_blockHUD(menu.character)
+			bf:remove_blockHUD(menu.backing)
+			
+			display_list_pop()
+			
+			--call the relavent function for the selected choice
+			if (menu.choices[menu.selected+1].cb_func ~= nil) then
+				menu.choices[menu.selected+1].cb_func()
+			end
+		end
+	end
+	
+	menu.up = menu.menu_up
+	menu.down = menu.menu_down
+	menu.space = menu.select
+	
+	return menu
+
 end
