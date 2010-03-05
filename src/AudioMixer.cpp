@@ -17,7 +17,10 @@ AudioMixer::AudioMixer()
   // Set up the mixer
   if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
 	  fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError());
+	  no_audio = true;
 	  exit(1);
+  } else {
+	  no_audio = false;
   }
 }
 
@@ -31,6 +34,7 @@ AudioMixer::~AudioMixer()
 AudioFile*
 AudioMixer::new_audio_file(string name, bool is_music)
 {
+	if (no_audio) return NULL;
   string filename;
   void *audio;
   // Check if this audio file is a music file or not

@@ -45,29 +45,29 @@ function try_send(dir)
 	cx,cy = act_to_grid(cpos.x,cpos.z)
 
     -- This assumes way too much.
-    if (not animals[1].moving) then
+    --[[
+	if (not animals[1].moving) then
       animal_send(animals[1],dir)
     end
-    --[[
+    --]]
 	for i,animal in ipairs(animals) do
-
-        ax,ay = act_to_grid(apos.x,apos.z)
-        apos = animal.block:get_pos()
-		if (ax == cx) then
-			if (ay-1 == cy) or (ay+1 == cy) then
-				animal_send(animal,dir)
-				break;
+		if (not animal.moving) then
+			apos = animal.block:get_pos()
+			ax,ay = act_to_grid(apos.x,apos.z)
+			if (ax == cx) then
+				if (ay-1 == cy) or (ay+1 == cy) then
+					animal_send(animal,dir)
+					break;
+				end
+			elseif (ay == cy) then
+				if (ax-1 == cx) or (ax+1 == cx) then
+					animal_send(animal,dir)
+					break;
+				end
 			end
-		elseif (ay == cy) then
-			if (ax-1 == cx) or (ax+1 == cx) then
-				animal_send(animal,dir)
-				break;
-			end
-		end
-  	
+  		end
 	end
-    ]]--
-    -- HI
+    
 end
 
 function send_animal(animal,x,y)
@@ -238,6 +238,8 @@ function animals_update(delta)
 							level.map[a_gridx][a_gridy].thing = "empty"
 							level.map[a_gridx][a_gridy].symbol = "0"
 							animal.has_internet = true
+						else
+							animal.moving = false
 						end
 					else
 					animal.moving = false
@@ -256,19 +258,15 @@ function animals_update(delta)
 						w.audio.victory:play()
 						animal.has_internet = false
 						
-						--need to remove old internet
-						
 						--create new internet
 						new_internet = bf:new_block3d("internet.obj","internet.bmp")
-						--internet:move(Vector3f(cpos.x, cpos.y + 5, cpos.z))
 						
-						character.main:add_child(new_internet) --give internet to techie
-						new_internet:nudge(Vector3f(0,6,0))
+						--character.main:add_child(new_internet) --give internet to techie
+						--new_internet:nudge(Vector3f(0,6,0))
 
 						animal.block:clear_children()
-						bf:remove_3d_block(internet.block)
 						
-						put_dialogue("Well done you man-baby. You solved the internet for today, but tomorrow I need some help defragmenting my C drive. Also did you know ... " .. w.gorilla_facts[math.random(1,#w.gorilla_facts)],"gorilla",go_again)
+						new_dialogue().put("Well done you man-baby. You solved the internet for today, but tomorrow I need some help defragmenting my C drive. Also did you know ... " .. w.gorilla_facts[math.random(1,#w.gorilla_facts)],"gorilla",go_again)
 
 						end
 					end
@@ -286,13 +284,13 @@ function go_again()
 	choices[1].text = "Yes way"
 	choices[1].cb_func = go_again_yes
 	choices[2] = {}
-	choices[2].text = "No"
+	choices[2].text = "No (quit game)"
 	choices[2].cb_func = go_again_no
 	choices[3] = {}
-	choices[3].text = "I, uh, need to talk to Mortimer"
+	choices[3].text = "Go to intro"
 	choices[3].cb_func = gotointro
 	
-	put_menu("Go again?",choices,"person")
+	new_menu().put("Go again?",choices,"person")
 end
 
 function go_again_yes()

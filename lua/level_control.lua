@@ -25,6 +25,38 @@ function load_level(filename)
 
 end
 
+function load_random_level()
+	level.map = nil
+    ts = 0
+    td = 0
+    if (difficulty == 1) then
+      ts = 6
+      td = 3
+    elseif (difficulty == 2) then
+      ts = 8
+      td = 5
+    else 
+      ts = 10
+      td = 7
+    end
+    while (level.map == nil) do
+      level.map = world_gen(ts,ts,td)
+    end
+	
+	level.cage = {}
+    level.cage.width = ts
+    level.cage.height = ts
+    --io.write("==========\n")
+    --io.write("Final Map:\n")
+    --io.write("==========\n")
+    for i=1,level.cage.width do
+      for j=1,level.cage.height do
+        --io.write(level.map[i][j].symbol, " ")
+      end
+      --io.write("\n")
+    end
+end
+
 function set_level_size(s)
 	level.size = s
 end
@@ -81,6 +113,33 @@ function place_model(symbol,x,y)
 			
 			level.map[i][j].thing = "gorilla"
 			level.map[i][j].symbol = "g"
+		
+		elseif (symbol == 'p') then
+			
+			p = bf:new_character("parrot.obj","parrot.bmp")
+			v = Vector3f(x,0,y)
+			--v.y = f:get_height(Vector2f(v.x,v.z))
+			p:move(v)
+			p:set_scale(10)
+			
+			animal_p = {}
+			animal_p.block = p
+			animal_p.direction = {}
+			animal_p.direction.x = 0
+			animal_p.direction.y = 0
+			animal_p.moving = false
+			animal_p.speed = 6
+			animal_p.name = "parrot"
+			animal_p.symbol = "p"
+			animal_p.target = {}
+			animal_p.target.x = x
+			animal_p.target.y = y
+			animal_p.has_internet = false
+			
+			table.insert(animals,animal_p)
+			
+			level.map[i][j].thing = "parrot"
+			level.map[i][j].symbol = "parrot"
 			
 		elseif (symbol == 'b') then
 			
@@ -129,7 +188,7 @@ function place_model(symbol,x,y)
 			item_b.symbol = "i"
 
 			level.map[i][j] = item_b
-			internet = item_b
+			table.insert(internets,item_b)
 		
 		else
 		
@@ -252,3 +311,59 @@ function put_cage()
 
 end
 
+function light_grid(x,y)
+	light = {}
+	light.x = x
+	light.y = y
+	light.count = 1
+	light.block = bf:new_flat_block("outline-yellow.bmp",Vector2f(level.size,level.size), true)
+	rx,ry = grid_to_act(x,y)
+	light.block:move(Vector3f(rx+level.size/2,0.1,ry+level.size/2))
+	light.block:rotate(Vector3f(90,0,0))
+	lit_squares[x .. "," .. y] = light
+end
+
+function step_lights(delta)
+	print("lit squares:")
+	
+	for i,light in pairs(lit_squares) do
+		print(i .. " , count is " .. light.count)
+		light.count = light.count - delta
+		if (light.count <= 0) then
+			bf:remove_flat_block(light.block)
+			lit_squares[i] = nil
+		end
+	end
+	
+end
+
+function light_up_trigger(trigger)
+	if (trigger.light_count <= 0) then
+		light = bf:new_flat_block("outline-yellow.bmp",Vector2f(level.size,level.size), true)
+		light:move(Vector3f(trigger.block:get_pos().x,0.1,trigger.block:get_pos().z))
+		light:rotate(Vector3f(90,0,0))
+		--light:set_transparency(0.99)
+		
+		trigger.light = light
+	end
+	trigger.light_count = 1
+	trigger.light_switch = true
+	--print("setting to 1")
+end
+
+function step_trigger(trigger,delta)
+	if trigger.light_switch == true then
+		if trigger.light_count > 0 then
+			if character.main:collide(trigger.block) then
+				trigger.light_count = 1
+			else
+				trigger.light_count = trigger.light_count - delta*2
+				--trigger.light:set_transparency(trigger.light_count)
+			end
+		elseif trigger.light_count <= 0 then
+			trigger.light_count = 0
+			trigger.light_switch = false
+			bf:remove_flat_block(trigger.light)
+		end
+	end
+end

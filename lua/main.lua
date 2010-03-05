@@ -17,8 +17,11 @@ animals = {}
 camera_triggers = {}
 character = {}
 particles = {}
+internets = {}
+lit_squares = {}
 
 difficulty = nil
+cage_view = false
 
 dofile "lua/dialogue.lua"
 dofile "lua/movement.lua"
@@ -51,7 +54,9 @@ function start (world)
 
 	functions.load = title_setup
     functions.step = title_step
-    functions.space = gotointro
+    --functions.space = gotointro
+	functions.space = gotolevel1
+	first_level1 = false
 
     w.gorilla_facts = read_facts("facts_gorilla")
 	w.tortoise_facts = read_facts("facts_tortoise")
@@ -60,7 +65,7 @@ function start (world)
 	w.mixer = w:get_mixer()
 
     w.music = w:new_audio_file("music",true)
-    
+    w.music:play()
     w.audio = {}
     w.audio.boxsmash1 = w:new_audio_file("quitegood-boxsmash",false)
     w.audio.boxsmash2 = w:new_audio_file("othergood-boxsmash",false)
@@ -68,7 +73,6 @@ function start (world)
     w.audio.turtleget = w:new_audio_file("turtleget",false)
     w.audio.wolfwhistle = w:new_audio_file("wolf_whistle",false)
     w.audio.victory = w:new_audio_file("victory",false)
-	--gotolevel1 ()
 	
 	functions.load()
 	

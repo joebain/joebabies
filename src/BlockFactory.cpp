@@ -209,11 +209,15 @@ void BlockFactory::remove_3d_block(Block3D* block)
 
 void BlockFactory::remove_flat_block(Block3DFlat* block)
 {
-	if (block->is_transparent())
+	if (block->is_transparent()) {
+		cout << "number of transparent blocks was: " << d->transparent_blocks.size() << endl;
 		d->transparent_blocks.remove(block);
-	else
+		cout << "now is: " << d->transparent_blocks.size() << endl;
+	}
+	else {
 		d->blocks.remove(block);
-	blocks3dflat.remove(*block);
+	}
+	//blocks3dflat.remove(*block);
 }
 
 void BlockFactory::clear_all()
