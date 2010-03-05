@@ -17,6 +17,8 @@ big_gorilla = {}
 big_parrot = {}
 big_parrot.collide = false
 
+costar = {}
+
 x_l_bound = 50
 z_l_bound = 50
 x_u_bound = 150
@@ -27,7 +29,7 @@ block2_collide = false
 
 function intro_setup()
 	
-	make_character()
+	character = new_character()
 	
 	v = Vector3f(0,45,0)
 	character.main:set_dir(v)
@@ -100,8 +102,6 @@ function intro_setup()
 
 	
 	c:follow(character.main)
-	
-	sound = w:new_audio_file("hello", false);
 	
 	water = bf:new_flat_block("water.bmp",Vector2f(200,200), true)
 	water:move(Vector3f(0,-0.3,0))

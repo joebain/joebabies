@@ -33,6 +33,7 @@ private:
 	int volume;
 	bool music_on;
 	bool sfx_on;
+	bool no_audio;
 };
 
 
