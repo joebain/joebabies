@@ -16,7 +16,7 @@ Block3DFlat::Block3DFlat()
 	
 	is_2d = false;
 	
-	shown = MASKED;
+	shown = HAS_ALPHA;
 	
 	rel_centre = true;
 	
@@ -39,7 +39,7 @@ Block3DFlat::Block3DFlat(const Block3DFlat& b)
 	shown = b.shown;
 	pos = b.pos;
 	size = b.size;
-	rot = b.rot;
+	dir= b.dir;
 	texture = b.texture;
 	is_driven = b.is_driven;
 	is_2d = b.is_2d;
@@ -63,7 +63,7 @@ void Block3DFlat::move(Vector3f move)
 {
 	Vector3f move_tmp(move);
 	if (is_driven) {
-		move_tmp.rotate(-rot);	
+		move_tmp.rotate(-dir);	
 	}
 	pos.x += move.x;
 	pos.y += move.y;
@@ -72,12 +72,7 @@ void Block3DFlat::move(Vector3f move)
 
 void Block3DFlat::rotate(Vector3f plus_rot)
 {
-	rot += plus_rot;
-}
-
-void Block3DFlat::set_pos(Vector3f pos)
-{
-	this->pos = pos;
+	dir += plus_rot;
 }
 
 void Block3DFlat::set_size(Vector2f size)
@@ -120,9 +115,9 @@ void Block3DFlat::display()
 		glTranslatef(pos.x, pos.y, pos.z);
 	}
 	
-	glRotatef(rot.z,0,0,1);
-	glRotatef(rot.y,0,1,0);
-	glRotatef(rot.x,1,0,0);
+	glRotatef(dir.z,0,0,1);
+	glRotatef(dir.y,0,1,0);
+	glRotatef(dir.x,1,0,0);
 	
 	if (!rel_centre) {
 		glTranslatef(pos.x, pos.y, pos.z);
@@ -192,6 +187,10 @@ void Block3DFlat::display()
 		glBlendFunc (GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
 		
 		//glBlendFunc(GL_DST_COLOR,GL_ONE_MINUS_DST_ALPHA);
+	} else if (shown == HAS_ALPHA) {
+		glEnable (GL_BLEND);
+		glColor4f(1.0,1.0,1.0,1.0);
+		glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
@@ -239,14 +238,11 @@ void Block3DFlat::set_mask(bool t)
 		shown = NEITHER;
 }
 
-Vector3f Block3DFlat::get_pos()
-{
-	return pos;
-}
-
-Vector3f Block3DFlat::get_rot()
-{
-	return rot;
+void Block3DFlat::set_transparent(bool t) {
+	if (t)
+		shown = HAS_ALPHA;
+	else
+		shown = NEITHER;
 }
 
 void Block3DFlat::set_tex(Texture *texture)

@@ -4,7 +4,7 @@ SRC_DIR := $(ROOT_DIR)/src
 
 VPATH = $(SRC_DIR)
 
-CC := g++
+CC := colorgcc
 EXT := cpp
 COMMON_CCFLAGS := -g -c -Wall
 
@@ -14,7 +14,7 @@ MAIN_EXE := $(BIN_DIR)/zoobabiesd
 all: $(MAIN_EXE)
 
 CCFLAGS := $(COMMON_CCFLAGS) -I/usr/X11R6/include/ -I/usr/include/lua5.1
-LIBS := -L/usr/X11R6/lib64/ -L/lua-5.1/lib/ -L/usr/lib/ -L/usr/local/lib/ -llua5.1 -lluabind -lGL -lGLU -lX11 -lXmu -lXi -lm -lSDL -lSDL_mixer
+LIBS := -L/usr/X11R6/lib64/ -L/lua-5.1/lib/ -L/usr/lib/ -L/usr/local/lib/ -llua5.1 -lluabind -lGL -lGLU -lX11 -lXmu -lXi -lm -lSDL -lSDL_mixer -lfreeimage
 
 SRC_FILES := $(wildcard $(SRC_DIR)/*.$(EXT))
 OBJECT_FILES := $(notdir $(SRC_FILES:.$(EXT)=.o))
@@ -40,4 +40,4 @@ $(OBJECT_FILES): %.o: %.$(EXT)
 
 .PHONY: clean	
 clean:
-	rm -f $(DEPENDENCY_FILES) $(OBJECT_FILES) $(MAIN_EXE)
+	rm -f *.o *.d $(MAIN_EXE)

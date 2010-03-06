@@ -11,6 +11,7 @@
 
 #include <GL/gl.h>
 #include <string>
+#include <FreeImage.h>
 
 using namespace std;
 
@@ -19,7 +20,8 @@ class Texture
 private:
 	unsigned long sizeX;
     unsigned long sizeY;
-    char *data;
+    FIBITMAP *dib;
+	BYTE* data;
     GLuint tex_num;
 	string name;
 	bool transparent;
@@ -28,9 +30,10 @@ private:
 public:
 	Texture();
 	~Texture();
-	Texture(const Texture& t);
-	Texture& operator=(const Texture& t);
-	int load(string filename_s);
+ 	Texture(const Texture& t);
+ 	Texture& operator=(const Texture& t);
+	static FIBITMAP* load(string filename_s);
+	bool set_data(FIBITMAP *dib);
 	void set_name(string name);
 	int make_mask();
 	GLuint get_tex_num();

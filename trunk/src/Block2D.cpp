@@ -19,7 +19,7 @@ void Block2D::move(Vector2f move)
 {
 	Vector2f move_tmp(move);
 	if (is_driven) {
-		move_tmp.rotate(-rot.z);
+		move_tmp.rotate(-dir.z);
 	}
 	pos.x += move.x;
 	pos.y += move.y;
@@ -27,7 +27,7 @@ void Block2D::move(Vector2f move)
 
 void Block2D::rotate(float plus_rot)
 {
-	rot.z += plus_rot;
+	dir.z += plus_rot;
 }
 
 void Block2D::set_pos(Vector2f pos)
@@ -35,14 +35,14 @@ void Block2D::set_pos(Vector2f pos)
 	this->pos.init(pos.x,pos.y,this->pos.z);
 }
 
-Vector2f Block2D::get_pos()
+Vector2f Block2D::get_pos_2f()
 {
 	return Vector2f(pos.x,pos.y);
 }
 
-float Block2D::get_rot()
+float Block2D::get_dir_1f()
 {
-	return rot.z;
+	return dir.z;
 }
 
 void Block2D::set_depth(float depth)

@@ -11,10 +11,9 @@ class Sky : public Block3D
 public:
 	Sky();
 	void set_scale(float scale);
-	void set_perm_tex(Texture tex);
+	void set_perm_tex(Texture* tex);
 private:
 	Obj perm_object;
-	Texture perm_texture;
 	float scale;
 };
 
