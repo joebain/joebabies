@@ -30,7 +30,7 @@ $(DEPENDENCY_FILES): %.d: %.$(EXT)
 	$(CC) -MM $< > $@
 
 #Compile the .o file for each .c file using the make rules in the .d files.
-#-include $(DEPENDENCY_FILES)
+-include $(DEPENDENCY_FILES)
 
 $(OBJECT_FILES): $(DEPENDENCY_FILES)
 
