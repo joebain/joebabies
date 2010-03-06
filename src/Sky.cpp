@@ -106,9 +106,8 @@ void Sky::set_scale(float scale)
 	object->v_poss[7].init(3*scale/2,3*scale/2,-scale/2);	//front top left
 }
 
-void Sky::set_perm_tex(Texture tex)
+void Sky::set_perm_tex(Texture* tex)
 {
-	perm_texture = tex;
-	texture = &perm_texture;
+	texture = tex;
 	texture->set_name("sky");
 }

@@ -29,18 +29,20 @@ Block3D* BlockFactory::new_block3d(string object, string texture)
 
 }
 
-Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool transparent)
+Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool mask, bool transparent)
 {
 	Block3DFlat new_block;
 	
 	blocks3dflat.push_back(new_block);
 	
-	if (!transparent) blocks3dflat.back().set_mask(false);
+	if (mask) blocks3dflat.back().set_mask(true);
+	if (transparent) blocks3dflat.back().set_transparent(true);
+	
 	blocks3dflat.back().set_tex(new_texture(texture));
 	
 	blocks3dflat.back().set_size(size);
 	
-	if (transparent) d->transparent_blocks.push_back(&(blocks3dflat.back()));
+	if (transparent || mask) d->transparent_blocks.push_back(&(blocks3dflat.back()));
 	else d->blocks.push_back(&(blocks3dflat.back()));
 
 	return &(blocks3dflat.back());
@@ -105,9 +107,8 @@ Floor* BlockFactory::new_floor(string height_map, string texture, float scale)
 	floor.set_size(size);
 	floor.set_perm_obj(new_obj);
 	
-	Texture new_tex;
-	new_tex.load("img/" + texture);
-	
+	Texture* new_tex = new_texture("img/" + texture);
+		
 	floor.set_perm_tex(new_tex);
 	
 	d->floor = &floor;
@@ -117,9 +118,8 @@ Floor* BlockFactory::new_floor(string height_map, string texture, float scale)
 
 Sky* BlockFactory::new_sky(string texture)
 {
-	Texture new_tex;
-	new_tex.load("img/" + texture);
-	
+	Texture* new_tex = new_texture("img/" + texture);
+		
 	sky.set_perm_tex(new_tex);
 	
 	d->sky = &sky;
@@ -153,14 +153,14 @@ Texture* BlockFactory::new_texture(string file)
 		}
 	}
 	if (!found_texture) {
-		new_tex.load(file);
+		FIBITMAP* new_dib = Texture::load(file);
+		new_tex.set_data(new_dib);
 		textures.push_back(new_tex);
 		ret_tex = &(textures.back());
 	}
 	
 	return ret_tex;
 }
-
 
 Obj* BlockFactory::new_obj(string file)
 {

@@ -23,16 +23,16 @@
 #include "Obj.h"
 #include "Texture.h"
 #include "Block.h"
+#include "HasPosDir3D.h"
 
-class Block3D : public Block
+class Block3D : public Block, public HasPosDir3D
 {
 private:
 	bool is_driven;
 protected:
 	Obj* object; //the 3d model
 	Texture* texture; //the texture data
-	Vector3f pos; //the main position
-	Vector3f dir; //the main direction
+	
 	Vector3f offset; //the offset position 
 	Vector3f rot; //the offset direction (poorly named atm)
 	Vector3f* bb_min; //bounding box info
@@ -58,10 +58,10 @@ public:
 	void set_scale(float scale) {this->scale = scale;}
 	bool operator==(const Block3D& b);
 	Obj* get_obj();
-	Vector3f get_pos();
+	
 	Vector3f get_rot();
 	void set_rot(Vector3f rot) {this->rot = rot;}
-	Vector3f get_dir() {return dir;}
+	
 	void set_offset(Vector3f offset) {this->offset = offset;}
 	Vector3f get_bb_min();
 	Vector3f get_bb_max();

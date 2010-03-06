@@ -16,12 +16,11 @@ using namespace std;
 class Floor : public Block3D {
 private:
 	Obj perm_obj;
-	Texture perm_tex;
 	float scale;
 	Vector2i size;
 public:
 	void set_perm_obj(Obj obj);
-	void set_perm_tex(Texture tex);
+	void set_perm_tex(Texture* tex);
 	float get_height(Vector2f pos);
 	void set_scale(float scale) {this->scale = scale;}
 	void set_size(Vector2i size) {this->size = size;}

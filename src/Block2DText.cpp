@@ -18,7 +18,7 @@ void Block2DText::display()
 	
 	glTranslatef(pos.x, pos.y, pos.z);
 		
-	glRotatef(rot.z,0,0,1);
+	glRotatef(dir.z,0,0,1);
 	
 	if (shown == MASKED) {
 		glDisable(GL_DEPTH_TEST);

@@ -15,8 +15,8 @@ protected:
 public:
 	Block2D();
 	void set_pos(Vector2f pos);
-	Vector2f get_pos();
-	float get_rot();
+	Vector2f get_pos_2f();
+	float get_dir_1f();
 	void move(Vector2f move);
 	void rotate(float rot);
 	void set_depth(float d);

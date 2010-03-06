@@ -26,7 +26,7 @@ Camera::Camera()
 	is_following = false;
 }
 
-void Camera::follow(Block3D* subject)
+void Camera::follow(HasPosDir3D* subject)
 {
 	this->subject = subject;
 	is_following = true;
@@ -49,7 +49,7 @@ void Camera::move(float delta)
 		
 		if (follow_type == FOLLOW_TYPE_3D) {
 		
-			Block3D* subject3d = (Block3D*) subject;
+			HasPosDir3D* subject3d = (HasPosDir3D*) subject;
 		
 			Vector3f r = subject3d->get_dir();
 			Vector3f p = subject3d->get_pos();

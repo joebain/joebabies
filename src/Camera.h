@@ -6,7 +6,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Block3D.h"
+#include "HasPosDir3D.h"
 
 #define FOLLOW_TYPE_3D 1
 #define FOLLOW_TYPE_2D 2 //currently not implemented
@@ -15,7 +15,7 @@ class Camera
 {
 public:
 	Camera();
-	void follow(Block3D* subject);
+	void follow(HasPosDir3D* subject);
 	void position(); //actually do the camera transformation
 	void move(float delta); //update the camera position each frame
 	void set_distance(float distance) {this->distance = distance;}
@@ -31,7 +31,7 @@ private:
 	float height;
 	float min_snap; //how close do we get before we snap to the exact position / target
 	
-	Block* subject;
+	HasPosDir3D* subject;
 	int follow_type;
 };
 

@@ -174,11 +174,6 @@ void Block3D::display()
 	object->display();
 }
 
-Vector3f Block3D::get_pos()
-{
-	return pos;
-}
-
 Vector3f Block3D::get_rot()
 {
 	return rot;

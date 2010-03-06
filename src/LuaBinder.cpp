@@ -18,6 +18,7 @@
 #include "Buttons.h"
 #include "AudioFile.h"
 #include "AudioMixer.h"
+#include "HasPosDir3D.h"
 
 void LuaBinder::bind(lua_State *l)
 {
@@ -57,11 +58,19 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
+		luabind::class_<HasPosDir3D>("HasPosDir3D")
+		.def("get_pos", &HasPosDir3D::get_pos)
+		.def("set_pos", &HasPosDir3D::set_pos)
+		.def("get_dir", &HasPosDir3D::get_dir)
+		.def("set_dir", &HasPosDir3D::set_dir)
+	];
+	
+	luabind::module(l) [
 		luabind::class_<Block>("Block")
 	];
 	
 	luabind::module(l) [
-		luabind::class_<Block3D>("Block3D")
+		luabind::class_<Block3D, HasPosDir3D>("Block3D")
 			.def("move", &Block3D::move)
 			.def("rotate", &Block3D::rotate)
 			.def("get_rot", &Block3D::get_rot)
@@ -85,7 +94,7 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
-		luabind::class_<Block3DFlat>("Block3DFlat")
+		luabind::class_<Block3DFlat, HasPosDir3D>("Block3DFlat")
 			.def("move", &Block3DFlat::move)
 			.def("rotate", &Block3DFlat::rotate)
 			.def("set_depth", &Block3DFlat::set_pos)
@@ -143,6 +152,7 @@ void LuaBinder::bind(lua_State *l)
 		luabind::class_<Camera>("Camera")
 			.def("follow", &Camera::follow)
 			.def("set_height", &Camera::set_height)
+			.def("set_distance", &Camera::set_distance)
 	];
 	
 	luabind::module(l) [
