@@ -7,6 +7,9 @@
 #ifndef BLOCKFACTORY_H
 #define BLOCKFACTORY_H
 
+#include <lua.hpp>
+#include <luabind/luabind.hpp>
+
 #include "Display.h"
 #include "Block2D.h"
 #include "Block3D.h"
@@ -19,7 +22,7 @@
 
 class BlockFactory
 {
-private:
+protected:
 	list<Texture> textures;
 	list<Obj> objects;
 	list<Block3D> blocks3d;
@@ -44,6 +47,7 @@ public:
 	Sky* new_sky(string texture); //the sky box (broken)
 	Block3DImaginary* new_imaginary_block(Vector3f size); //collision box
 	Block3DFlat* new_flat_block(string texture, Vector2f size, bool mask, bool transparent); //flat textured thing
+	Block3DFlat* new_animated_flat_block(string texture, Vector2f size, Vector2f frame_size, int width, int height, list<float> times, bool mask, bool transparent, bool bounce);
 	Block3DFlat* new_distance_block(string texture, Vector2f size); //flat textured thing that lies in the distance but we always want to draw regardless of how far away it is
 	void remove_blockText(Block2DText* text);
 	void remove_blockHUD(Block2D* hud);
@@ -51,6 +55,14 @@ public:
 	void remove_3d_block(Block3D* block);
 	void clear_all();
 
+	//luabind madness
+	Block3DFlat* new_animated_flat_block_lua(string texture, Vector2f size, Vector2f frame_size, int width, int height, luabind::object const& times, bool mask, bool transparent, bool bounce) {
+		list<float> list_times;
+		for (luabind::iterator it(times) , end ; it != end ; ++it) {
+			list_times.push_back(luabind::object_cast<float>(*it));
+		}
+		return new_animated_flat_block(texture, size, frame_size, width, height, list_times, mask, transparent, bounce);
+	}
 };
 
 #endif

@@ -49,7 +49,6 @@ World::~World()
 
 void World::main_loop()
 {
-	
 	done = false;
 	
 	while (!done) {

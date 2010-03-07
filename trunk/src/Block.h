@@ -7,14 +7,19 @@
 #ifndef BLOCK_H_
 #define BLOCK_H_
 
+#include "Vector3f.h"
+
 class Block
 {
 private:
 protected:
 	float z_depth; //used for sorting transparent stuff
+	Vector3f centre;
 public:
 	virtual void display() =0; //all blocks display something
 	float get_z_depth() {return z_depth;}
+	virtual Vector3f get_centre() { return centre; }
+	float cam_dist;
 };
 
 #endif /*BLOCK_H_*/

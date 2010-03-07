@@ -1,9 +1,11 @@
 #ifndef VECTOR3F_H_
 #define VECTOR3F_H_
 
+#include <iostream>
+
 #include "consts.h"
 
-#include <iostream>
+#include "Vector2f.h"
 
 using namespace std;
 
@@ -16,6 +18,7 @@ public:
 	Vector3f();
 	Vector3f(float x, float y, float z);
 	Vector3f(const Vector3f& v);
+	Vector3f(const Vector2f& v, float z);
 	Vector3f copy();
 	Vector3f & operator=(const Vector3f &rhs);
 	void normalise();

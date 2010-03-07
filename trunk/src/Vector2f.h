@@ -19,6 +19,8 @@ public:
 	bool operator==(const Vector2f& rhs);
 	void init(float x, float y);
 	void operator*=(float f);
+	Vector2f operator*(float f);
+	Vector2f operator+(Vector2f & v);
 	void operator*=(Vector2f rhs);
 	void rotate(float r);
 	friend ostream &operator<<(ostream &stream, Vector2f v);

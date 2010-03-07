@@ -20,6 +20,43 @@
 #include "AudioMixer.h"
 #include "HasPosDir3D.h"
 
+// class LuaBlock3DFlat : public Block3DFlat {
+// 	public:
+// 		void set_animation(Vector2f size, int width, int height, luabind::object const& times) {
+// 			list<float> list_times;
+// 			std::vector<float> floats;
+// // 			for( int i = 0; i < count; i++ ) {
+// // 				list_times.push_back(luabind::object_cast<float>(times[i]));
+// // 			}
+// 			for (luabind::iterator it(times) , end ; it != end ; ++it) {
+// 				list_times.push_back(luabind::object_cast<float>(*it));
+// 			}
+// 			Block3DFlat::set_animation(size, width, height, list_times);
+// 		}
+// };
+
+// class LuaBlockFactory : public BlockFactory {
+// 	public:
+// 		Block3DFlat* new_animated_flat_block(string texture, Vector2f size, int width, int height, luabind::object const& times, bool mask, bool transparent) {
+// 			list<float> list_times;
+// 			for (luabind::iterator it(times) , end ; it != end ; ++it) {
+// 				list_times.push_back(luabind::object_cast<float>(*it));
+// 			}
+// 			return BlockFactory::new_animated_flat_block(texture, size, width, height, list_times, mask, transparent);
+// 		}
+// };
+
+// class LuaConverter {
+// 	public:
+// 		list<float> to_list(luabind::object const& an_object) {
+// 			list<float> a_list;
+// 			for (luabind::iterator it(an_object) , end ; it != end ; ++it) {
+// 				a_list.push_back(luabind::object_cast<float>(*it));
+// 			}
+// 			return a_list;
+// 		}
+// };
+
 void LuaBinder::bind(lua_State *l)
 {
 	
@@ -67,10 +104,13 @@ void LuaBinder::bind(lua_State *l)
 	
 	luabind::module(l) [
 		luabind::class_<Block>("Block")
+			.def("get_z_depth", &Block::get_z_depth)
+			.def("get_centre", &Block::get_centre)
+			.def_readonly("cam_dist", &Block::cam_dist)
 	];
 	
 	luabind::module(l) [
-		luabind::class_<Block3D, HasPosDir3D>("Block3D")
+		luabind::class_<Block3D, luabind::bases<HasPosDir3D, Block> >("Block3D")
 			.def("move", &Block3D::move)
 			.def("rotate", &Block3D::rotate)
 			.def("get_rot", &Block3D::get_rot)
@@ -94,7 +134,7 @@ void LuaBinder::bind(lua_State *l)
 	];
 	
 	luabind::module(l) [
-		luabind::class_<Block3DFlat, HasPosDir3D>("Block3DFlat")
+		luabind::class_<Block3DFlat, luabind::bases<HasPosDir3D, Block> >("Block3DFlat")
 			.def("move", &Block3DFlat::move)
 			.def("rotate", &Block3DFlat::rotate)
 			.def("set_depth", &Block3DFlat::set_pos)
@@ -103,6 +143,11 @@ void LuaBinder::bind(lua_State *l)
 			.def("set_transparency", &Block3DFlat::set_transparency)
 			.def("change_size", &Block3DFlat::change_size)
 			.def("set_rel_centre", &Block3DFlat::set_rel_centre)
+			.def("start", &Block3DFlat::start)
+			.def("stop", &Block3DFlat::stop)
+			.def("reset", &Block3DFlat::reset)
+			.def("flipY", &Block3DFlat::flipY)
+			.def("set_facing", &Block3DFlat::set_facing)
 	];
 	
 	luabind::module(l) [
@@ -140,6 +185,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("new_sky", &BlockFactory::new_sky)
 			.def("new_imaginary_block", &BlockFactory::new_imaginary_block)
 			.def("new_flat_block", &BlockFactory::new_flat_block)
+			.def("new_animated_flat_block", &BlockFactory::new_animated_flat_block_lua)
 			.def("remove_blockText", &BlockFactory::remove_blockText)
 			.def("remove_blockHUD", &BlockFactory::remove_blockHUD)
 			.def("remove_flat_block", &BlockFactory::remove_flat_block)
@@ -203,4 +249,10 @@ void LuaBinder::bind(lua_State *l)
 			.def("get_mixer", &World::get_mixer)
 	];
 	
+// 	luabind::module(l) [
+// 		luabind::class_<LuaConverter>("Converter")
+// 			.def(luabind::constructor<>())
+// 			.def("to_list", &LuaConverter::to_list) //apparently this is how you do static functions !?!?
+// 			
+// 	];
 }
