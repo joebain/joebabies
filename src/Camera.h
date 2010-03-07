@@ -20,6 +20,7 @@ public:
 	void move(float delta); //update the camera position each frame
 	void set_distance(float distance) {this->distance = distance;}
 	void set_height(float height) {this->height = height;}
+	Vector3f get_pos() { return pos; }
 private:
 	bool is_following;
 	Vector3f pos; //position of the camera currently

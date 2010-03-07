@@ -4,9 +4,16 @@ camera = nil
 block_factory = nil
 buttons = nil
 
-speed = 0.2
+me = nil
+magnum_house = nil
+me_moving = false
+me_dir = true
+
+speed = 10
 followed = nil
-camera_distance = 10
+camera_distance = 30
+--walk_timer = Timer()
+last_stop_walk = 0
 
 function start (_world)
 	world = _world
@@ -27,32 +34,48 @@ function start (_world)
 end
 
 function step (_delta)
+	me_moving = false
 	if (buttons.up) then
-		followed:move(Vector3f(0,speed,0))
+		followed:move(Vector3f(0,speed*_delta,0))
+		me_moving = true
 	end
 	if (buttons.down) then
-		followed:move(Vector3f(0,-speed,0))
+		followed:move(Vector3f(0,-speed*_delta,0))
+		me_moving = true
 	end
 	if (buttons.left) then
-		followed:move(Vector3f(speed,0,0))
+		followed:move(Vector3f(speed*_delta,0,0))
+		me_moving = true
+		me_dir = true
 	end
 	if (buttons.right) then
-		followed:move(Vector3f(-speed,0,0))
+		followed:move(Vector3f(-speed*_delta,0,0))
+		me_moving = true
+		me_dir = false
 	end
+	if (me_moving) then
+		me:start()
+	else
+		me:stop()
+		me:reset()
+	end
+	me:set_facing(me_dir)
+	
 	if (buttons.w) then
-		camera_distance = camera_distance - 0.5
+		camera_distance = camera_distance - 50*_delta
 		camera:set_distance(camera_distance)
 	end
 	if (buttons.s) then
 		camera:set_distance(camera_distance)
-		camera_distance = camera_distance + 0.5
+		camera_distance = camera_distance + 50*_delta
 	end
 end
 
 function load_me()
-	size = Vector2f(5,10)
-	me = block_factory:new_flat_block("me_standing.png", size, false, true)
-	rotate = Vector3f(0,180,0)
+	size = Vector2f(10,10)
+	frame_size = Vector2f(0.25,1)
+	times = {0.2,0.2,0.2,0.2}
+	me = block_factory:new_animated_flat_block("me_walk.png", size, frame_size, 4, 1, times, false, true, true)
 	offset = Vector3f(0,0,-1)
 	me:move(offset)
 	return me
@@ -61,11 +84,20 @@ end
 function load_scenery()
 	size = Vector2f(40,20)
 	magnum_house = block_factory:new_flat_block("magnum_house.png", size, false, true)
+	magnum_house:set_facing(false)
 	road = block_factory:new_flat_block("road.png", size, false, true)
+	road:set_facing(false)
+	road2 = block_factory:new_flat_block("road2.png", size, false, true)
+	road2:set_facing(false)
 	scenery = {}
+	offset = Vector3f(15,0,0)
+	magnum_house:move(offset)
 	scenery[1] = magnum_house
-	offset = Vector3f(40,0,0)
+	offset = Vector3f(-15,0,0)
 	road:move(offset)
 	scenery[2] = road
+	offset = Vector3f(0,0,1)
+	road2:move(offset)
+	scenery[3] = road2
 	return scenery
 end

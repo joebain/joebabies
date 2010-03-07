@@ -19,6 +19,12 @@ Vector3f::Vector3f(float x, float y, float z)
 	this->z = z;
 }
 
+Vector3f::Vector3f(const Vector2f& v, float z = 0) {
+	this->x = v.x;
+	this->y = v.y;
+	this->z = z;
+}
+
 void Vector3f::init(float x, float y, float z)
 {
 	this->x = x;

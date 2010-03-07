@@ -107,7 +107,10 @@ void Display::update(float delta)
 		
 		glDisable(GL_CULL_FACE);
 		
-		transparent_blocks.sort(Display::depth_sort);
+		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
+			(*iter)->cam_dist = (*iter)->get_centre().dist_between(camera->get_pos());
+		}
+		transparent_blocks.sort(Display::depth_sort2);
 		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
 			(*iter)->display();
 		}
@@ -150,9 +153,16 @@ void Display::update(float delta)
 	
 }
 
+bool Display::depth_sort2(Block *one, Block* two) {
+	if (one->cam_dist > two->cam_dist)
+		return true;
+	else
+		return false;
+}
+
 bool Display::depth_sort(Block* one, Block* two)
 {
-	if (one->get_z_depth() < two->get_z_depth())
+	if (one->get_z_depth() > two->get_z_depth())
 		return true;
 	else
 		return false;
@@ -287,6 +297,10 @@ void Display::init()
 	
 	glDisable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_2D);
+	
+	glAlphaFunc(GL_GREATER, 0.1);
+    glEnable(GL_ALPHA_TEST);
+
 }
 
 void Display::set_fullscreen()

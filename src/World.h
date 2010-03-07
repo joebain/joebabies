@@ -32,7 +32,7 @@ extern "C" {
 
 class World
 {
-private:
+protected:
 	bool running;
 	Display* d;
 	lua_State *l;
@@ -46,7 +46,7 @@ public:
 	World(Display *d, lua_State *l);
 	virtual ~World();
 	void main_loop();
-	BlockFactory* get_block_factory();
+	virtual BlockFactory* get_block_factory();
 	Display* get_display();
 	Buttons* get_buttons();
 	void quit();

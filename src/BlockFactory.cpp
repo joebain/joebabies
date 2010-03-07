@@ -49,6 +49,25 @@ Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool ma
 
 }
 
+Block3DFlat* BlockFactory::new_animated_flat_block(string texture, Vector2f size, Vector2f frame_size, int width, int height, list<float> times, bool mask, bool transparent, bool bounce)
+{
+	Block3DFlat new_block;
+	
+	blocks3dflat.push_back(new_block);
+	
+	if (mask) blocks3dflat.back().set_mask(true);
+	if (transparent) blocks3dflat.back().set_transparent(true);
+	
+	blocks3dflat.back().set_tex(new_texture(texture));
+	blocks3dflat.back().set_size(size);
+	blocks3dflat.back().set_animation(frame_size, width, height, times, bounce);
+	
+	if (transparent || mask) d->transparent_blocks.push_back(&(blocks3dflat.back()));
+	else d->blocks.push_back(&(blocks3dflat.back()));
+
+	return &(blocks3dflat.back());
+}
+
 Block3DFlat* BlockFactory::new_distance_block(string texture, Vector2f size)
 {
 	Block3DFlat new_block;

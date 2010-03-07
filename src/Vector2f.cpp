@@ -49,6 +49,14 @@ void Vector2f::init(float x, float y)
 	this->y = y;
 }
 
+Vector2f Vector2f::operator*(float f) {
+	return Vector2f(x*f,y*f);
+}
+
+Vector2f Vector2f::operator+(Vector2f & v) {
+	return Vector2f(x*v.x,y*v.y);
+}
+
 void Vector2f::operator*=(float f)
 {
 	x *= f;
