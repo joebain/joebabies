@@ -47,7 +47,7 @@ protected:
 	bool changed;
 	float scale;
 public:
-	Block3D();
+	Block3D(int name);
 	virtual ~Block3D();
 	Block3D(const Block3D& b);
 	void set_obj(Obj *object);

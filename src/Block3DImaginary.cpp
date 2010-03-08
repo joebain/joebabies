@@ -1,7 +1,7 @@
 #include "Block3DImaginary.h"
 #include <stdio.h>
 
-Block3DImaginary::Block3DImaginary (Vector3f size)
+Block3DImaginary::Block3DImaginary (Vector3f size) : Block3D(0)
 {
 	perm_bb_min.init(0,0,0);
 	perm_bb_max = size;

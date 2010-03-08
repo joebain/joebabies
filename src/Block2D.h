@@ -13,7 +13,7 @@ private:
 protected:
 	
 public:
-	Block2D();
+	Block2D(int name);
 	void set_pos(Vector2f pos);
 	Vector2f get_pos_2f();
 	float get_dir_1f();

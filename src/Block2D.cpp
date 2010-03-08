@@ -9,7 +9,7 @@
 #include "Vector2f.h"
 #include "Texture.h"
 
-Block2D::Block2D() : Block3DFlat()
+Block2D::Block2D(int name) : Block3DFlat(name)
 {
 	pos.z = 1;
 	is_2d = true;

@@ -12,8 +12,8 @@ me_dir = true
 speed = 10
 followed = nil
 camera_distance = 30
---walk_timer = Timer()
-last_stop_walk = 0
+
+picked_object = nil
 
 function start (_world)
 	world = _world
@@ -68,6 +68,13 @@ function step (_delta)
 	if (buttons.s) then
 		camera:set_distance(camera_distance)
 		camera_distance = camera_distance + 50*_delta
+	end
+	
+	if (buttons.lmb) then
+		picked_object = display:pick()
+		if (picked_object ~= nil) then
+			picked_object:move(Vector3f(-buttons.mouse_x_move*_delta, -buttons.mouse_y_move*_delta, 0))
+		end
 	end
 end
 

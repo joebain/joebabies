@@ -206,6 +206,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("get_camera", &Display::get_camera)
 			.def("get_width", &Display::get_width)
 			.def("get_height", &Display::get_height)
+			.def("pick", &Display::pick)
 	];
 	
 	luabind::module(l) [
@@ -224,6 +225,12 @@ void LuaBinder::bind(lua_State *l)
 			.def_readonly("s", &Buttons::s)
 			.def_readonly("w", &Buttons::w)
 			.def_readonly("d", &Buttons::d)
+			.def_readonly("rmb", &Buttons::rmb)
+			.def_readonly("lmb", &Buttons::lmb)
+			.def_readonly("mouse_x", &Buttons::mouse_x)
+			.def_readonly("mouse_y", &Buttons::mouse_y)
+			.def_readonly("mouse_x_move", &Buttons::mouse_x_move)
+			.def_readonly("mouse_y_move", &Buttons::mouse_y_move)
 	];
 	
 	luabind::module(l) [

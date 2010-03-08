@@ -46,7 +46,7 @@ protected:
 	bool bounce;
 	int anim_dir;
 public:
-	Block3DFlat();
+	Block3DFlat(int name);
 	~Block3DFlat();
 	Block3DFlat(const Block3DFlat& b);
 	bool operator==(const Block3DFlat& b);

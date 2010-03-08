@@ -10,7 +10,7 @@
 #include "Vector2f.h"
 #include "Texture.h"
 
-Block3DFlat::Block3DFlat()
+Block3DFlat::Block3DFlat(int name) : Block(name)
 {
 	is_driven = false;
 	
@@ -27,7 +27,7 @@ Block3DFlat::~Block3DFlat()
 {
 }
 
-Block3DFlat::Block3DFlat(const Block3DFlat& b)
+Block3DFlat::Block3DFlat(const Block3DFlat& b) : Block(b)
 {
 	shown = b.shown;
 	pos = b.pos;

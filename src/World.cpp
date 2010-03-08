@@ -28,19 +28,14 @@ extern "C" {
 World::World(Display *d, lua_State *l)
 {
 	this->d = d;
-	buttons.set_display(d);
+	d->buttons = &buttons;
+	d->bfac = &bf;
 	
 	this->l = l;
-	
-	bf.set_display(d);
 	
 	time.get_time();
 	
 	mixer = new AudioMixer();
-	
-	Block3D test;
-	Block3DImaginary imag(Vector3f(1,1,1));
-	test.add_child(&imag);
 }
 
 World::~World()
@@ -54,7 +49,36 @@ void World::main_loop()
 	while (!done) {
 	
 		float delta = time.time_since_last();
-	
+		while (delta < 0.033) {
+			sleep(0.001);
+			delta += time.time_since_last();
+		}
+		
+		buttons.update();
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			switch(event.type){
+				case SDL_QUIT:
+					buttons.req_quit = true;
+					break;
+				case SDL_KEYDOWN:
+					buttons.handle_keydown(&event.key.keysym);
+					break;
+				case SDL_KEYUP:
+					buttons.handle_keyup(&event.key.keysym);
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					buttons.handle_mousedown(&event.button);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					buttons.handle_mouseup(&event.button);
+					break;
+				case SDL_MOUSEMOTION:
+					buttons.handle_mousemove(&event.motion);
+					break;
+			}
+		}
+		
 		d->update(delta);
 		
 		try {
@@ -64,31 +88,17 @@ void World::main_loop()
 			cerr << TheError.what() << endl;
 			cerr << lua_tostring(l, -1) << endl;
 		}
-		//glutPostRedisplay();
-		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-			switch(event.type){
-				case SDL_QUIT:
-				quit();
-				break;
-				case SDL_KEYDOWN:
-				buttons.handle_keydown(&event.key.keysym);
-				break;
-				case SDL_KEYUP:
-				buttons.handle_keyup(&event.key.keysym);
-				break;
-			}
-		}
 		
 		if (buttons.req_quit) quit();
+		
 	}
 }
 
 void World::quit()
 {
-	SDL_Quit();
-	
 	done = true;
+	
+	SDL_Quit();	
 }
 
 Display* World::get_display()

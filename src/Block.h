@@ -15,11 +15,14 @@ private:
 protected:
 	float z_depth; //used for sorting transparent stuff
 	Vector3f centre;
+	int name;
 public:
+	Block(int name) { this->name = name; }
 	virtual void display() =0; //all blocks display something
 	float get_z_depth() {return z_depth;}
 	virtual Vector3f get_centre() { return centre; }
 	float cam_dist;
+	int get_name() { return name; }
 };
 
 #endif /*BLOCK_H_*/
