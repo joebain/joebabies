@@ -7,7 +7,7 @@
 #include "ModelLoader.h"
 #include "Texture.h"
 
-Block3D::Block3D()
+Block3D::Block3D(int name) : Block(name)
 {
 	pos.init(0,0,0);
 	is_driven = false;
@@ -20,7 +20,7 @@ Block3D::~Block3D()
 	texture = NULL;
 }
 
-Block3D::Block3D(const Block3D& b)
+Block3D::Block3D(const Block3D& b) : Block(b)
 {
 	object = b.object;
 	pos = b.pos;

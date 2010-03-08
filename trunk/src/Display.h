@@ -23,19 +23,17 @@
 #include "Camera.h"
 #include "Floor.h"
 #include "Sky.h"
+#include "Buttons.h"
+#include "BlockFactory.h"
 
 class Display
 {
 public:
-	list<Block*> blocks; //normal 3d objects
-	list<Block*> transparent_blocks; //stuff that needs to be depth sorted and drawn after normal stuff because it contains some transparency
-	list<Block*> hud_blocks; //stuff to appear on the hud
-	list<Block*> distance_blocks; //stuff to appear in the distance (scenery)
-	Floor* floor;
-	Sky* sky;
+	Buttons* buttons;
+	BlockFactory* bfac;
 	Display();
 	void update(float delta);
-	void pick(); //not used, did offer some way to mouse pick in the past
+	Block3DFlat* pick();
 	void init();
 	void set_fullscreen();
 	Camera* get_camera();
@@ -52,8 +50,7 @@ private:
 	float dif_light[4];
 	float pos_light[4];
 	float spec_light[4];
-	int mouse_x, mouse_y;
-	bool pick_flag, mouse_down;
+	bool pick_flag;
 	bool is_fullscreen;
 	GLuint getClosestHit(GLuint* selectBuf, GLint hits); //again to do with picking, not used atm
 	static bool depth_sort2(Block* one, Block* two); //used to depth sort objects

@@ -19,6 +19,7 @@ private:
 	float scale;
 	Vector2i size;
 public:
+	Floor() : Block3D(0) {}
 	void set_perm_obj(Obj obj);
 	void set_perm_tex(Texture* tex);
 	float get_height(Vector2f pos);

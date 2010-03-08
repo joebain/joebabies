@@ -35,7 +35,7 @@ $(DEPENDENCY_FILES): %.d: %.$(EXT)
 $(OBJECT_FILES): $(DEPENDENCY_FILES)
 
 #Implicit rules to make sure our libraries are included and the desired gcc flags are used when compiling our objects.
-$(OBJECT_FILES): %.o: %.$(EXT)
+$(OBJECT_FILES): %.o: %.cpp
 	$(CC) $(CCFLAGS) $(LIBS) $< -o $@
 
 .PHONY: clean	

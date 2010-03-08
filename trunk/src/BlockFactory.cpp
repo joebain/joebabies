@@ -1,10 +1,5 @@
 #include "BlockFactory.h"
 
-void BlockFactory::set_display(Display* d)
-{
-	this->d = d;
-}
-
 Block3D* BlockFactory::new_character(string object, string texture)
 {
 	Block3D* character = new_block3d(object, texture);
@@ -15,15 +10,17 @@ Block3D* BlockFactory::new_character(string object, string texture)
 
 Block3D* BlockFactory::new_block3d(string object, string texture)
 {
-	Block3D new_block;
+	Block3D new_block(++new_name);
 	
 	blocks3d.push_back(new_block);
+	
+	names_to_blocks3d[new_name] = &(blocks3d.back());
 	
 	blocks3d.back().set_tex(new_texture(texture));
 
 	blocks3d.back().set_obj(new_obj(object));
 	
-	d->blocks.push_back(&(blocks3d.back()));
+	blocks.push_back(&(blocks3d.back()));
 
 	return &(blocks3d.back());
 
@@ -31,9 +28,11 @@ Block3D* BlockFactory::new_block3d(string object, string texture)
 
 Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool mask, bool transparent)
 {
-	Block3DFlat new_block;
+	Block3DFlat new_block(++new_name);
 	
 	blocks3dflat.push_back(new_block);
+	
+	names_to_blocks3dflat[new_name] = &(blocks3dflat.back());
 	
 	if (mask) blocks3dflat.back().set_mask(true);
 	if (transparent) blocks3dflat.back().set_transparent(true);
@@ -42,8 +41,8 @@ Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool ma
 	
 	blocks3dflat.back().set_size(size);
 	
-	if (transparent || mask) d->transparent_blocks.push_back(&(blocks3dflat.back()));
-	else d->blocks.push_back(&(blocks3dflat.back()));
+	if (transparent || mask) transparent_blocks.push_back(&(blocks3dflat.back()));
+	else blocks.push_back(&(blocks3dflat.back()));
 
 	return &(blocks3dflat.back());
 
@@ -51,9 +50,11 @@ Block3DFlat* BlockFactory::new_flat_block(string texture, Vector2f size, bool ma
 
 Block3DFlat* BlockFactory::new_animated_flat_block(string texture, Vector2f size, Vector2f frame_size, int width, int height, list<float> times, bool mask, bool transparent, bool bounce)
 {
-	Block3DFlat new_block;
+	Block3DFlat new_block(++new_name);
 	
 	blocks3dflat.push_back(new_block);
+	
+	names_to_blocks3dflat[new_name] = &(blocks3dflat.back());
 	
 	if (mask) blocks3dflat.back().set_mask(true);
 	if (transparent) blocks3dflat.back().set_transparent(true);
@@ -62,23 +63,25 @@ Block3DFlat* BlockFactory::new_animated_flat_block(string texture, Vector2f size
 	blocks3dflat.back().set_size(size);
 	blocks3dflat.back().set_animation(frame_size, width, height, times, bounce);
 	
-	if (transparent || mask) d->transparent_blocks.push_back(&(blocks3dflat.back()));
-	else d->blocks.push_back(&(blocks3dflat.back()));
+	if (transparent || mask) transparent_blocks.push_back(&(blocks3dflat.back()));
+	else blocks.push_back(&(blocks3dflat.back()));
 
 	return &(blocks3dflat.back());
 }
 
 Block3DFlat* BlockFactory::new_distance_block(string texture, Vector2f size)
 {
-	Block3DFlat new_block;
+	Block3DFlat new_block(++new_name);
 	
 	blocks3dflat.push_back(new_block);
+	
+	names_to_blocks3dflat[new_name] = &(blocks3dflat.back());
 
 	blocks3dflat.back().set_tex(new_texture(texture));
 
 	blocks3dflat.back().set_size(size);
 
-	d->distance_blocks.push_back(&(blocks3dflat.back()));
+	distance_blocks.push_back(&(blocks3dflat.back()));
 
 	return &(blocks3dflat.back());
 
@@ -86,7 +89,7 @@ Block3DFlat* BlockFactory::new_distance_block(string texture, Vector2f size)
 
 Block2D* BlockFactory::new_blockHUD(Vector2f size, string texture)
 {
-	Block2D new_block;
+	Block2D new_block(++new_name);
 		
 	blocks2d.push_back(new_block);
 	
@@ -94,7 +97,7 @@ Block2D* BlockFactory::new_blockHUD(Vector2f size, string texture)
 	
 	blocks2d.back().set_size(size);
 	
-	d->hud_blocks.push_back(&(blocks2d.back()));
+	hud_blocks.push_back(&(blocks2d.back()));
 
 	return &(blocks2d.back());
 }
@@ -111,7 +114,7 @@ Block2DText* BlockFactory::new_blockText(Vector2f pos, Vector2f size, string tex
 	
 	blocks2dtext.back().set_tex(new_texture(font));
 	
-	d->hud_blocks.push_back(&(blocks2dtext.back()));
+	hud_blocks.push_back(&(blocks2dtext.back()));
 
 	return &(blocks2dtext.back());
 }
@@ -130,7 +133,7 @@ Floor* BlockFactory::new_floor(string height_map, string texture, float scale)
 		
 	floor.set_perm_tex(new_tex);
 	
-	d->floor = &floor;
+	floor_exists = true;
 	
 	return &floor;
 }
@@ -141,7 +144,7 @@ Sky* BlockFactory::new_sky(string texture)
 		
 	sky.set_perm_tex(new_tex);
 	
-	d->sky = &sky;
+	sky_exists = true;
 	
 	return &sky;
 }
@@ -149,7 +152,7 @@ Sky* BlockFactory::new_sky(string texture)
 Block3DImaginary* BlockFactory::new_imaginary_block(Vector3f size)
 {
 	blocks3dimag.push_back(Block3DImaginary(size));
-	d->blocks.push_back(&blocks3dimag.back());
+	blocks.push_back(&blocks3dimag.back());
 	return &blocks3dimag.back();
 }
 
@@ -210,31 +213,31 @@ Obj* BlockFactory::new_obj(string file)
 
 void BlockFactory::remove_blockText(Block2DText* text)
 {
-	d->hud_blocks.remove(text);
+	hud_blocks.remove(text);
 	blocks2dtext.remove(*text);
 }
 
 void BlockFactory::remove_blockHUD(Block2D* hud)
 {
-	d->hud_blocks.remove(hud);
+	hud_blocks.remove(hud);
 	blocks2d.remove(*hud);
 }
 
 void BlockFactory::remove_3d_block(Block3D* block)
 {
-	d->blocks.remove(block);
+	blocks.remove(block);
 	blocks3d.remove(*block);
 }
 
 void BlockFactory::remove_flat_block(Block3DFlat* block)
 {
 	if (block->is_transparent()) {
-		cout << "number of transparent blocks was: " << d->transparent_blocks.size() << endl;
-		d->transparent_blocks.remove(block);
-		cout << "now is: " << d->transparent_blocks.size() << endl;
+		cout << "number of transparent blocks was: " << transparent_blocks.size() << endl;
+		transparent_blocks.remove(block);
+		cout << "now is: " << transparent_blocks.size() << endl;
 	}
 	else {
-		d->blocks.remove(block);
+		blocks.remove(block);
 	}
 	//blocks3dflat.remove(*block);
 }
@@ -250,9 +253,9 @@ void BlockFactory::clear_all()
 	blocks3dimag.clear();
 	blocks3dflat.clear();
 	
-	d->blocks.clear();
-	d->distance_blocks.clear();
-	d->hud_blocks.clear();
-	d->transparent_blocks.clear();
+	blocks.clear();
+	distance_blocks.clear();
+	hud_blocks.clear();
+	transparent_blocks.clear();
 	
 }

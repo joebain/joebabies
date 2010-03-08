@@ -10,7 +10,8 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
-#include "Display.h"
+#include <map>
+
 #include "Block2D.h"
 #include "Block3D.h"
 #include "Block2DText.h"
@@ -25,20 +26,37 @@ class BlockFactory
 protected:
 	list<Texture> textures;
 	list<Obj> objects;
+	
 	list<Block3D> blocks3d;
 	list<Block2D> blocks2d;
 	list<Block2DText> blocks2dtext;
 	list<Block3DImaginary> blocks3dimag;
 	list<Block3DFlat> blocks3dflat;
 	list<FIBITMAP*> texture_data;
+	
 	Floor floor;
 	Sky sky;
-	Display* d;
+	bool sky_exists;
+	bool floor_exists;
+	
 	Texture* new_texture(string file);
 	bool load_texture(string filename_s, FIBITMAP *dib);
 	Obj* new_obj(string file);
+	int new_name;
+	map<int, Block3D*> names_to_blocks3d;
+	map<int, Block3DFlat*> names_to_blocks3dflat;
 public:
-	void set_display(Display* d);
+	
+	Sky* get_sky() { return &sky; }
+	Floor* get_floor() { return &floor; }
+	bool has_sky() { return sky_exists; }
+	bool has_floor() { return floor_exists; }
+	
+	list<Block*> blocks;
+	list<Block*> transparent_blocks;
+	list<Block*> distance_blocks;
+	list<Block*> hud_blocks;
+	
 	Block3D* new_block3d(string object, string texture); //standard 3d object
 	Block3D* new_character(string object, string texture); //driven 3d object, see Block3D.h
 	Block2D* new_blockHUD(Vector2f size, string texture); //2d block to appear as a hud item
@@ -54,6 +72,8 @@ public:
 	void remove_flat_block(Block3DFlat* block);
 	void remove_3d_block(Block3D* block);
 	void clear_all();
+	Block3D* get_block3d_from_name(int name) { map<int, Block3D*>::iterator i = names_to_blocks3d.find(name); return i == names_to_blocks3d.end() ? NULL : i->second; }
+	Block3DFlat* get_block3dflat_from_name(int name) { map<int, Block3DFlat*>::iterator i = names_to_blocks3dflat.find(name); return i == names_to_blocks3dflat.end() ? NULL : i->second; }
 
 	//luabind madness
 	Block3DFlat* new_animated_flat_block_lua(string texture, Vector2f size, Vector2f frame_size, int width, int height, luabind::object const& times, bool mask, bool transparent, bool bounce) {

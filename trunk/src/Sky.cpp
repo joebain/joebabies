@@ -1,6 +1,6 @@
 #include "Sky.h"
 
-Sky::Sky()
+Sky::Sky() : Block3D(0)
 {
 	scale = 100;
 	

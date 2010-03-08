@@ -13,12 +13,12 @@ Display::Display()
 	win_width = 800;
 	win_height = 600;
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	
 	SDL_WM_SetIcon(SDL_LoadBMP("img/icon.bmp"), NULL);
-	SDL_WM_SetCaption("Zoo Babies", "Zoo Babies");
+	SDL_WM_SetCaption("Joe vs Sarah", "Joe vs Sarah");
 	
-    const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
+	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
 	
 	int videoFlags;
     /* the flags to pass to SDL_SetVideoMode */
@@ -45,44 +45,18 @@ Display::Display()
 	
 	camera = new Camera();
 	
-	sky = NULL;
-	floor = NULL;
-
 	init();
 }
 
 void Display::update(float delta)
 {
-	
+	if (buttons->req_fullscreen) {
+		set_fullscreen();
+		buttons->req_fullscreen = false;
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(45,win_ratio,near_vp,far_vp*1000);
-    
-	//cout << "doing camera" << endl;
-	camera->move(delta);
-	camera->position();
-	
-	glEnable(GL_LIGHTING);
-	
-	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
-	
-	if (sky != NULL) sky->display();
-	
 	list<Block*>::iterator iter;
-	for( iter = distance_blocks.begin(); iter != distance_blocks.end(); iter++ ) {
-		(*iter)->display();
-	}
-	
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	camera->position();
-	
-	//glEnable(GL_LIGHTING);
-	
-	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
 	
 	//the light
 	//~ glPushMatrix();
@@ -92,33 +66,59 @@ void Display::update(float delta)
 	//~ glColor3f(1,1,1);
 	//~ glPopMatrix();
 	
-    if (pick_flag) {
-    	//cout << "tracing\n";
-    	
-    }
-    else {
-		glEnable(GL_CULL_FACE);
-		
-		if (floor != NULL) floor->display();
-    	//cout << "drawing " << blocks.size() << " blocks" << endl;
-		for( iter = blocks.begin(); iter != blocks.end(); iter++ ) {
-			(*iter)->display();
-		}
-		
-		glDisable(GL_CULL_FACE);
-		
-		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
-			(*iter)->cam_dist = (*iter)->get_centre().dist_between(camera->get_pos());
-		}
-		transparent_blocks.sort(Display::depth_sort2);
-		for( iter = transparent_blocks.begin(); iter != transparent_blocks.end(); iter++ ) {
-			(*iter)->display();
-		}
-    	
-    }
+    
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(45,win_ratio,near_vp,far_vp*1000);
 	
+	camera->move(delta);
+	camera->position();
+	
+	glEnable(GL_LIGHTING);
+
+	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
+	
+	//draw things which are far away
+	//##############################
+	if (bfac->has_sky()) bfac->get_sky()->display();
+	
+	for( iter = bfac->distance_blocks.begin(); iter != bfac->distance_blocks.end(); ++iter ) {
+		(*iter)->display();
+	}
+	
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	camera->position();
+	
+	glLightfv(GL_LIGHT1, GL_POSITION, pos_light);
+	
+	//draw solid normal things
+	//########################
+	glEnable(GL_CULL_FACE);
+	
+	if (bfac->has_floor()) bfac->get_floor()->display();
+	
+	for( iter = bfac->blocks.begin(); iter != bfac->blocks.end(); ++iter ) {
+		(*iter)->display();
+	}
+	
+	glDisable(GL_CULL_FACE);
+	
+	//draw transparent things
+	//#######################
+	for( iter = bfac->transparent_blocks.begin(); iter != bfac->transparent_blocks.end(); ++iter ) {
+		(*iter)->cam_dist = (*iter)->get_centre().dist_between(camera->get_pos());
+	}
+	bfac->transparent_blocks.sort(Display::depth_sort2);
+	for( iter = bfac->transparent_blocks.begin(); iter != bfac->transparent_blocks.end(); ++iter ) {
+		(*iter)->display();
+	}
+	
+	//draw hud/gui things
+	//###################
 	glDisable(GL_LIGHTING);
-	
+
 	glLoadIdentity();
 	
 	glMatrixMode(GL_PROJECTION);
@@ -134,7 +134,7 @@ void Display::update(float delta)
 	
 	glDisable(GL_DEPTH_TEST);
 	
-	for( iter = hud_blocks.begin(); iter != hud_blocks.end(); iter++ ) {
+	for( iter = bfac->hud_blocks.begin(); iter != bfac->hud_blocks.end(); iter++ ) {
 		(*iter)->display();
 	}
 	
@@ -145,8 +145,7 @@ void Display::update(float delta)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-	
-	
+    
 	glFlush();
 	
 	SDL_GL_SwapBuffers( );
@@ -173,7 +172,7 @@ Camera* Display::get_camera()
 	return camera;
 }
 
-void Display::pick()
+Block3DFlat* Display::pick()
 {
 	cout << "picking" << endl;
 	
@@ -192,22 +191,27 @@ void Display::pick()
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-
 	glLoadIdentity();
+	gluPickMatrix(buttons->mouse_x, win_height-buttons->mouse_y, 1.0, 1.0, view);
+	gluPerspective(45,win_ratio,near_vp,far_vp*1000);
+	camera->position();
 	
-	gluPickMatrix(mouse_x, win_height-mouse_y, 1.0, 1.0, view);	
-	
-	gluPerspective(45,win_ratio,near_vp,far_vp);
+	//rendering
+	//#########
+	list<Block*>::iterator iter;
+	//glEnable(GL_CULL_FACE);
+	for( iter = bfac->blocks.begin(); iter != bfac->blocks.end(); ++iter ) {
+		glLoadName((*iter)->get_name());
+		(*iter)->display();
+	}
+	//glDisable(GL_CULL_FACE);
 		
-	
-	glMatrixMode(GL_MODELVIEW);
-	
-	//glutSwapBuffers();
-	
-	pick_flag = 1;
-	//update();
-	pick_flag = 0;
-	
+	//we can assume that for picking the camera hasn't moved since we rendered the scene so we don't need to compute distances or resort
+	for( iter = bfac->transparent_blocks.begin(); iter != bfac->transparent_blocks.end(); ++iter ) {
+		glLoadName((*iter)->get_name());
+		(*iter)->display();
+	}
+		
 	glMatrixMode(GL_PROJECTION);
  	glPopMatrix();
 	
@@ -218,7 +222,10 @@ void Display::pick()
 	
 	if (hits > 0) {
 		GLuint close_name = getClosestHit(selectBuf, hits);	
+		return bfac->get_block3dflat_from_name(close_name);
 	}
+	
+	return NULL;
 }
 
 GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
@@ -231,7 +238,7 @@ GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
 			min_depth = selectBuf[sb_ptr];
 			sb_ptr += 2; // +2 to get to the first name
 			close_name = selectBuf[sb_ptr];
-			//cout << "at ptr: " << sb_ptr << " new min depth: " << min_depth << " name: " << close_name << endl;
+			cout << "at ptr: " << sb_ptr << " new min depth: " << min_depth << " name: " << close_name << endl;
 		} else {
 			sb_ptr += 2;	
 		}
@@ -285,8 +292,7 @@ void Display::init()
 	spec_light[3] = 1.0f;
 	*/
 	pick_flag = 0;
-	mouse_down = 0;
-
+	
     glLightfv(GL_LIGHT1, GL_AMBIENT, amb_light);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, dif_light);
 	//glLightfv(GL_LIGHT1, GL_SPECULAR, spec_light);
