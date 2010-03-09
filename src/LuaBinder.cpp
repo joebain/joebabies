@@ -1,5 +1,7 @@
 #include "LuaBinder.h"
 
+#include <luabind/operator.hpp>
+
 #include "Block.h"
 #include "Block3D.h"
 #include "Block2D.h"
@@ -70,8 +72,11 @@ void LuaBinder::bind(lua_State *l)
 			.def_readwrite("z", &Vector3f::z)
 			.def("normalise", &Vector3f::normalise)
 			.def("magnitude", &Vector3f::magnitude)
-			/*.def(luabind::self + Vector3f())
-			.def(luabind::self * float())*/
+			.def(luabind::self + Vector3f())
+			.def(luabind::self - Vector3f())
+			.def(luabind::self == Vector3f())
+			.def(- luabind::self)
+			.def(luabind::self * float())
 	];
 	
 	luabind::module(l) [
@@ -148,6 +153,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("reset", &Block3DFlat::reset)
 			.def("flipY", &Block3DFlat::flipY)
 			.def("set_facing", &Block3DFlat::set_facing)
+			.def(luabind::self == luabind::other<Block3DFlat>())
 	];
 	
 	luabind::module(l) [
@@ -207,6 +213,7 @@ void LuaBinder::bind(lua_State *l)
 			.def("get_width", &Display::get_width)
 			.def("get_height", &Display::get_height)
 			.def("pick", &Display::pick)
+			.def("project_xy", &Display::project_xy)
 	];
 	
 	luabind::module(l) [
@@ -231,6 +238,7 @@ void LuaBinder::bind(lua_State *l)
 			.def_readonly("mouse_y", &Buttons::mouse_y)
 			.def_readonly("mouse_x_move", &Buttons::mouse_x_move)
 			.def_readonly("mouse_y_move", &Buttons::mouse_y_move)
+			.def_readonly("mouse_wheel_move", &Buttons::mouse_wheel_move)
 	];
 	
 	luabind::module(l) [

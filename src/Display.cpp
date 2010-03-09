@@ -5,18 +5,26 @@
 #endif
 
 #include <iostream>
+#include <fstream>
 
 #include "Block3DFlat.h"
 
 Display::Display()
-{	
-	win_width = 800;
-	win_height = 600;
+{
+	ifstream config_iss ("misc/config");
+	if (config_iss.is_open())
+	{
+		config_iss >> noskipws;
+		config_iss >> win_width >> ws >> win_height;
+		config_iss >> ws >> win_name;
+		config_iss >> ws >> win_icon;
+		config_iss.close();
+	}
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	
-	SDL_WM_SetIcon(SDL_LoadBMP("img/icon.bmp"), NULL);
-	SDL_WM_SetCaption("Joe vs Sarah", "Joe vs Sarah");
+	SDL_WM_SetIcon(SDL_LoadBMP(("img/" + win_icon).c_str()), NULL);
+	SDL_WM_SetCaption(win_name.c_str(), win_name.c_str());
 	
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo( );
 	
@@ -174,7 +182,7 @@ Camera* Display::get_camera()
 
 Block3DFlat* Display::pick()
 {
-	cout << "picking" << endl;
+	//cout << "picking" << endl;
 	
 	GLint hits, view[4];
 	GLuint selectBuf[BUFSIZE];
@@ -193,7 +201,7 @@ Block3DFlat* Display::pick()
 	glPushMatrix();
 	glLoadIdentity();
 	gluPickMatrix(buttons->mouse_x, win_height-buttons->mouse_y, 1.0, 1.0, view);
-	gluPerspective(45,win_ratio,near_vp,far_vp*1000);
+	gluPerspective(45,win_ratio,near_vp,far_vp);
 	camera->position();
 	
 	//rendering
@@ -216,7 +224,7 @@ Block3DFlat* Display::pick()
  	glPopMatrix();
 	
 	hits = glRenderMode (GL_RENDER);
-	cout <<"hits: " << hits << endl;
+	//cout <<"hits: " << hits << endl;
 	
 	glMatrixMode(GL_MODELVIEW);
 	
@@ -238,7 +246,7 @@ GLuint Display::getClosestHit(GLuint* selectBuf, GLint hits)
 			min_depth = selectBuf[sb_ptr];
 			sb_ptr += 2; // +2 to get to the first name
 			close_name = selectBuf[sb_ptr];
-			cout << "at ptr: " << sb_ptr << " new min depth: " << min_depth << " name: " << close_name << endl;
+			//cout << "at ptr: " << sb_ptr << " new min depth: " << min_depth << " name: " << close_name << endl;
 		} else {
 			sb_ptr += 2;	
 		}
@@ -313,5 +321,25 @@ void Display::set_fullscreen()
 {
 	SDL_WM_ToggleFullScreen(surface);
 	SDL_ShowCursor(SDL_DISABLE);
+}
+
+Vector3f Display::project_xy(int x, int y, float z) {
+	GLdouble x1, y1, z1;
+	
+	int viewport[4];
+    double mvmatrix[16];
+    double projmatrix[16];
+    
+	glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_MODELVIEW_MATRIX, mvmatrix);
+    glGetDoublev(GL_PROJECTION_MATRIX, projmatrix);
+		
+	float win_z;
+	glReadPixels(x, win_height-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &win_z);
+	gluUnProject(x, win_height-y, win_z, mvmatrix, projmatrix, viewport, &x1, &y1, &z1);
+
+	//why is x the wrong way round? i dont know. why is my code always filled with random shit like this? it makes me sad :(
+	//also why is the z of the object different from the z i get back? the mysteries of life. hmrph!
+	return Vector3f(-x1,y1,z);
 }
 

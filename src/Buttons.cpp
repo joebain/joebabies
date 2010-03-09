@@ -23,6 +23,8 @@ void Buttons::clear()
 void Buttons::update() {
 	mouse_x_move = 0;
 	mouse_y_move = 0;
+	
+	mouse_wheel_move = 0;
 }
 
 void Buttons::handle_keydown(SDL_keysym *key)
@@ -114,6 +116,12 @@ void Buttons::handle_mousedown ( SDL_MouseButtonEvent* e ) {
 		case SDL_BUTTON_RIGHT:
 			rmb = true;
 			break;
+		case SDL_BUTTON_WHEELUP:
+			mouse_wheel_move++;
+			break;
+		case SDL_BUTTON_WHEELDOWN:
+			mouse_wheel_move--;
+			break;
 	}
 }
 void Buttons::handle_mouseup ( SDL_MouseButtonEvent* e ) {
@@ -128,8 +136,8 @@ void Buttons::handle_mouseup ( SDL_MouseButtonEvent* e ) {
 }
 
 void Buttons::handle_mousemove ( SDL_MouseMotionEvent* e ) {
+	mouse_x_move = e->x - mouse_x;
 	mouse_x = e->x;
-	mouse_x_move = e->xrel;
+	mouse_y_move = e->y - mouse_y;
 	mouse_y = e->y;
-	mouse_y_move = e->yrel;
 }

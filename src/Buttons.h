@@ -29,6 +29,8 @@ public:
 	int mouse_y;
 	int mouse_y_move;
 	
+	int mouse_wheel_move;
+	
 	bool req_quit;
 	bool req_fullscreen;
 	

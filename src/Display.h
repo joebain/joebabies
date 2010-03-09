@@ -34,6 +34,7 @@ public:
 	Display();
 	void update(float delta);
 	Block3DFlat* pick();
+	Vector3f project_xy(int x, int y, float z);
 	void init();
 	void set_fullscreen();
 	Camera* get_camera();
@@ -45,6 +46,7 @@ private:
 	float win_ratio;
 	int window_id;
 	int win_width, win_height;
+	string win_name, win_icon;
 	float near_vp, far_vp;
 	float amb_light[4];
 	float dif_light[4];
