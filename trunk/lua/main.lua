@@ -14,6 +14,7 @@ followed = nil
 camera_distance = 30
 
 picked_object = nil
+mouse_object_offset = nil
 
 function start (_world)
 	world = _world
@@ -70,12 +71,49 @@ function step (_delta)
 		camera_distance = camera_distance + 50*_delta
 	end
 	
-	if (buttons.lmb) then
-		picked_object = display:pick()
-		if (picked_object ~= nil) then
-			picked_object:move(Vector3f(-buttons.mouse_x_move*_delta, -buttons.mouse_y_move*_delta, 0))
+	handle_mouse()
+end
+
+function handle_mouse()
+	--deal with scrolling
+	if (buttons.mouse_wheel_move ~= 0) then
+		tmp_object = display:pick()
+		if (tmp_object == nil) then
+			picked_object = nil
+			return
 		end
+		--move the object in z space
+		tmp_object:move(Vector3f(0,0,buttons.mouse_wheel_move))
 	end
+
+	--once we have dealt with scrolling we only care about lmb
+	if (not buttons.lmb) then
+		picked_object = nil
+		return
+	end
+	
+	--if we didnt get the object before try now
+	if (tmp_object == nil) then
+		tmp_object = display:pick()
+	end
+	
+	--early exit if there was nothing under the cursor or it was me
+	if (tmp_object == nil or tmp_object == me) then
+		picked_object = nil
+		return
+	end
+	
+	--get the mouse coords in world space
+	mouse_pos = display:project_xy(buttons.mouse_x, buttons.mouse_y, tmp_object:get_pos().z)
+	--if we have had the same object twice we move it
+	if (picked_object == tmp_object) then
+		tmp_object:set_pos(mouse_pos + mouse_object_offset)
+	end
+	--save this stuff for next time
+	picked_object = tmp_object
+	mouse_object_offset = picked_object:get_pos() - mouse_pos
+	--globals?
+	tmp_object = nil
 end
 
 function load_me()
