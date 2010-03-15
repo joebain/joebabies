@@ -107,9 +107,9 @@ void Obj::display()
 	}
 	
 	int f,i;
-	//cout << "displaying object " << name << endl;
+	cout << "displaying object " << name << endl;
 	glBindTexture(GL_TEXTURE_2D, texture->get_tex_num());
-	//cout << "texture number " << texture->get_tex_num() << endl;
+	cout << "texture number " << texture->get_tex_num() << endl;
 	//save the world matrix to the stack
 	glPushMatrix();
 	

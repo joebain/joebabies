@@ -3,6 +3,7 @@
 Buttons::Buttons()
 {
 	clear();
+	req_fullscreen = false;
 }
 
 void Buttons::clear()
@@ -18,6 +19,9 @@ void Buttons::clear()
 	d = false;
 	
 	req_quit = false;
+	
+	lmb = false;
+	rmb = false;
 }
 
 void Buttons::update() {

@@ -1,5 +1,11 @@
 #include "BlockFactory.h"
 
+BlockFactory::BlockFactory() {
+	sky_exists = false;
+	floor_exists = false;
+	new_name = 0;
+}
+
 Block3D* BlockFactory::new_character(string object, string texture)
 {
 	Block3D* character = new_block3d(object, texture);

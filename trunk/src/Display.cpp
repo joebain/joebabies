@@ -60,6 +60,7 @@ void Display::update(float delta)
 {
 	if (buttons->req_fullscreen) {
 		set_fullscreen();
+		//cout << "setting fullscreen" << endl;
 		buttons->req_fullscreen = false;
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -89,7 +90,10 @@ void Display::update(float delta)
 	
 	//draw things which are far away
 	//##############################
-	if (bfac->has_sky()) bfac->get_sky()->display();
+	if (bfac->has_sky()) {
+		//cout << "displaying sky" << endl;
+		bfac->get_sky()->display();
+	}
 	
 	for( iter = bfac->distance_blocks.begin(); iter != bfac->distance_blocks.end(); ++iter ) {
 		(*iter)->display();
@@ -105,7 +109,10 @@ void Display::update(float delta)
 	//########################
 	glEnable(GL_CULL_FACE);
 	
-	if (bfac->has_floor()) bfac->get_floor()->display();
+	if (bfac->has_floor()) {
+		//cout << "displaying floor" << endl;
+		bfac->get_floor()->display();
+	}
 	
 	for( iter = bfac->blocks.begin(); iter != bfac->blocks.end(); ++iter ) {
 		(*iter)->display();
