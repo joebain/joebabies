@@ -46,7 +46,7 @@ protected:
 	map<int, Block3D*> names_to_blocks3d;
 	map<int, Block3DFlat*> names_to_blocks3dflat;
 public:
-	
+	BlockFactory();
 	Sky* get_sky() { return &sky; }
 	Floor* get_floor() { return &floor; }
 	bool has_sky() { return sky_exists; }
