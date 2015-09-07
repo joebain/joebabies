@@ -1,0 +1,1 @@
+This is supposed to be an entry for the TIGSource educational / adult competition. Whether we'll ever finish it? Let's find out.

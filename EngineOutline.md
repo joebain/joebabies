@@ -1,0 +1,24 @@
+## This is a broad outline of the engine ##
+
+There are a few objects that we only have one of:
+  * **World** - controls behaviour, links things together
+  * **Display** - coordinates opengl starting and displaying of objects
+  * **BlockFactory** - create blocks with this
+  * **Camera** - controls the viewpoint, can be set to follow a block3d
+  * **LuaBinder** - just hides away all the lua bindings
+
+There are also blocks:
+  * **Block** - abstract base
+  * **Block3D** - represents a 3d object in the world, must be textured
+  * **Block2D** - yes 2d objects. mainly these are designed to be displayed against the screen as sprites. must have a texture and can have texture with transparent bits
+  * **Sky** - one of these, inherits from block3d
+  * **Floor** - again one, inherits from block3d too
+  * **Block2DText** - inherits from block2d but shows text rather than a picture
+
+There are several dull bits too:
+  * **VectorNx** - vectors for strong positions and rotations and doing maths
+  * **Obj**[ects](ects.md) - store the 3d data for a model
+  * **Texture** - store bitmap data for a texture
+  * **Face**, **Vertex** - components of an Obj
+  * **Timer** - keeps the time
+  * **ModelLoader** - loads in a .obj file

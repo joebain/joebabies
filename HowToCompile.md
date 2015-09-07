@@ -1,0 +1,15 @@
+## Requirements ##
+
+You'll need to install:
+  * Gcc, make, etc.
+  * OpenGL, GLU
+  * SDL
+  * Lua 5.1
+  * Boost, bjam
+all of which should be quite easy from your favourite repositories.
+
+The hard bit, you need to compile the newest version of luabind as Ubuntu is out of date. You need luabind 0.8.1 from [here](http://sourceforge.net/projects/luabind/files/luabind/) and to install it you use bjam. Type 'bjam install' in the root of the folder I think.
+
+## And then... ##
+
+If that all goes ok you should just be able to type 'make' and the './babies' to run.
